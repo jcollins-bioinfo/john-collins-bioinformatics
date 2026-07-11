@@ -65,30 +65,37 @@ function Mark() {
 export default function Home() {
   return (
     <main>
-      <header className="site-header shell">
-        <a className="identity" href="#top" aria-label="John Collins, home">
-          <Mark />
-          <span>John Collins</span>
-        </a>
-        <nav aria-label="Primary navigation">
-          <a href="#work">Work</a>
-          <a href="#expertise">Expertise</a>
-          <a href="#research">Research</a>
-        </nav>
-        <a
-          className="header-cta"
-          href="https://github.com/jcollins-bioinfo/john-collins-bioinformatics"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub <span aria-hidden="true">↗</span>
-        </a>
+      <header className="site-header">
+        <div className="site-header-inner shell">
+          <a className="identity" href="#top" aria-label="John Collins, home">
+            <Mark />
+            <span>John Collins</span>
+          </a>
+          <nav aria-label="Primary navigation">
+            <a href="#work">Work</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#research">Research</a>
+          </nav>
+          <a
+            className="header-cta"
+            href="https://github.com/jcollins-bioinfo/john-collins-bioinformatics"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </header>
 
       <section className="hero shell" id="top">
         <div className="hero-copy">
           <p className="eyebrow"><span /> Bioinformatics · Scientific software · Computational biology</p>
-          <h1>Building systems that make <em>biology computable.</em></h1>
+          <h1>
+            Building systems that make
+            <em className="bio-computable" data-text="biology computable.">
+              biology computable.
+            </em>
+          </h1>
           <p className="hero-lede">
             I’m a bioinformatics data scientist and software engineer working across NGS,
             scientific computing, and predictive biology—from production pipelines to
@@ -107,26 +114,51 @@ export default function Home() {
           </div>
           <div className="network" aria-hidden="true">
             <svg viewBox="0 0 520 310" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="scan-gradient" x1="0" x2="1">
+                  <stop offset="0" stopColor="#64ddc4" stopOpacity="0" />
+                  <stop offset="0.48" stopColor="#64ddc4" stopOpacity="0.03" />
+                  <stop offset="0.5" stopColor="#c7f36b" stopOpacity="0.34" />
+                  <stop offset="0.52" stopColor="#64ddc4" stopOpacity="0.03" />
+                  <stop offset="1" stopColor="#64ddc4" stopOpacity="0" />
+                </linearGradient>
+                <filter id="soft-glow" x="-80%" y="-80%" width="260%" height="260%">
+                  <feGaussianBlur stdDeviation="4" />
+                </filter>
+              </defs>
+              <rect className="network-scan" x="-160" y="0" width="160" height="310" fill="url(#scan-gradient)" />
               <g className="edges">
-                <path d="M83 210 164 115 258 164 345 78 435 142 389 245 258 164 174 245 83 210" />
-                <path d="M164 115 174 245M345 78l44 167M83 210l175-46M435 142l-177 22" />
+                <path className="edge edge-primary" d="M83 210 164 115 258 164 345 78 435 142 389 245 258 164 174 245 83 210" />
+                <path className="edge edge-secondary" d="M164 115 174 245M345 78l44 167M83 210l175-46M435 142l-177 22" />
               </g>
+              <g className="signal-paths">
+                <path className="signal signal-a" d="M83 210 164 115 258 164 345 78 435 142" />
+                <path className="signal signal-b" d="M83 210 174 245 258 164 389 245 435 142" />
+                <path className="signal signal-c" d="M83 210 258 164 435 142" />
+              </g>
+              <circle className="core-aura" cx="258" cy="164" r="26" filter="url(#soft-glow)" />
               <g className="nodes">
-                <circle cx="83" cy="210" r="8" /><circle cx="164" cy="115" r="8" />
-                <circle className="core" cx="258" cy="164" r="14" /><circle cx="345" cy="78" r="8" />
-                <circle cx="435" cy="142" r="8" /><circle cx="389" cy="245" r="8" />
-                <circle cx="174" cy="245" r="8" />
+                <circle className="node node-data" cx="83" cy="210" r="8" />
+                <circle className="node node-signal" cx="164" cy="115" r="8" />
+                <circle className="node core" cx="258" cy="164" r="14" />
+                <circle className="node node-cause" cx="345" cy="78" r="8" />
+                <circle className="node node-state" cx="435" cy="142" r="8" />
+                <circle className="node node-test" cx="389" cy="245" r="8" />
+                <circle className="node node-constraint" cx="174" cy="245" r="8" />
               </g>
               <g className="labels">
-                <text x="58" y="235">DATA</text><text x="130" y="92">SIGNAL</text>
-                <text x="228" y="196">MODEL</text><text x="320" y="53">CAUSE</text>
-                <text x="443" y="146">STATE</text><text x="397" y="269">TEST</text>
-                <text x="135" y="274">CONSTRAINT</text>
+                <text className="label label-data" x="58" y="235">DATA</text>
+                <text className="label label-signal" x="130" y="92">SIGNAL</text>
+                <text className="label label-model" x="228" y="196">MODEL</text>
+                <text className="label label-cause" x="320" y="53">CAUSE</text>
+                <text className="label label-state" x="451" y="132">STATE</text>
+                <text className="label label-test" x="397" y="269">TEST</text>
+                <text className="label label-constraint" x="135" y="274">CONSTRAINT</text>
               </g>
             </svg>
           </div>
           <div className="system-caption">
-            <span>OBSERVE</span><b>→</b><span>REPRESENT</span><b>→</b><span>PERTURB</span><b>→</b><span>PREDICT</span>
+            <span>OBSERVE</span><b className="flow-arrow arrow-1">→</b><span>REPRESENT</span><b className="flow-arrow arrow-2">→</b><span>PERTURB</span><b className="flow-arrow arrow-3">→</b><span>PREDICT</span>
           </div>
         </div>
       </section>
