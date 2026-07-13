@@ -1,19 +1,22 @@
-# John Collins — Bioinformatics
+# John Patrick Collins — Personal Site
 
-Personal portfolio for [John Collins](https://github.com/jcollins-bioinfo), a bioinformatics data scientist and software engineer working across NGS, scientific computing, research infrastructure, and predictive biology.
+Source for [johnpatrickcollins.info](https://johnpatrickcollins.info), a personal domain spanning bioinformatics, independent research, music, writing, and ongoing projects.
 
-[View the live portfolio](https://john-collins-bioinformatics.johnpatrickcollins.chatgpt.site)
+## Site structure
 
-## Focus
+- `/` — concise personal homepage and orientation
+- `/about` — personal and professional narrative
+- `/bioinformatics` — career-facing bioinformatics portfolio
+- `/research` — research overview
+- `/research/cgt` — Constraint Geometry Theory
+- `/projects` — living project index
+- `/writing` — research notes, essays, and long-form work
+- `/music` — piano, composition, arrangement, and musical cognition
+- `/now` — dated current-focus page
+- `/cv` — experience, capabilities, and education
+- `/contact` — professional contact routes
 
-The site presents four dimensions of my work:
-
-- **Selected projects** — Constraint Geometry Theory, reproducible NGS workflows, and scientific data products
-- **Technical capabilities** — computational biology, scientific software engineering, cloud/HPC execution, and research infrastructure
-- **Experience** — biotechnology R&D, translational genomics, data platforms, and scientific operations
-- **Research interests** — gene-regulatory networks, aging mechanisms, causal inference, representation learning, and AI for biology
-
-The visual system combines an editorial portfolio layout with a compact gene-network motif. Content is intentionally data-driven and organized for straightforward expansion as new projects mature.
+The root is intentionally broad. Each practice has a canonical section so the domain can expand without turning the homepage into an undifferentiated portfolio.
 
 ## Technology
 
@@ -55,34 +58,28 @@ For Cloudflare Workers Builds, use:
 Cloudflare creates the Worker custom-domain DNS records and certificates during
 deployment. Email DNS records remain independent of the website deployment.
 
-## Adding a project
-
-Project content lives in the `projects` array near the top of `app/page.tsx`. Add a new object with the same shape:
-
-```ts
-{
-  index: "04",
-  label: "Project category",
-  title: "Project title",
-  description: "A concise account of the question, system, and result.",
-  tags: ["Method", "Technology", "Domain"],
-}
-```
-
-The project list, tag treatment, and responsive layout render automatically. Longer case studies can later be promoted into dedicated routes without restructuring the home page.
-
 ## Repository map
 
 ```text
 app/
-  page.tsx       Portfolio content and semantic structure
-  globals.css    Design system and responsive styling
-  layout.tsx     Metadata and document shell
-public/          Static assets
-tests/           Rendered-output checks
-scripts/         Build and artifact validation
+  components/      Shared site header, footer, and identity mark
+  bioinformatics/  Professional portfolio
+  research/        Research overview and CGT
+  music/           Musical practice
+  writing/         Editorial index
+  ...              About, Projects, Now, CV, and Contact
+  page.tsx         Personal homepage
+  globals.css      Shared design system and responsive styling
+public/
+  robots.txt       Crawler policy
+  sitemap.xml      Public route index
+tests/             Rendered-route checks
+scripts/           Build and artifact validation
 ```
 
-## Status
+## Repository name
 
-The initial portfolio is complete. Current iteration priorities are project-specific case studies, a downloadable résumé, and publication-quality CGT figures as the research matures.
+The existing repository name is retained until the reorganized deployment is
+stable. A later rename to `johnpatrickcollins.info` or `johnpatrickcollins-site`
+would better match the expanded scope; the Cloudflare Git integration should be
+checked immediately after any rename.

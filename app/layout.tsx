@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lato, Montserrat, Oswald } from "next/font/google";
+import { SiteFooter, SiteHeader } from "./components/site-chrome";
 import "./globals.css";
 
 const lato = Lato({
@@ -22,9 +23,13 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  title: "John Collins | Bioinformatics Data Scientist & Software Engineer",
+  metadataBase: new URL("https://johnpatrickcollins.info"),
+  title: {
+    default: "John Patrick Collins | Science, Software, Music & Research",
+    template: "%s | John Patrick Collins",
+  },
   description:
-    "Bioinformatics engineering, NGS pipelines, scientific software, and mechanistic computational biology.",
+    "The personal site of John Patrick Collins: bioinformatics, scientific software, independent research, music, writing, and ongoing projects.",
   other: {
     "codex-preview": "development",
   },
@@ -47,7 +52,9 @@ export default function RootLayout({
       <body
         className={`${lato.className} antialiased`}
       >
+        <SiteHeader />
         {children}
+        <SiteFooter />
       </body>
     </html>
   );
