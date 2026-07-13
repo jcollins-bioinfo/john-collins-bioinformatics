@@ -20,8 +20,8 @@ The visual system combines an editorial portfolio layout with a compact gene-net
 - React 19 and TypeScript
 - Next-compatible Vinext runtime
 - Tailwind CSS 4 plus a custom responsive design system
-- Cloudflare-compatible server output
-- OpenAI Sites deployment
+- Cloudflare Workers deployment with custom-domain routing
+- OpenAI Sites checkpoint deployments
 
 ## Local development
 
@@ -38,6 +38,22 @@ Useful checks:
 npm run lint
 npm test
 ```
+
+## Cloudflare deployment
+
+The production Worker is configured in `wrangler.jsonc` for both
+`johnpatrickcollins.info` and `www.johnpatrickcollins.info`. The `www` hostname
+redirects permanently to the apex domain.
+
+For Cloudflare Workers Builds, use:
+
+- Production branch: `main`
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Non-production deploy command: `npx wrangler versions upload`
+
+Cloudflare creates the Worker custom-domain DNS records and certificates during
+deployment. Email DNS records remain independent of the website deployment.
 
 ## Adding a project
 
