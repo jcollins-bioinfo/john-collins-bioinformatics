@@ -148,8 +148,12 @@
 }
 
 .contents {
+  position: sticky;
+  top: 88px;
+  z-index: 40;
   border-bottom: 1px solid var(--line);
   background: var(--paper-deep);
+  box-shadow: 0 10px 24px rgba(10, 23, 23, 0.06);
 }
 
 .contents > div {
@@ -201,6 +205,7 @@
 }
 
 .articleSection {
+  scroll-margin-top: 216px;
   padding-block: 122px;
   border-bottom: 1px solid var(--ink);
 }
@@ -854,6 +859,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .articleSection {
+    scroll-margin-top: 280px;
+  }
+
   .sectionHeader,
   .figureCaption {
     grid-template-columns: 210px minmax(0, 1fr);
@@ -896,7 +905,6 @@
     border-bottom: 1px solid var(--ink);
   }
 
-  .contents > div,
   .sectionHeader,
   .figureCaption,
   .cordGrid,
@@ -904,13 +912,44 @@
     grid-template-columns: 1fr;
   }
 
-  .contents > div,
   .sectionHeader,
   .figureCaption {
     gap: 26px;
   }
 
+  .contents {
+    top: 76px;
+  }
+
+  .contents > div {
+    display: block;
+    padding-block: 11px 10px;
+  }
+
+  .contents p {
+    margin: 0 0 5px;
+  }
+
+  .contents ol {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+
+  .contents li {
+    flex: 0 0 auto;
+  }
+
+  .contents a {
+    min-width: max-content;
+    padding-block: 7px 8px;
+  }
+
   .articleSection {
+    scroll-margin-top: 170px;
     padding-block: 90px;
   }
 

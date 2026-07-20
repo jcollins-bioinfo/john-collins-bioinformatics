@@ -47,6 +47,34 @@ test("renders development preview metadata", async () => {
   assert.match(await response.text(), developmentPreviewMeta);
 });
 
+test("publishes the complete branded favicon family", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  for (const href of [
+    "/favicon.svg",
+    "/favicon-32x32.png",
+    "/favicon-16x16.png",
+    "/favicon.ico",
+    "/apple-touch-icon.png",
+    "/safari-pinned-tab.svg",
+    "/site.webmanifest",
+  ]) {
+    assert.match(html, new RegExp(href.replaceAll(".", "\\.")));
+    await access(path.join(projectRoot, "public", href.slice(1)));
+  }
+
+  await access(path.join(projectRoot, "public", "favicon-192x192.png"));
+  await access(path.join(projectRoot, "public", "favicon-512x512.png"));
+});
+
 test("renders every public HTML route", async () => {
   const worker = await loadWorker();
   const routes = [
@@ -105,6 +133,13 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /Supplementary Figure 1/i);
   assert.match(html, /Contextual Operator Response Dynamics/i);
   assert.match(html, /has not been peer reviewed/i);
+
+  const publicationCss = await readFile(
+    path.join(projectRoot, "app", "research", "cgt", "publication.module.css"),
+    "utf8",
+  );
+  assert.match(publicationCss, /\.contents\s*{[^}]*position:\s*sticky;[^}]*top:\s*88px;[^}]*z-index:\s*40;/s);
+  assert.match(publicationCss, /\.contents\s*{[^}]*top:\s*76px;/s);
 });
 
 test("ships every canonical CGT figure in PNG, PDF, and SVG formats", async () => {
