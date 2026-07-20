@@ -128,6 +128,25 @@ test("renders every public HTML route", async () => {
   }
 });
 
+test("renders accessible animated research-axis cards", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/research", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  assert.match(html, /class=["'][^"']*modern-hover-card[^"']*["']/i);
+  assert.match(html, /class=["']research-card-link["'][^>]*href=["']\/research\/cgt["']/i);
+
+  const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
+  assert.match(css, /@keyframes\s+seamless-flow/);
+  assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*article\.modern-hover-card/);
+});
+
 test("renders the complete CGT scientific report", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(

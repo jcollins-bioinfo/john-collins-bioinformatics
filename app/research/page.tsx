@@ -24,11 +24,21 @@ export default function ResearchPage() {
         <div className="shell page-section">
           <div className="split-heading light"><p className="eyebrow"><span /> Research axes</p><h2>A program organized around intervention.</h2></div>
           <div className="research-index-list">
-            {axes.map(([code, title, body, href]) => (
-              <article key={code}>
-                <span>AXIS / {code}</span><div><h3>{title}</h3><p>{body}</p></div>{href ? <a href={href} aria-label={`Read more about ${title}`}>↗</a> : <b>ONGOING</b>}
-              </article>
-            ))}
+            {axes.map(([code, title, body, href]) => {
+              const card = (
+                <article className={`modern-hover-card${href ? " is-linked" : ""}`}>
+                  <span>AXIS / {code}</span>
+                  <div><h3>{title}</h3><p>{body}</p></div>
+                  {href ? <span className="research-card-action" aria-hidden="true">↗</span> : <b>ONGOING</b>}
+                </article>
+              );
+
+              return href ? (
+                <a className="research-card-link" href={href} aria-label={`Read more about ${title}`} key={code}>
+                  {card}
+                </a>
+              ) : <div className="research-card-static" key={code}>{card}</div>;
+            })}
           </div>
         </div>
       </section>
