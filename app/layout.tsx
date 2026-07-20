@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Lato, Montserrat, Oswald } from "next/font/google";
 import { SiteFooter, SiteHeader } from "./components/site-chrome";
 import "./globals.css";
@@ -36,18 +36,19 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.svg?v=2", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png?v=2", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png?v=2", sizes: "16x16", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/favicon.ico?v=2",
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
-    other: [
-      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#0a1717" },
+      { url: "/apple-touch-icon.png?v=2", sizes: "180x180", type: "image/png" },
     ],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a1717",
 };
 
 export default function RootLayout({
@@ -60,6 +61,9 @@ export default function RootLayout({
       lang="en"
       className={`${lato.variable} ${montserrat.variable} ${oswald.variable}`}
     >
+      <head>
+        <link rel="mask-icon" href="/safari-pinned-tab.svg?v=2" color="#0a1717" />
+      </head>
       <body
         className={`${lato.className} antialiased`}
       >

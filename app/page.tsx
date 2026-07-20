@@ -125,6 +125,40 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="motion-study" aria-labelledby="motion-study-title">
+        <div className="shell motion-study-inner">
+          <header className="motion-study-heading">
+            <p className="eyebrow"><span /> Selected motion work</p>
+            <div>
+              <h2 id="motion-study-title">DNA replication, refracted.</h2>
+              <p>
+                An original molecular animation transformed into a kaleidoscopic motion study—
+                created in Adobe After Effects at the intersection of scientific imagery and visual rhythm.
+              </p>
+            </div>
+          </header>
+
+          <figure className="motion-study-figure">
+            <div className="motion-study-player">
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                poster="/media/dna-replication-kaleidoscope-poster.webp"
+                aria-describedby="motion-study-caption"
+              >
+                <source src="/media/dna-replication-kaleidoscope.mp4" type="video/mp4" />
+                Your browser does not support embedded video.
+              </video>
+            </div>
+            <figcaption id="motion-study-caption">
+              <span>Adobe After Effects / Molecular animation</span>
+              <span>02:26 / Sound</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       <section className="home-threads">
         <div className="shell page-section">
           <div className="split-heading light">

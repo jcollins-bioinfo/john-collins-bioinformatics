@@ -73,6 +73,28 @@ test("publishes the complete branded favicon family", async () => {
 
   await access(path.join(projectRoot, "public", "favicon-192x192.png"));
   await access(path.join(projectRoot, "public", "favicon-512x512.png"));
+  assert.match(html, /rel=["']mask-icon["'][^>]*color=["']#0a1717["']/i);
+  assert.match(html, /name=["']theme-color["'][^>]*content=["']#0a1717["']/i);
+  assert.match(html, /favicon\.svg\?v=2/i);
+});
+
+test("presents the authored DNA replication film without eager-loading it", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  assert.match(html, /DNA replication, refracted\./i);
+  assert.match(html, /<video(?=[^>]*\bcontrols)(?=[^>]*\bplaysInline)(?=[^>]*\bpreload=["']metadata["'])[^>]*>/i);
+  assert.match(html, /\/media\/dna-replication-kaleidoscope\.mp4/i);
+  assert.match(html, /\/media\/dna-replication-kaleidoscope-poster\.webp/i);
+  await access(path.join(projectRoot, "public", "media", "dna-replication-kaleidoscope.mp4"));
+  await access(path.join(projectRoot, "public", "media", "dna-replication-kaleidoscope-poster.webp"));
 });
 
 test("renders every public HTML route", async () => {
