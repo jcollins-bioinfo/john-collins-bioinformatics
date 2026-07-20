@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const axes = [
-  ["A", "Constraint Geometry Theory", "A viability-first framework for asking how disturbance, regulation, and dynamics determine the states a complex system can sustain.", "/research/cgt"],
+  ["A", "CGT → CORD", "An analysis-frozen report on recurrent perturbation geometry, external fitness prediction, and the context-dependence that motivated CORD.", "/research/cgt"],
   ["B", "Causal gene regulation", "Moving beyond correlations toward perturbation-informed, mechanistically interpretable models of regulatory systems.", "/bioinformatics#research"],
   ["C", "Aging and resilience", "Studying state transitions, loss of regulation, recovery, and causal hypotheses of biological aging."],
   ["D", "AI for biology", "Representation learning and predictive systems that remain connected to mechanism, intervention, and experimental test."],
@@ -35,9 +35,8 @@ export default function ResearchPage() {
 
       <section className="shell page-section research-method">
         <p className="section-index">METHOD / 01</p>
-        <div className="longform-copy"><h2>From formal claim to reproducible test.</h2><p>The standard is operational: explicit definitions, traceable assumptions, quantitative predictions, null models, robustness checks, and clear failure conditions.</p><p>The research is being developed in stages—formal structure, synthetic demonstrations, and then carefully scoped applications to biological data.</p><a className="button primary" href="/research/cgt">Read the CGT overview <span>↗</span></a></div>
+        <div className="longform-copy"><h2>From formal claim to reproducible test.</h2><p>The standard is operational: explicit definitions, traceable assumptions, quantitative predictions, null models, robustness checks, and clear failure conditions.</p><p>The CGT report applies that standard to perturbational transcriptomics, including strict controls that delimit what the resulting geometry can—and cannot—support.</p><a className="button primary" href="/research/cgt">Read the CGT project report <span>↗</span></a></div>
       </section>
     </main>
   );
 }
-

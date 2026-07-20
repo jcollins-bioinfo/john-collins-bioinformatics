@@ -9,9 +9,9 @@ const projects = [
   {
     code: "R / 01",
     type: "Independent research",
-    title: "Constraint Geometry Theory",
-    body: "A viability-first research program connecting controlled invariance, perturbation, and predictive structure in complex systems.",
-    status: "ACTIVE",
+    title: "CGT evidence report → CORD",
+    body: "A frozen, provenance-tracked perturbation-geometry analysis and the context-conditioned framework it motivated.",
+    status: "CGT FROZEN · CORD ACTIVE",
     href: "/research/cgt",
   },
   {
@@ -69,4 +69,3 @@ export default function ProjectsPage() {
     </main>
   );
 }
-

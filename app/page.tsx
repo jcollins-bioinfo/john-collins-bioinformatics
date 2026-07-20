@@ -13,7 +13,7 @@ const portals = [
     index: "02",
     label: "Independent inquiry",
     title: "Research",
-    body: "Constraint Geometry Theory, causal gene regulation, biological aging, and predictive models of complex systems.",
+    body: "The analysis-frozen CGT report, the emerging CORD framework, causal gene regulation, biological aging, and predictive models of complex systems.",
     href: "/research",
     action: "Explore research",
   },
@@ -40,8 +40,8 @@ const portals = [
 const threads = [
   {
     code: "R / 01",
-    title: "Constraint Geometry Theory",
-    body: "A viability-first research program asking how regulation, disturbance, and dynamics delimit the states a complex system can sustain.",
+    title: "CGT → CORD",
+    body: "A provenance-tracked perturbation-geometry report whose generalization boundary motivated a context-conditioned response framework.",
     href: "/research/cgt",
   },
   {

@@ -16,6 +16,7 @@ html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-lato), "Helvetica Neue", Arial, sans-serif; font-weight: 400; text-rendering: optimizeLegibility; }
 a { color: inherit; text-decoration: none; }
 button, summary { font: inherit; }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 4px; }
 .shell { width: min(1320px, calc(100% - 64px)); margin-inline: auto; }
 [id] { scroll-margin-top: 104px; }
 h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "Helvetica Neue", Arial, sans-serif; }

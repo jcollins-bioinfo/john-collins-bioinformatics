@@ -8,7 +8,7 @@ Source for [johnpatrickcollins.info](https://johnpatrickcollins.info), a persona
 - `/about` — personal and professional narrative
 - `/bioinformatics` — career-facing bioinformatics portfolio
 - `/research` — research overview
-- `/research/cgt` — Constraint Geometry Theory
+- `/research/cgt` — publication-style CGT evidence report with 5 main figures, 6 supplements, methods, provenance, references, and the transition to CORD
 - `/projects` — living project index
 - `/writing` — research notes, essays, and long-form work
 - `/music` — piano, composition, arrangement, and musical cognition
@@ -73,6 +73,7 @@ app/
 public/
   robots.txt       Crawler policy
   sitemap.xml      Public route index
+  research/cgt/    Frozen CGT figures and machine-readable provenance
 tests/             Rendered-route checks
 scripts/           Build and artifact validation
 ```
