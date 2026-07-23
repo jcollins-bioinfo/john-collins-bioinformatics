@@ -119,6 +119,7 @@ test("renders the source-faithful DNA identity with phase-projected helix motion
     "utf8",
   );
   assert.match(component, /const INITIAL_DELAY_MS = 1800/);
+  assert.match(component, /const AUTOMATIC_REPLAY_DELAY_MS = 30_000/);
   assert.match(component, /const HOVER_INTENT_DELAY_MS = 260/);
   assert.match(component, /const HELIX_SLICE_COUNT = 32/);
   assert.match(component, /phase-projected-double-helix/);
@@ -128,6 +129,15 @@ test("renders the source-faithful DNA identity with phase-projected helix motion
   assert.doesNotMatch(component, /rotateY\(/);
   assert.match(component, /IntersectionObserver/);
   assert.match(component, /prefers-reduced-motion: reduce/);
+  assert.doesNotMatch(component, /sessionStorage|INTRO_STORAGE_KEY/);
+  assert.doesNotMatch(component, /setInterval/);
+  assert.match(component, /if \(kind === "intro"\) introHasCompleted = true/);
+  assert.match(component, /if \(kind === "intro" \|\| kind === "automatic"\) \{\s*scheduleAutomatic\(\)/s);
+  assert.match(component, /document\.visibilityState !== "visible"/);
+  assert.match(component, /!logoIsVisible/);
+  assert.match(component, /automaticRemaining = Math\.max/);
+  assert.match(component, /window\.clearTimeout\(automaticTimer\)/);
+  assert.match(component, /observer\?\.disconnect\(\)/);
 
   const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
   assert.match(css, /\.brand-mark-motion\s*{[^}]*opacity:\s*0/s);
