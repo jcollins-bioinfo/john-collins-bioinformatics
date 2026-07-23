@@ -54,7 +54,6 @@ export function SiteFooter() {
       <div className="shell site-footer-grid">
         <div>
           <Link className="footer-identity" href="/">John Patrick Collins</Link>
-          <p>Science, software, research, music, and the connective ideas between them.</p>
         </div>
         <div>
           <p className="footer-label">Explore</p>

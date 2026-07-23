@@ -5,7 +5,7 @@ const portals = [
     index: "01",
     label: "Professional practice",
     title: "Bioinformatics",
-    body: "NGS systems, scientific software, computational biology, and the infrastructure that makes research reproducible.",
+    body: "NGS systems, scientific software, and reproducible research infrastructure.",
     href: "/bioinformatics",
     action: "Enter portfolio",
   },
@@ -13,7 +13,7 @@ const portals = [
     index: "02",
     label: "Independent inquiry",
     title: "Research",
-    body: "The analysis-frozen CGT report, the emerging CORD framework, causal gene regulation, biological aging, and predictive models of complex systems.",
+    body: "CGT, the emerging CORD framework, causal gene regulation, biological aging, and complex-system models.",
     href: "/research",
     action: "Explore research",
   },
@@ -21,7 +21,7 @@ const portals = [
     index: "03",
     label: "Creative practice",
     title: "Music",
-    body: "Piano, composition, arrangement, and an ongoing study of expectation, structure, and musical cognition.",
+    body: "Piano, composition, arrangement, and musical cognition.",
     href: "/music",
     action: "Visit music",
   },
@@ -29,7 +29,7 @@ const portals = [
     index: "04",
     label: "Ideas in development",
     title: "Writing & projects",
-    body: "Long-form research, technical notes, creative work, and a living index of things being built.",
+    body: "Research, technical notes, creative work, and works in progress.",
     href: "/writing",
     action: "Read the index",
     secondaryHref: "/projects",
@@ -66,9 +66,7 @@ export default function Home() {
           <p className="eyebrow"><span /> Personal domain / 2026</p>
           <h1 className="home-title">John Patrick <em>Collins.</em></h1>
           <p className="home-lede">
-            Scientist, software engineer, composer and pianist, and independent researcher.
-            I build practical systems for difficult questions—and follow the structural ideas
-            that connect biology, computation, cognition, and music.
+            Scientist, software engineer, independent researcher, composer, and pianist.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#index">Explore the index <span>↓</span></a>
@@ -88,7 +86,6 @@ export default function Home() {
             <li><span>03</span><a href="/music">Music & cognition</a></li>
             <li><span>04</span><a href="/writing">Writing & synthesis</a></li>
           </ol>
-          <p>One name. Several practices. A common interest in systems, constraints, and meaning.</p>
         </aside>
       </section>
 
@@ -105,10 +102,7 @@ export default function Home() {
       <section className="shell page-section" id="index">
         <div className="split-heading">
           <p className="eyebrow"><span /> Primary destinations</p>
-          <div>
-            <h2>A personal site, organized by practice.</h2>
-            <p>Each section has its own purpose; the homepage remains the quiet point of orientation.</p>
-          </div>
+          <h2>Selected work.</h2>
         </div>
         <div className="portal-grid">
           {portals.map((portal) => (
@@ -131,10 +125,7 @@ export default function Home() {
             <p className="eyebrow"><span /> Selected motion work</p>
             <div>
               <h2 id="motion-study-title">DNA replication, refracted.</h2>
-              <p>
-                An original molecular animation transformed into a kaleidoscopic motion study—
-                created in Adobe After Effects at the intersection of scientific imagery and visual rhythm.
-              </p>
+              <p>Original molecular animation / Adobe After Effects.</p>
             </div>
           </header>
 
@@ -163,10 +154,7 @@ export default function Home() {
         <div className="shell page-section">
           <div className="split-heading light">
             <p className="eyebrow"><span /> Current threads</p>
-            <div>
-              <h2>Different media. Recurring questions.</h2>
-              <p>How do complex systems remain coherent, become interpretable, and change?</p>
-            </div>
+            <h2>Different media. Recurring questions.</h2>
           </div>
           <div className="thread-grid">
             {threads.map((thread) => (
@@ -182,13 +170,9 @@ export default function Home() {
       </section>
 
       <section className="shell home-closing page-section">
-        <p className="eyebrow"><span /> A living index</p>
-        <h2>This domain is designed to grow without losing its shape.</h2>
+        <p className="eyebrow"><span /> Current</p>
+        <h2>Elsewhere in the index.</h2>
         <div>
-          <p>
-            Professional work lives beside independent research, music, and writing—connected
-            by a shared identity, but separated clearly enough that each audience can find its way.
-          </p>
           <div className="closing-links">
             <a href="/now">What I’m doing now <span>↗</span></a>
             <a href="/projects">Browse all projects <span>↗</span></a>
