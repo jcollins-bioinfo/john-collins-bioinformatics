@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 
 const DNA_PATHS = [
   ["top-node", "M 678.671875 188.234375 C 678.671875 216.90625 655.429688 240.152344 626.753906 240.152344 C 598.078125 240.152344 574.835938 216.90625 574.835938 188.234375 C 574.835938 159.558594 598.078125 136.316406 626.753906 136.316406 C 655.429688 136.316406 678.671875 159.558594 678.671875 188.234375"],
@@ -25,19 +25,132 @@ const INITIAL_DELAY_MS = 1800;
 const HOVER_INTENT_DELAY_MS = 260;
 const FOCUS_INTENT_DELAY_MS = 140;
 const REPLAY_COOLDOWN_MS = 650;
-const MOTION_DURATION_MS = 2400;
+const MOTION_DURATION_MS = 2800;
 
-const MOTION_KEYFRAMES: Keyframe[] = [
-  { transform: "rotateY(0deg)", offset: 0 },
-  { transform: "rotateY(0deg)", offset: 0.06, easing: "cubic-bezier(.4,0,.2,1)" },
-  { transform: "rotateY(-7deg)", offset: 0.115, easing: "cubic-bezier(.4,0,.2,1)" },
-  { transform: "rotateY(0deg)", offset: 0.17, easing: "linear" },
-  { transform: "rotateY(360deg)", offset: 0.79, easing: "cubic-bezier(.2,.75,.3,1)" },
-  { transform: "rotateY(369deg)", offset: 0.855, easing: "cubic-bezier(.22,.8,.36,1)" },
-  { transform: "rotateY(357.5deg)", offset: 0.925, easing: "cubic-bezier(.22,.8,.36,1)" },
-  { transform: "rotateY(361.5deg)", offset: 0.973, easing: "cubic-bezier(.22,.8,.36,1)" },
-  { transform: "rotateY(360deg)", offset: 1 },
-];
+const SVG_TOP = 120;
+const SVG_HEIGHT = 965;
+const SVG_CENTER_X = 627;
+const SVG_MIDDLE_Y = 614;
+const HELIX_SLICE_COUNT = 32;
+const HELIX_SLICE_OVERLAP = 2.2;
+const HELIX_MOTION_RADIUS = 116;
+const DEPTH_STOP_COUNT = 21;
+const FULL_TURN = Math.PI * 2;
+
+const PRIMARY_STRAND_IDS = ["helix-primary"] as const;
+const SECONDARY_STRAND_IDS = ["helix-upper-return", "helix-lower-return"] as const;
+const AXIAL_NODE_IDS = ["top-node", "bottom-node"] as const;
+const LEFT_ORBIT_IDS = ["left-node", "left-link-top", "left-link-bottom"] as const;
+const RIGHT_ORBIT_IDS = ["right-node", "right-link-top", "right-link-bottom"] as const;
+const RUNG_PATHS = [
+  { id: "top-rung-1", y: 333 },
+  { id: "top-rung-2", y: 435 },
+  { id: "bottom-rung-1", y: 781 },
+  { id: "bottom-rung-2", y: 883 },
+] as const;
+
+const HELIX_SLICES = Array.from({ length: HELIX_SLICE_COUNT }, (_, index) => {
+  const height = SVG_HEIGHT / HELIX_SLICE_COUNT;
+  return {
+    centerY: SVG_TOP + (index + 0.5) * height,
+    height: height + HELIX_SLICE_OVERLAP * 2,
+    index,
+    y: SVG_TOP + index * height - HELIX_SLICE_OVERLAP,
+  };
+});
+const DEPTH_STOPS = Array.from(
+  { length: DEPTH_STOP_COUNT },
+  (_, index) => index / (DEPTH_STOP_COUNT - 1),
+);
+
+const PHASE_KEYFRAMES = [
+  { angle: 0, offset: 0, easing: "smooth" },
+  { angle: 0, offset: 0.06, easing: "smooth" },
+  { angle: (-7 * Math.PI) / 180, offset: 0.115, easing: "smooth" },
+  { angle: 0, offset: 0.17, easing: "linear" },
+  { angle: FULL_TURN, offset: 0.79, easing: "smooth" },
+  { angle: FULL_TURN + (9 * Math.PI) / 180, offset: 0.855, easing: "smooth" },
+  { angle: FULL_TURN - (2.5 * Math.PI) / 180, offset: 0.925, easing: "smooth" },
+  { angle: FULL_TURN + (1.5 * Math.PI) / 180, offset: 0.973, easing: "smooth" },
+  { angle: FULL_TURN, offset: 1, easing: "smooth" },
+] as const;
+
+const DNA_PATH_MAP = new Map<string, string>(DNA_PATHS);
+
+function pathFor(id: string) {
+  const path = DNA_PATH_MAP.get(id);
+  if (!path) throw new Error(`Unknown DNA path: ${id}`);
+  return path;
+}
+
+function smoothStep(value: number) {
+  return value * value * (3 - 2 * value);
+}
+
+type PathChunk = {
+  command: string;
+  coordinates: number[];
+};
+
+function compilePath(path: string) {
+  const chunks: PathChunk[] = [];
+  const commandPattern = /([MLCZ])([^MLCZ]*)/g;
+  const numberPattern = /-?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?/gi;
+  let match: RegExpExecArray | null;
+
+  while ((match = commandPattern.exec(path)) !== null) {
+    chunks.push({
+      command: match[1],
+      coordinates: Array.from(
+        match[2].matchAll(numberPattern),
+        ([number]) => Number(number),
+      ),
+    });
+  }
+
+  return chunks;
+}
+
+function projectedPath(chunks: PathChunk[], direction: -1 | 1, angle: number) {
+  return chunks
+    .map(({ command, coordinates }) => {
+      if (coordinates.length === 0) return command;
+      const projected = coordinates.map((coordinate, index) => {
+        if (index % 2 === 1) return coordinate;
+        const y = coordinates[index + 1];
+        const verticalPosition = Math.min(
+          Math.max((y - SVG_TOP) / SVG_HEIGHT, 0),
+          1,
+        );
+        const spatialPhase = FULL_TURN * verticalPosition;
+        const taper = Math.pow(
+          Math.max(0, Math.sin(Math.PI * verticalPosition)),
+          0.58,
+        );
+        const displacement =
+          HELIX_MOTION_RADIUS *
+          taper *
+          (Math.sin(spatialPhase + angle) - Math.sin(spatialPhase));
+        return coordinate + direction * displacement;
+      });
+      return `${command} ${projected
+        .map((coordinate) => Math.round(coordinate * 1000) / 1000)
+        .join(" ")}`;
+    })
+    .join(" ");
+}
+
+function phaseAt(progress: number) {
+  const clamped = Math.min(Math.max(progress, 0), 1);
+  const nextIndex = PHASE_KEYFRAMES.findIndex(({ offset }) => offset >= clamped);
+  if (nextIndex <= 0) return PHASE_KEYFRAMES[0].angle;
+
+  const start = PHASE_KEYFRAMES[nextIndex - 1];
+  const end = PHASE_KEYFRAMES[nextIndex];
+  const segmentProgress = (clamped - start.offset) / (end.offset - start.offset);
+  const eased = start.easing === "linear" ? segmentProgress : smoothStep(segmentProgress);
+  return start.angle + (end.angle - start.angle) * eased;
+}
 
 type BrandMarkProps = {
   className?: string;
@@ -67,8 +180,14 @@ export function BrandMark({
   intro = false,
   interactive = false,
 }: BrandMarkProps) {
+  const instanceId = useId().replace(/:/g, "");
   const shellRef = useRef<HTMLSpanElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  const motionEnabled = intro || interactive;
+  const primaryStrandId = `dna-primary-${instanceId}`;
+  const secondaryStrandId = `dna-secondary-${instanceId}`;
+  const primaryDepthId = `dna-primary-depth-${instanceId}`;
+  const secondaryDepthId = `dna-secondary-depth-${instanceId}`;
 
   useEffect(() => {
     const shell = shellRef.current;
@@ -77,7 +196,56 @@ export function BrandMark({
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const precisePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    let animation: Animation | null = null;
+    const motionLayer = svg.querySelector<SVGGElement>("[data-dna-motion-layer]");
+    const strandShapes = Array.from(
+      svg.querySelectorAll<SVGPathElement>("[data-dna-strand-shape]"),
+    ).flatMap((shape) => {
+      const path = shape.getAttribute("d");
+      const role = shape.dataset.dnaStrandShape;
+      if (!path || (role !== "primary" && role !== "secondary")) return [];
+      return [
+        {
+          basePath: path,
+          chunks: compilePath(path),
+          direction: (role === "primary" ? -1 : 1) as -1 | 1,
+          shape,
+        },
+      ];
+    });
+    const depthStops = Array.from(
+      svg.querySelectorAll<SVGStopElement>("[data-dna-depth-stop]"),
+    ).flatMap((stop) => {
+      const role = stop.dataset.dnaDepthStop;
+      const position = Number(stop.dataset.dnaDepthPosition);
+      return (role === "primary" || role === "secondary") &&
+        Number.isFinite(position)
+        ? [{ position, role, stop }]
+        : [];
+    });
+    const sliceElements = Array.from(
+      svg.querySelectorAll<SVGGElement>("[data-dna-slice]"),
+    ).flatMap((group) => {
+      const primary = group.querySelector<SVGUseElement>(
+        '[data-dna-strand="primary"]',
+      );
+      const secondary = group.querySelector<SVGUseElement>(
+        '[data-dna-strand="secondary"]',
+      );
+      const centerY = Number(group.dataset.dnaSlice);
+      return primary && secondary && Number.isFinite(centerY)
+        ? [{ centerY, group, primary, secondary }]
+        : [];
+    });
+    const rungElements = Array.from(
+      svg.querySelectorAll<SVGPathElement>("[data-dna-rung]"),
+    );
+    const orbit = svg.querySelector<SVGGElement>("[data-dna-orbit]");
+    const leftOrbit = svg.querySelector<SVGGElement>('[data-dna-orbit-side="left"]');
+    const rightOrbit = svg.querySelector<SVGGElement>('[data-dna-orbit-side="right"]');
+
+    let animationFrame: number | undefined;
+    let animationStartedAt = 0;
+    let activeKind: "intro" | "replay" | null = null;
     let introTimer: number | undefined;
     let intentTimer: number | undefined;
     let focusTimer: number | undefined;
@@ -96,39 +264,173 @@ export function BrandMark({
       focusTimer = undefined;
     };
 
+    const resetHelixFrame = () => {
+      strandShapes.forEach(({ basePath, shape }) => {
+        shape.setAttribute("d", basePath);
+      });
+      depthStops.forEach(({ stop }) => {
+        stop.removeAttribute("stop-opacity");
+      });
+      sliceElements.forEach(({ group, primary, secondary }) => {
+        group.append(secondary, primary);
+        delete group.dataset.dnaFront;
+      });
+      rungElements.forEach((rung) => {
+        rung.removeAttribute("transform");
+        rung.style.opacity = "";
+      });
+      [leftOrbit, rightOrbit].forEach((side) => {
+        side?.removeAttribute("transform");
+        if (side) side.style.opacity = "";
+      });
+      if (orbit && leftOrbit && rightOrbit) {
+        orbit.append(leftOrbit, rightOrbit);
+        delete orbit.dataset.dnaFront;
+      }
+    };
+
+    const applyHelixFrame = (angle: number, intensity: number) => {
+      strandShapes.forEach(({ chunks, direction, shape }) => {
+        shape.setAttribute("d", projectedPath(chunks, direction, angle));
+      });
+      depthStops.forEach(({ position, role, stop }) => {
+        const strandDepth = Math.cos(FULL_TURN * position + angle);
+        const depth = role === "primary" ? strandDepth : -strandDepth;
+        stop.setAttribute(
+          "stop-opacity",
+          String(1 - intensity * 0.22 * ((1 - depth) / 2)),
+        );
+      });
+
+      sliceElements.forEach(({ centerY, group, primary, secondary }) => {
+        const verticalPosition = (centerY - SVG_TOP) / SVG_HEIGHT;
+        const spatialPhase = FULL_TURN * verticalPosition;
+        const primaryDepth = Math.cos(spatialPhase + angle);
+        const secondaryDepth = -primaryDepth;
+
+        const front = primaryDepth >= secondaryDepth ? "primary" : "secondary";
+        if (group.dataset.dnaFront !== front) {
+          if (front === "primary") {
+            group.append(secondary, primary);
+          } else {
+            group.append(primary, secondary);
+          }
+          group.dataset.dnaFront = front;
+        }
+      });
+
+      rungElements.forEach((rung) => {
+        const rungY = Number(rung.dataset.dnaRung);
+        const verticalPosition = (rungY - SVG_TOP) / SVG_HEIGHT;
+        const spatialPhase = FULL_TURN * verticalPosition;
+        const baseProjection = 0.24 + 0.76 * Math.abs(Math.sin(spatialPhase));
+        const projection =
+          0.24 + 0.76 * Math.abs(Math.sin(spatialPhase + angle));
+        const targetScale = projection / baseProjection;
+        const scale = 1 + intensity * (targetScale - 1);
+
+        rung.setAttribute(
+          "transform",
+          `translate(${SVG_CENTER_X} 0) scale(${scale} 1) translate(${-SVG_CENTER_X} 0)`,
+        );
+        rung.style.opacity = String(
+          1 - intensity * 0.2 * (1 - Math.abs(Math.sin(spatialPhase + angle))),
+        );
+      });
+
+      if (orbit && leftOrbit && rightOrbit) {
+        const projection = Math.cos(angle);
+        const leftDepth = Math.sin(angle);
+        const rightDepth = -leftDepth;
+        const leftCenterX = 349.785;
+        const rightCenterX = 901.445;
+        const leftDisplacement =
+          (SVG_CENTER_X - leftCenterX) * (1 - projection);
+        const rightDisplacement =
+          (SVG_CENTER_X - rightCenterX) * (1 - projection);
+        const leftScale = 1 + intensity * 0.055 * leftDepth;
+        const rightScale = 1 + intensity * 0.055 * rightDepth;
+
+        leftOrbit.setAttribute(
+          "transform",
+          `translate(${leftDisplacement} 0) translate(${leftCenterX} ${SVG_MIDDLE_Y}) scale(${leftScale}) translate(${-leftCenterX} ${-SVG_MIDDLE_Y})`,
+        );
+        rightOrbit.setAttribute(
+          "transform",
+          `translate(${rightDisplacement} 0) translate(${rightCenterX} ${SVG_MIDDLE_Y}) scale(${rightScale}) translate(${-rightCenterX} ${-SVG_MIDDLE_Y})`,
+        );
+        leftOrbit.style.opacity = String(
+          1 - intensity * 0.24 * ((1 - leftDepth) / 2),
+        );
+        rightOrbit.style.opacity = String(
+          1 - intensity * 0.24 * ((1 - rightDepth) / 2),
+        );
+
+        const front = leftDepth >= rightDepth ? "left" : "right";
+        if (orbit.dataset.dnaFront !== front) {
+          if (front === "left") {
+            orbit.append(rightOrbit, leftOrbit);
+          } else {
+            orbit.append(leftOrbit, rightOrbit);
+          }
+          orbit.dataset.dnaFront = front;
+        }
+      }
+    };
+
     const finish = (kind: "intro" | "replay") => {
+      if (animationFrame !== undefined) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+      animationFrame = undefined;
+      activeKind = null;
       shell.dataset.animating = "false";
-      svg.style.transform = "";
-      animation = null;
+      resetHelixFrame();
       lastFinishedAt = window.performance.now();
       if (kind === "intro") markIntroComplete();
+    };
+
+    const step = (now: number) => {
+      if (disposed || !activeKind) return;
+      const progress = Math.min((now - animationStartedAt) / MOTION_DURATION_MS, 1);
+      const entrance = smoothStep(Math.min(progress / 0.07, 1));
+      const exit = smoothStep(Math.min((1 - progress) / 0.07, 1));
+      applyHelixFrame(phaseAt(progress), entrance * exit);
+
+      if (progress < 1) {
+        animationFrame = window.requestAnimationFrame(step);
+      } else {
+        finish(activeKind);
+      }
     };
 
     const play = (kind: "intro" | "replay") => {
       if (
         disposed ||
         reducedMotion.matches ||
-        animation ||
-        typeof svg.animate !== "function" ||
+        animationFrame !== undefined ||
+        !motionLayer ||
+        typeof window.requestAnimationFrame !== "function" ||
         (kind === "replay" && !introHasCompleted()) ||
         (kind === "replay" &&
           window.performance.now() - lastFinishedAt < REPLAY_COOLDOWN_MS)
       ) {
-        if (kind === "intro" && (reducedMotion.matches || typeof svg.animate !== "function")) {
+        if (
+          kind === "intro" &&
+          (reducedMotion.matches ||
+            !motionLayer ||
+            typeof window.requestAnimationFrame !== "function")
+        ) {
           markIntroComplete();
         }
         return;
       }
 
+      activeKind = kind;
       shell.dataset.animating = "true";
-      animation = svg.animate(MOTION_KEYFRAMES, {
-        duration: MOTION_DURATION_MS,
-        fill: "none",
-        iterations: 1,
-      });
-      animation.finished.then(() => finish(kind)).catch(() => {
-        if (!disposed) finish(kind);
-      });
+      applyHelixFrame(0, 0);
+      animationStartedAt = window.performance.now();
+      animationFrame = window.requestAnimationFrame(step);
     };
 
     const scheduleIntro = () => {
@@ -191,10 +493,13 @@ export function BrandMark({
 
     const onMotionPreferenceChange = () => {
       if (!reducedMotion.matches) return;
-      animation?.cancel();
-      animation = null;
+      if (animationFrame !== undefined) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = undefined;
+      }
+      activeKind = null;
       shell.dataset.animating = "false";
-      svg.style.transform = "";
+      resetHelixFrame();
       if (intro) markIntroComplete();
     };
 
@@ -233,7 +538,10 @@ export function BrandMark({
       clearIntentTimers();
       window.clearTimeout(introTimer);
       observer?.disconnect();
-      animation?.cancel();
+      if (animationFrame !== undefined) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+      resetHelixFrame();
       shell.removeEventListener("pointerenter", onPointerEnter);
       shell.removeEventListener("pointerleave", onPointerLeave);
       focusTarget?.removeEventListener("focusin", onFocusIn);
@@ -260,9 +568,137 @@ export function BrandMark({
         ref={svgRef}
         viewBox="280 120 694 965"
       >
-        {DNA_PATHS.map(([id, path]) => (
-          <path d={path} fillRule="nonzero" key={id} />
-        ))}
+        {motionEnabled ? (
+          <defs>
+            <linearGradient
+              gradientUnits="userSpaceOnUse"
+              id={primaryDepthId}
+              x1="0"
+              x2="0"
+              y1={SVG_TOP}
+              y2={SVG_TOP + SVG_HEIGHT}
+            >
+              {DEPTH_STOPS.map((position) => (
+                <stop
+                  data-dna-depth-position={position}
+                  data-dna-depth-stop="primary"
+                  key={position}
+                  offset={position}
+                  stopColor="currentColor"
+                />
+              ))}
+            </linearGradient>
+            <linearGradient
+              gradientUnits="userSpaceOnUse"
+              id={secondaryDepthId}
+              x1="0"
+              x2="0"
+              y1={SVG_TOP}
+              y2={SVG_TOP + SVG_HEIGHT}
+            >
+              {DEPTH_STOPS.map((position) => (
+                <stop
+                  data-dna-depth-position={position}
+                  data-dna-depth-stop="secondary"
+                  key={position}
+                  offset={position}
+                  stopColor="currentColor"
+                />
+              ))}
+            </linearGradient>
+            <g id={primaryStrandId}>
+              {PRIMARY_STRAND_IDS.map((id) => (
+                <path
+                  d={pathFor(id)}
+                  data-dna-strand-shape="primary"
+                  fill={`url(#${primaryDepthId})`}
+                  fillRule="nonzero"
+                  key={id}
+                />
+              ))}
+            </g>
+            <g id={secondaryStrandId}>
+              {SECONDARY_STRAND_IDS.map((id) => (
+                <path
+                  d={pathFor(id)}
+                  data-dna-strand-shape="secondary"
+                  fill={`url(#${secondaryDepthId})`}
+                  fillRule="nonzero"
+                  key={id}
+                />
+              ))}
+            </g>
+            {HELIX_SLICES.map((slice) => (
+              <clipPath
+                clipPathUnits="userSpaceOnUse"
+                id={`dna-slice-${instanceId}-${slice.index}`}
+                key={slice.index}
+              >
+                <rect height={slice.height} width="694" x="280" y={slice.y} />
+              </clipPath>
+            ))}
+          </defs>
+        ) : null}
+
+        <g className="brand-mark-static">
+          {DNA_PATHS.map(([id, path]) => (
+            <path d={path} fillRule="nonzero" key={id} />
+          ))}
+        </g>
+
+        {motionEnabled ? (
+          <g
+            className="brand-mark-motion"
+            data-dna-motion-layer
+            data-motion-model="phase-projected-double-helix"
+          >
+            <g data-dna-rungs>
+              {RUNG_PATHS.map(({ id, y }) => (
+                <path
+                  d={pathFor(id)}
+                  data-dna-rung={y}
+                  fillRule="nonzero"
+                  key={id}
+                />
+              ))}
+            </g>
+
+            <g data-dna-strand-slices>
+              {HELIX_SLICES.map((slice) => (
+                <g
+                  clipPath={`url(#dna-slice-${instanceId}-${slice.index})`}
+                  data-dna-slice={slice.centerY}
+                  key={slice.index}
+                >
+                  <use
+                    data-dna-strand="secondary"
+                    href={`#${secondaryStrandId}`}
+                  />
+                  <use data-dna-strand="primary" href={`#${primaryStrandId}`} />
+                </g>
+              ))}
+            </g>
+
+            <g data-dna-orbit>
+              <g data-dna-orbit-side="left">
+                {LEFT_ORBIT_IDS.map((id) => (
+                  <path d={pathFor(id)} fillRule="nonzero" key={id} />
+                ))}
+              </g>
+              <g data-dna-orbit-side="right">
+                {RIGHT_ORBIT_IDS.map((id) => (
+                  <path d={pathFor(id)} fillRule="nonzero" key={id} />
+                ))}
+              </g>
+            </g>
+
+            <g data-dna-axis>
+              {AXIAL_NODE_IDS.map((id) => (
+                <path d={pathFor(id)} fillRule="nonzero" key={id} />
+              ))}
+            </g>
+          </g>
+        ) : null}
       </svg>
     </span>
   );
