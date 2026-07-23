@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mark } from "../components/site-chrome";
+import { BrandMark } from "../components/brand-mark";
 
 export const metadata: Metadata = {
   title: "Bioinformatics",
@@ -97,7 +97,7 @@ export default function BioinformaticsPage() {
                 <ul className="tag-list" aria-label={`${project.title} topics`}>{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
                 <a className="inline-link" href={project.href}>Read more <span>↗</span></a>
               </div>
-              <div className={`project-glyph glyph-${index + 1}`} aria-hidden="true"><Mark /></div>
+              <div className={`project-glyph glyph-${index + 1}`} aria-hidden="true"><BrandMark /></div>
             </article>
           ))}
         </div>

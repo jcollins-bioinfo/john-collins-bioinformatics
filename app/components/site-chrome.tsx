@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandMark } from "./brand-mark";
 
 const primaryLinks = [
   ["Bioinformatics", "/bioinformatics"],
@@ -15,24 +16,12 @@ const indexLinks = [
   ["Contact", "/contact"],
 ] as const;
 
-export function Mark({ className = "" }: { className?: string }) {
-  return (
-    <svg aria-hidden="true" className={`mark ${className}`} viewBox="0 0 44 44">
-      <circle cx="11" cy="22" r="3" />
-      <circle cx="22" cy="9" r="3" />
-      <circle cx="33" cy="22" r="3" />
-      <circle cx="22" cy="35" r="3" />
-      <path d="M13 20 20 11M24 11l7 9M31 24l-7 9M20 33l-7-9M14 22h16" />
-    </svg>
-  );
-}
-
 export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header-inner shell">
         <Link className="identity" href="/" aria-label="John Patrick Collins, home">
-          <Mark />
+          <BrandMark interactive intro />
           <span>John Patrick Collins</span>
         </Link>
 

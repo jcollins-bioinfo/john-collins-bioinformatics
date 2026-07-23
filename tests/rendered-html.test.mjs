@@ -97,6 +97,40 @@ test("presents the authored DNA replication film without eager-loading it", asyn
   await access(path.join(projectRoot, "public", "media", "dna-replication-kaleidoscope-poster.webp"));
 });
 
+test("renders the source-faithful DNA identity with restrained intent animation", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  assert.match(html, /data-brand-mark=["']dna-helix["']/i);
+  assert.match(html, /data-brand-intro=["']true["']/i);
+  assert.match(html, /viewBox=["']280 120 694 965["']/i);
+  assert.match(html, /M 678\.671875 188\.234375/);
+  assert.doesNotMatch(html, /M13 20 20 11/);
+
+  const component = await readFile(
+    path.join(projectRoot, "app", "components", "brand-mark.tsx"),
+    "utf8",
+  );
+  assert.match(component, /const INITIAL_DELAY_MS = 1800/);
+  assert.match(component, /const HOVER_INTENT_DELAY_MS = 260/);
+  assert.match(component, /rotateY\(-7deg\)/);
+  assert.match(component, /rotateY\(360deg\)/);
+  assert.match(component, /rotateY\(369deg\)/);
+  assert.match(component, /IntersectionObserver/);
+  assert.match(component, /prefers-reduced-motion: reduce/);
+
+  const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
+  assert.match(css, /\.brand-mark-shell\s*{[^}]*perspective:\s*600px/s);
+  assert.match(css, /\.brand-mark\s*{[^}]*transform-origin:\s*50% 50%/s);
+});
+
 test("renders every public HTML route", async () => {
   const worker = await loadWorker();
   const routes = [
