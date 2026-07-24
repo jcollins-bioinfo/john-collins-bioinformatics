@@ -20,8 +20,8 @@ const DNA_PATHS = [
   ["top-rung-1", "M 686.3125 323.726562 C 691.171875 314.636719 700.242188 310.757812 709.582031 312.824219 C 718.757812 314.851562 724.957031 323.035156 724.996094 332.515625 C 725.035156 341.761719 718.574219 349.996094 709.628906 352.226562 C 700.441406 354.515625 691.113281 350.222656 686.375 341.445312 L 567.746094 341.546875 C 562.9375 350.390625 553.78125 354.421875 544.460938 352.210938 C 535.519531 350.085938 529.125 341.855469 529.246094 332.589844 C 529.367188 323.125 535.277344 314.988281 544.527344 312.878906 C 553.644531 310.800781 563.066406 314.570312 567.699219 323.722656 Z M 686.3125 323.726562"],
 ] as const;
 
-const INTRO_STORAGE_KEY = "jpc-dna-mark-intro-v1";
 const INITIAL_DELAY_MS = 1800;
+const AUTOMATIC_REPLAY_DELAY_MS = 30_000;
 const HOVER_INTENT_DELAY_MS = 260;
 const FOCUS_INTENT_DELAY_MS = 140;
 const REPLAY_COOLDOWN_MS = 650;
@@ -158,23 +158,6 @@ type BrandMarkProps = {
   interactive?: boolean;
 };
 
-function hasSeenIntro() {
-  try {
-    return window.sessionStorage.getItem(INTRO_STORAGE_KEY) === "complete";
-  } catch {
-    return document.documentElement.dataset.dnaIntro === "complete";
-  }
-}
-
-function markIntroComplete() {
-  document.documentElement.dataset.dnaIntro = "complete";
-  try {
-    window.sessionStorage.setItem(INTRO_STORAGE_KEY, "complete");
-  } catch {
-    // A blocked storage API must never prevent the visual treatment from working.
-  }
-}
-
 export function BrandMark({
   className = "",
   intro = false,
@@ -245,17 +228,19 @@ export function BrandMark({
 
     let animationFrame: number | undefined;
     let animationStartedAt = 0;
-    let activeKind: "intro" | "replay" | null = null;
+    let activeKind: "intro" | "automatic" | "replay" | null = null;
     let introTimer: number | undefined;
+    let automaticTimer: number | undefined;
+    let automaticDueAt = 0;
+    let automaticRemaining = AUTOMATIC_REPLAY_DELAY_MS;
+    let automaticPending = false;
     let intentTimer: number | undefined;
     let focusTimer: number | undefined;
     let observer: IntersectionObserver | undefined;
-    let introIsVisible = false;
+    let logoIsVisible = false;
     let disposed = false;
     let lastFinishedAt = 0;
-
-    const introHasCompleted = () =>
-      document.documentElement.dataset.dnaIntro === "complete" || hasSeenIntro();
+    let introHasCompleted = false;
 
     const clearIntentTimers = () => {
       window.clearTimeout(intentTimer);
@@ -378,7 +363,42 @@ export function BrandMark({
       }
     };
 
-    const finish = (kind: "intro" | "replay") => {
+    const scheduleAutomatic = (delay = AUTOMATIC_REPLAY_DELAY_MS) => {
+      window.clearTimeout(automaticTimer);
+      automaticTimer = undefined;
+      automaticRemaining = delay;
+      if (
+        disposed ||
+        !intro ||
+        !introHasCompleted ||
+        reducedMotion.matches ||
+        document.visibilityState !== "visible"
+      ) return;
+
+      automaticDueAt = window.performance.now() + delay;
+      automaticTimer = window.setTimeout(() => {
+        automaticTimer = undefined;
+        automaticRemaining = AUTOMATIC_REPLAY_DELAY_MS;
+        automaticPending = true;
+        requestAutomaticPlayback();
+      }, delay);
+    };
+
+    const requestAutomaticPlayback = () => {
+      if (
+        !automaticPending ||
+        disposed ||
+        reducedMotion.matches ||
+        document.visibilityState !== "visible" ||
+        !logoIsVisible ||
+        activeKind !== null
+      ) return;
+
+      automaticPending = false;
+      play("automatic");
+    };
+
+    const finish = (kind: "intro" | "automatic" | "replay") => {
       if (animationFrame !== undefined) {
         window.cancelAnimationFrame(animationFrame);
       }
@@ -387,7 +407,12 @@ export function BrandMark({
       shell.dataset.animating = "false";
       resetHelixFrame();
       lastFinishedAt = window.performance.now();
-      if (kind === "intro") markIntroComplete();
+      if (kind === "intro") introHasCompleted = true;
+      if (kind === "intro" || kind === "automatic") {
+        scheduleAutomatic();
+      } else {
+        requestAutomaticPlayback();
+      }
     };
 
     const step = (now: number) => {
@@ -404,14 +429,14 @@ export function BrandMark({
       }
     };
 
-    const play = (kind: "intro" | "replay") => {
+    function play(kind: "intro" | "automatic" | "replay") {
       if (
         disposed ||
         reducedMotion.matches ||
         animationFrame !== undefined ||
         !motionLayer ||
         typeof window.requestAnimationFrame !== "function" ||
-        (kind === "replay" && !introHasCompleted()) ||
+        (kind !== "intro" && !introHasCompleted) ||
         (kind === "replay" &&
           window.performance.now() - lastFinishedAt < REPLAY_COOLDOWN_MS)
       ) {
@@ -421,7 +446,7 @@ export function BrandMark({
             !motionLayer ||
             typeof window.requestAnimationFrame !== "function")
         ) {
-          markIntroComplete();
+          introHasCompleted = true;
         }
         return;
       }
@@ -431,21 +456,21 @@ export function BrandMark({
       applyHelixFrame(0, 0);
       animationStartedAt = window.performance.now();
       animationFrame = window.requestAnimationFrame(step);
-    };
+    }
 
     const scheduleIntro = () => {
       if (
         !intro ||
-        !introIsVisible ||
+        !logoIsVisible ||
         document.visibilityState !== "visible" ||
         introTimer !== undefined ||
-        introHasCompleted()
+        introHasCompleted
       ) {
         return;
       }
       introTimer = window.setTimeout(() => {
         introTimer = undefined;
-        if (document.visibilityState === "visible") play("intro");
+        if (document.visibilityState === "visible" && logoIsVisible) play("intro");
       }, INITIAL_DELAY_MS);
     };
 
@@ -453,8 +478,15 @@ export function BrandMark({
       if (document.visibilityState === "hidden") {
         window.clearTimeout(introTimer);
         introTimer = undefined;
+        if (automaticTimer !== undefined) {
+          automaticRemaining = Math.max(0, automaticDueAt - window.performance.now());
+          window.clearTimeout(automaticTimer);
+          automaticTimer = undefined;
+        }
       } else {
         scheduleIntro();
+        if (automaticPending) requestAutomaticPlayback();
+        else if (introHasCompleted) scheduleAutomatic(automaticRemaining);
       }
     };
 
@@ -463,7 +495,7 @@ export function BrandMark({
         !interactive ||
         event.pointerType === "touch" ||
         !precisePointer.matches ||
-        !introHasCompleted()
+        !introHasCompleted
       ) {
         return;
       }
@@ -480,7 +512,7 @@ export function BrandMark({
       "a[href], button, [tabindex]:not([tabindex='-1'])",
     );
     const onFocusIn = () => {
-      if (!interactive || !introHasCompleted() || !focusTarget?.matches(":focus-visible")) {
+      if (!interactive || !introHasCompleted || !focusTarget?.matches(":focus-visible")) {
         return;
       }
       window.clearTimeout(focusTimer);
@@ -500,25 +532,30 @@ export function BrandMark({
       activeKind = null;
       shell.dataset.animating = "false";
       resetHelixFrame();
-      if (intro) markIntroComplete();
+      window.clearTimeout(introTimer);
+      window.clearTimeout(automaticTimer);
+      introTimer = undefined;
+      automaticTimer = undefined;
+      automaticPending = false;
+      if (intro) introHasCompleted = true;
     };
 
     if (intro) {
-      if (hasSeenIntro() || reducedMotion.matches) {
-        markIntroComplete();
+      if (reducedMotion.matches) {
+        introHasCompleted = true;
       } else {
-        document.documentElement.dataset.dnaIntro = "pending";
         if ("IntersectionObserver" in window) {
           observer = new IntersectionObserver(
             ([entry]) => {
-              introIsVisible = entry.isIntersecting && entry.intersectionRatio >= 0.6;
+              logoIsVisible = entry.isIntersecting && entry.intersectionRatio > 0;
               scheduleIntro();
+              requestAutomaticPlayback();
             },
-            { threshold: [0.6] },
+            { threshold: [0, 0.6] },
           );
           observer.observe(shell);
         } else {
-          introIsVisible = true;
+          logoIsVisible = true;
           scheduleIntro();
         }
       }
@@ -537,6 +574,7 @@ export function BrandMark({
       disposed = true;
       clearIntentTimers();
       window.clearTimeout(introTimer);
+      window.clearTimeout(automaticTimer);
       observer?.disconnect();
       if (animationFrame !== undefined) {
         window.cancelAnimationFrame(animationFrame);
