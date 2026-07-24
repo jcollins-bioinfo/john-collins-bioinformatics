@@ -1,4 +1,5 @@
 import { BrandMark } from "./components/brand-mark";
+import { DomainStrip } from "./components/domain-strip";
 
 const portals = [
   {
@@ -89,15 +90,7 @@ export default function Home() {
         </aside>
       </section>
 
-      <section className="domain-strip" aria-label="Areas of practice">
-        <div>
-          <span>BIOINFORMATICS</span><i />
-          <span>SCIENTIFIC SOFTWARE</span><i />
-          <span>INDEPENDENT RESEARCH</span><i />
-          <span>MUSIC</span><i />
-          <span>WRITING</span>
-        </div>
-      </section>
+      <DomainStrip />
 
       <section className="shell page-section" id="index">
         <div className="split-heading">

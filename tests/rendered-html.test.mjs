@@ -97,6 +97,31 @@ test("presents the authored DNA replication film without eager-loading it", asyn
   await access(path.join(projectRoot, "public", "media", "dna-replication-kaleidoscope-poster.webp"));
 });
 
+test("only animates the domain strip when its content overflows", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+  const html = await response.text();
+  assert.match(html, /class=["'][^"']*domain-strip[^"']*marquee-container[^"']*["']/i);
+  assert.match(html, /class=["']marquee-content["']/i);
+
+  const component = await readFile(
+    path.join(projectRoot, "app", "components", "domain-strip.tsx"),
+    "utf8",
+  );
+  assert.match(component, /content\.scrollWidth > container\.clientWidth/);
+  assert.match(component, /new ResizeObserver\(checkFit\)/);
+  assert.match(component, /resizeObserver\.disconnect\(\)/);
+
+  const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
+  assert.match(css, /domain-strip\[data-overflowing="true"\][^{]*\.marquee-content\s*{[^}]*animation:\s*marquee-scroll-single 15s linear infinite/s);
+  assert.match(css, /@keyframes marquee-scroll-single/);
+  assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*domain-strip\[data-overflowing="true"\][^{]*\.marquee-content\s*{[^}]*animation:\s*none/s);
+});
+
 test("renders the source-faithful DNA identity with phase-projected helix motion", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
