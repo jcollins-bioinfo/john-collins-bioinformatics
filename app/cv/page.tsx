@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "CV",
-  description: "Professional experience, education, and capabilities of bioinformatics data scientist and software engineer John Patrick Collins.",
-};
+export const metadata = createPageMetadata("/cv");
 
 const experience = [
   ["Bioinformatics & Operations Lead", "BacStitch DNA"],
@@ -29,4 +26,3 @@ export default function CvPage() {
     </main>
   );
 }
-

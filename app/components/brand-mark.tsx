@@ -452,7 +452,7 @@ export function BrandMark({
       }
 
       activeKind = kind;
-      shell.dataset.animating = "true";
+      shell!.dataset.animating = "true";
       applyHelixFrame(0, 0);
       animationStartedAt = window.performance.now();
       animationFrame = window.requestAnimationFrame(step);

@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Research",
-  description: "Independent research by John Patrick Collins across constraint geometry, gene regulation, aging, causal inference, and AI for biology.",
-};
+export const metadata = createPageMetadata("/research");
 
 const axes = [
   ["A", "CGT → CORD", "An analysis-frozen report on recurrent perturbation geometry, external fitness prediction, and the context-dependence that motivated CORD.", "/research/cgt"],

@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Now",
-  description: "What John Patrick Collins is focused on now, updated July 2026.",
-};
+export const metadata = createPageMetadata("/now");
 
 const current = [
   ["01", "Building this personal domain", "Separating the bioinformatics portfolio from a broader home for research, music, writing, and future projects."],
@@ -24,4 +21,3 @@ export default function NowPage() {
     </main>
   );
 }
-

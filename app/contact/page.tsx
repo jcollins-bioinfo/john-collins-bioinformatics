@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact John Patrick Collins about bioinformatics, scientific software, research, writing, or music.",
-};
+export const metadata = createPageMetadata("/contact");
 
 export default function ContactPage() {
   return (
@@ -21,4 +18,3 @@ export default function ContactPage() {
     </main>
   );
 }
-

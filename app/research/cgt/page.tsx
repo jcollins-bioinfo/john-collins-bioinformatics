@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import {
   ArticleSection,
   Citation,
@@ -7,33 +6,12 @@ import {
 } from "./publication-components";
 import { mainFigures, references, supplementaryFigures } from "./content";
 import styles from "./publication.module.css";
+import { canonicalUrl, createPageMetadata, pageSeo, SITE_ORIGIN } from "../../seo";
 
-const title = "Context-conditioned perturbation geometry links recurrent transcriptional responses to gene fitness";
-const description =
-  "A provenance-tracked CGT project report integrating perturbational transcriptomics, CRISPR fitness screens, signed biological axes, and TCGA tumor-state projections.";
+const title = pageSeo["/research/cgt"].title;
+const description = pageSeo["/research/cgt"].description;
 
-export const metadata: Metadata = {
-  title: "CGT project report: context-conditioned perturbation geometry",
-  description,
-  alternates: { canonical: "/research/cgt" },
-  openGraph: {
-    type: "article",
-    url: "https://johnpatrickcollins.info/research/cgt",
-    title,
-    description,
-    publishedTime: "2026-07-20T00:00:00Z",
-    modifiedTime: "2026-07-20T00:00:00Z",
-    authors: ["John Patrick Collins"],
-    images: [
-      {
-        url: "/research/cgt/figures/main/figure-04-evidence-atlas.png",
-        width: 4322,
-        height: 4015,
-        alt: "Integrated CGT evidence atlas and hierarchical conceptual interpretation",
-      },
-    ],
-  },
-};
+export const metadata = createPageMetadata("/research/cgt");
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -51,8 +29,8 @@ const articleJsonLd = {
   creativeWorkStatus: "Preprint-style independent research report; not peer reviewed",
   isAccessibleForFree: true,
   inLanguage: "en",
-  url: "https://johnpatrickcollins.info/research/cgt",
-  image: "https://johnpatrickcollins.info/research/cgt/figures/main/figure-04-evidence-atlas.png",
+  url: canonicalUrl("/research/cgt"),
+  image: `${SITE_ORIGIN}${pageSeo["/research/cgt"].image}`,
   about: [
     "perturbational transcriptomics",
     "single-cell genomics",

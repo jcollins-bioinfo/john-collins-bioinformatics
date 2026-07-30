@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Music",
-  description: "John Patrick Collins’s musical practice across piano, composition, arrangement, transcription, and musical cognition.",
-};
+export const metadata = createPageMetadata("/music");
 
 const practices = [
   ["01", "Piano", "Interpretation, touch, voicing, memory, and the physical architecture of performance."],
@@ -34,4 +31,3 @@ export default function MusicPage() {
     </main>
   );
 }
-
