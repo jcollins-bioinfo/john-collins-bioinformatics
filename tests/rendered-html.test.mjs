@@ -203,6 +203,21 @@ test("renders every public HTML route", async () => {
   }
 });
 
+test("links to the Stack Overflow profile from the footer", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  assert.match(
+    html,
+    /href=["']https:\/\/stackoverflow\.com\/users\/6714627\/john-collins\?tab=profile["'][^>]*>\s*Stack Overflow/i,
+  );
+});
+
 test("renders accessible animated research-axis cards", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
