@@ -24,7 +24,6 @@ The root is intentionally broad. Each practice has a canonical section so the do
 - Next-compatible Vinext runtime
 - Tailwind CSS 4 plus a custom responsive design system
 - Cloudflare Workers deployment with custom-domain routing
-- OpenAI Sites checkpoint deployments
 
 ## Local development
 

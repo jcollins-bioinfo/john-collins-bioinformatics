@@ -30,9 +30,6 @@ export const metadata: Metadata = {
   },
   description:
     "The personal site of John Patrick Collins: bioinformatics, scientific software, independent research, music, writing, and ongoing projects.",
-  other: {
-    "codex-preview": "development",
-  },
   manifest: "/site.webmanifest",
   icons: {
     icon: [

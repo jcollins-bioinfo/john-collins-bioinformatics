@@ -6,9 +6,6 @@ import test from "node:test";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
-
 async function loadWorker() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -27,25 +24,6 @@ const ctx = {
   waitUntil() {},
   passThroughOnException() {},
 };
-
-test("renders development preview metadata", async () => {
-  const worker = await loadWorker();
-
-  const response = await worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    env,
-    ctx,
-  );
-
-  assert.equal(response.status, 200);
-  assert.match(
-    response.headers.get("content-type") ?? "",
-    /^text\/html\b/i,
-  );
-  assert.match(await response.text(), developmentPreviewMeta);
-});
 
 test("publishes the complete branded favicon family", async () => {
   const worker = await loadWorker();
@@ -201,6 +179,21 @@ test("renders every public HTML route", async () => {
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
     assert.match(await response.text(), /John Patrick Collins/i);
   }
+});
+
+test("links to the Stack Overflow profile from the footer", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  assert.match(
+    html,
+    /href=["']https:\/\/stackoverflow\.com\/users\/6714627\/john-collins\?tab=profile["'][^>]*>\s*Stack Overflow/i,
+  );
 });
 
 test("renders accessible animated research-axis cards", async () => {
