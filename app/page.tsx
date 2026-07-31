@@ -67,11 +67,11 @@ export default function Home() {
           <p className="eyebrow"><span /> Personal domain / 2026</p>
           <h1 className="home-title">John Patrick <em>Collins.</em></h1>
           <p className="home-lede">
-            Scientist, software engineer, independent researcher, composer, and pianist.
+            Bioinformatics data scientist, scientific software engineer, independent researcher, composer, and pianist.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#index">Explore the index <span>↓</span></a>
-            <a className="button secondary" href="/about">About me</a>
+            <a className="button secondary" href="/John-Patrick-Collins-Resume.pdf">View résumé <span aria-hidden="true">↗</span><span className="sr-only"> (PDF)</span></a>
           </div>
         </div>
 
@@ -169,6 +169,7 @@ export default function Home() {
           <div className="closing-links">
             <a href="/now">What I’m doing now <span>↗</span></a>
             <a href="/projects">Browse all projects <span>↗</span></a>
+            <a href="/publications">Publications &amp; abstracts <span>↗</span></a>
             <a href="/contact">Get in touch <span>↗</span></a>
           </div>
         </div>

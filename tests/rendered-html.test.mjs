@@ -164,6 +164,7 @@ test("renders every public HTML route", async () => {
     "/now",
     "/cv",
     "/contact",
+    "/publications",
   ];
 
   for (const route of routes) {
@@ -283,4 +284,41 @@ test("ships every canonical CGT figure in PNG, PDF, and SVG formats", async () =
   ));
 
   await access(path.join(projectRoot, "public", "research", "cgt", "data", "cgt-cache-002-dataset-manifest.csv"));
+});
+
+
+test("publishes the résumé and categorized scholarly record", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/publications", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Peer-reviewed articles/i);
+  assert.match(html, /Published conference abstracts/i);
+  for (const doi of [
+    "10.1016/j.cels.2026.101656",
+    "10.1158/1538-7445.AM2020-3253",
+    "10.1016/j.healun.2017.01.172",
+    "10.1016/j.jmoldx.2016.07.003",
+    "10.1016/j.healun.2016.01.205",
+  ]) assert.match(html, new RegExp(doi.replaceAll(".", "\\."), "i"));
+  assert.ok(html.indexOf("2020") < html.indexOf("2017"), "abstracts should be reverse chronological");
+  assert.match(html, /<strong>Collins J(?:P)?<\/strong>/i);
+  await access(path.join(projectRoot, "public", "John-Patrick-Collins-Resume.pdf"));
+});
+
+
+test("redirects the www hostname without changing the path or query", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("https://www.johnpatrickcollins.info/research/cgt?source=test"),
+    env,
+    ctx,
+  );
+  assert.equal(response.status, 308);
+  assert.equal(response.headers.get("location"), "https://johnpatrickcollins.info/research/cgt?source=test");
 });

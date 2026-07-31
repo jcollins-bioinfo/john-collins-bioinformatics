@@ -25,11 +25,19 @@ const oswald = Oswald({
 export const metadata: Metadata = {
   metadataBase: new URL("https://johnpatrickcollins.info"),
   title: {
-    default: "John Patrick Collins | Science, Software, Music & Research",
+    default: "John Patrick Collins | Bioinformatics, Scientific Software & Research",
     template: "%s | John Patrick Collins",
   },
   description:
-    "The personal site of John Patrick Collins: bioinformatics, scientific software, independent research, music, writing, and ongoing projects.",
+    "John Patrick Collins is a bioinformatics data scientist, scientific software engineer, and computational biologist working across genomics, diagnostics, and reproducible research.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "John Patrick Collins",
+    title: "John Patrick Collins | Bioinformatics, Scientific Software & Research",
+    description: "Bioinformatics data scientist, scientific software engineer, and computational biologist.",
+  },
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -64,6 +72,15 @@ export default function RootLayout({
       <body
         className={`${lato.className} antialiased`}
       >
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "John Patrick Collins",
+          url: "https://johnpatrickcollins.info",
+          jobTitle: ["Bioinformatics Data Scientist", "Scientific Software Engineer", "Computational Biologist"],
+          sameAs: ["https://github.com/jcollins-bioinfo", "https://www.linkedin.com/in/johncollins-bioinformatics"],
+          alumniOf: { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
+        }) }} />
         <SiteHeader />
         {children}
         <SiteFooter />

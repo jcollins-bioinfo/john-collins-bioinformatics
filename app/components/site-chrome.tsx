@@ -7,12 +7,14 @@ const primaryLinks = [
   ["Music", "/music"],
   ["Writing", "/writing"],
   ["About", "/about"],
+  ["Publications", "/publications"],
 ] as const;
 
 const indexLinks = [
   ["Projects", "/projects"],
   ["Now", "/now"],
   ["CV", "/cv"],
+  ["Résumé (PDF)", "/John-Patrick-Collins-Resume.pdf"],
   ["Contact", "/contact"],
 ] as const;
 
@@ -67,6 +69,9 @@ export function SiteFooter() {
           <p className="footer-label">Elsewhere</p>
           <a className="footer-outbound" href="https://github.com/jcollins-bioinfo" target="_blank" rel="noreferrer">
             GitHub <span aria-hidden="true">↗</span>
+          </a>
+          <a className="footer-outbound" href="https://www.linkedin.com/in/johncollins-bioinformatics" target="_blank" rel="noreferrer">
+            LinkedIn <span aria-hidden="true">↗</span>
           </a>
           <a className="footer-outbound" href="https://stackoverflow.com/users/6714627/john-collins?tab=profile" target="_blank" rel="noreferrer">
             Stack Overflow <span aria-hidden="true">↗</span>

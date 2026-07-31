@@ -4,8 +4,12 @@ import handler from "vinext/server/app-router-entry";
 
 const CANONICAL_HOST = "johnpatrickcollins.info";
 
+interface AssetFetcher {
+  fetch(request: Request): Promise<Response>;
+}
+
 interface Env {
-  ASSETS: Fetcher;
+  ASSETS: AssetFetcher;
   IMAGES: {
     input(stream: ReadableStream): {
       transform(options: Record<string, unknown>): {
