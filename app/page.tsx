@@ -71,7 +71,7 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#index">Explore the index <span>↓</span></a>
-            <a className="button secondary" href="/John-Patrick-Collins-Resume.pdf">View résumé <span aria-hidden="true">↗</span><span className="sr-only"> (PDF)</span></a>
+            <a className="button secondary" href="/John-Patrick-Collins_MSc_Senior%20Bioinformatics_Resume.pdf">View résumé <span aria-hidden="true">↗</span><span className="sr-only"> (PDF)</span></a>
           </div>
         </div>
 

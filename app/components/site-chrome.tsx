@@ -14,7 +14,7 @@ const indexLinks = [
   ["Projects", "/projects"],
   ["Now", "/now"],
   ["CV", "/cv"],
-  ["Résumé (PDF)", "/John-Patrick-Collins-Resume.pdf"],
+  ["Résumé (PDF)", "/John-Patrick-Collins_MSc_Senior%20Bioinformatics_Resume.pdf"],
   ["Contact", "/contact"],
 ] as const;
 

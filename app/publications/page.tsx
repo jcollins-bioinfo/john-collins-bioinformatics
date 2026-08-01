@@ -57,7 +57,7 @@ export default function PublicationsPage() {
         );
       })}
 
-      <section className="shell compact-cta page-section"><h2>Research context and professional record.</h2><div><a href="/research">Research <span>↗</span></a><a href="/bioinformatics">Bioinformatics <span>↗</span></a><a href="/John-Patrick-Collins-Resume.pdf" download>Download résumé (PDF) <span>↓</span></a></div></section>
+      <section className="shell compact-cta page-section"><h2>Research context and professional record.</h2><div><a href="/research">Research <span>↗</span></a><a href="/bioinformatics">Bioinformatics <span>↗</span></a><a href="/John-Patrick-Collins_MSc_Senior%20Bioinformatics_Resume.pdf" download>Download résumé (PDF) <span>↓</span></a></div></section>
     </main>
   );
 }
