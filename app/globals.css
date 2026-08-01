@@ -52,6 +52,7 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
 .footer-label { margin: 4px 0 24px; color: var(--acid); font: 500 11px/1 var(--font-oswald), sans-serif; letter-spacing: .13em; text-transform: uppercase; }
 .footer-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px 30px; }
 .footer-nav a, .footer-outbound { width: max-content; color: rgba(242,245,237,.72); font-size: 14px; transition: color .2s ease; }
+.footer-document-links { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 9px; color: rgba(242,245,237,.35); }
 .footer-nav a:hover, .footer-outbound:hover { color: var(--acid); }
 .footer-outbound { display: block; margin-bottom: 15px; }
 .footer-base { display: flex; justify-content: space-between; padding-block: 20px; border-top: 1px solid rgba(242,245,237,.19); color: rgba(242,245,237,.48); font: 500 10px/1 var(--font-oswald), sans-serif; letter-spacing: .1em; text-transform: uppercase; }
