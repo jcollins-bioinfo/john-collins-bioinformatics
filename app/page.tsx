@@ -80,7 +80,7 @@ export default function Home() {
             <span>JPC / DOMAIN INDEX</span>
             <span><i /> ACTIVE</span>
           </div>
-          <div className="register-mark"><BrandMark interactive /></div>
+          <div className="register-mark"><BrandMark continuous /></div>
           <ol>
             <li><span>01</span><a href="/bioinformatics">Biology & computation</a></li>
             <li><span>02</span><a href="/research">Theory & research</a></li>

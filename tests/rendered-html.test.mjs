@@ -123,6 +123,7 @@ test("renders the source-faithful DNA identity with phase-projected helix motion
   );
   assert.match(component, /const INITIAL_DELAY_MS = 1800/);
   assert.match(component, /const AUTOMATIC_REPLAY_DELAY_MS = 30_000/);
+  assert.match(component, /const AMBIENT_LOOP_DURATION_MS = 20_000/);
   assert.match(component, /const HOVER_INTENT_DELAY_MS = 260/);
   assert.match(component, /const HELIX_SLICE_COUNT = 32/);
   assert.match(component, /phase-projected-double-helix/);
@@ -141,6 +142,8 @@ test("renders the source-faithful DNA identity with phase-projected helix motion
   assert.match(component, /automaticRemaining = Math\.max/);
   assert.match(component, /window\.clearTimeout\(automaticTimer\)/);
   assert.match(component, /observer\?\.disconnect\(\)/);
+  assert.match(html, /data-brand-continuous=["']true["']/i);
+  assert.match(component, /Math\.sin\(fundamental \* 2\) \* 0\.045/);
 
   const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
   assert.match(css, /\.brand-mark-motion\s*{[^}]*opacity:\s*0/s);
