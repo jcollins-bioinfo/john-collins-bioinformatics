@@ -18,6 +18,18 @@ const indexLinks = [
   ["Contact", "/contact"],
 ] as const;
 
+const footerLinks = [
+  ["Research", "/research"],
+  ["Bioinformatics", "/bioinformatics"],
+  ["Projects", "/projects"],
+  ["Publications", "/publications"],
+  ["Writing", "/writing"],
+  ["Music", "/music"],
+  ["About", "/about"],
+  ["Now", "/now"],
+  ["Contact", "/contact"],
+] as const;
+
 export function SiteHeader() {
   return (
     <header className="site-header">
@@ -60,9 +72,14 @@ export function SiteFooter() {
         <div>
           <p className="footer-label">Explore</p>
           <nav className="footer-nav" aria-label="Footer navigation">
-            {[...primaryLinks, ...indexLinks].map(([label, href]) => (
+            {footerLinks.map(([label, href]) => (
               <a key={href} href={href}>{label}</a>
             ))}
+            <span className="footer-document-links">
+              <a href="/cv">CV</a>
+              <span aria-hidden="true">/</span>
+              <a href="/John-Patrick-Collins-Resume.pdf">Résumé (PDF)</a>
+            </span>
           </nav>
         </div>
         <div>
