@@ -308,7 +308,7 @@ test("publishes the résumé and categorized scholarly record", async () => {
   ]) assert.match(html, new RegExp(doi.replaceAll(".", "\\."), "i"));
   assert.ok(html.indexOf("2020") < html.indexOf("2017"), "abstracts should be reverse chronological");
   assert.match(html, /<strong>Collins J(?:P)?<\/strong>/i);
-  await access(path.join(projectRoot, "public", "John-Patrick-Collins-Resume.pdf"));
+  await access(path.join(projectRoot, "public", "John-Patrick-Collins_MSc_Senior Bioinformatics_Resume.pdf"));
 });
 
 
