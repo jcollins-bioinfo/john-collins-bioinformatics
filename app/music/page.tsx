@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { YouTubeFacade } from "./youtube-facade";
 
 export const metadata: Metadata = {
   title: "Music",
@@ -28,10 +29,34 @@ export default function MusicPage() {
         <div className="longform-copy"><h2>Music is a central practice, not a side note.</h2><p>I work through piano, composition, arrangement, and transcription. The practical craft and the theoretical questions stay close together: how a phrase creates expectation, how timing changes meaning, and how a large form remains coherent while it moves.</p><p>This section will become the durable home for recordings, scores, study materials, and essays as they are prepared for publication.</p></div>
       </section>
 
+      <section className="soft-section piano-showcase" aria-labelledby="piano-music-heading">
+        <div className="shell page-section">
+          <header className="piano-showcase-heading">
+            <div>
+              <p className="eyebrow"><span /> Recordings</p>
+              <h2 id="piano-music-heading">Piano Music</h2>
+            </div>
+            <p>Original piano music, composed and performed by John Patrick Collins.</p>
+          </header>
+
+          <figure className="piano-feature">
+            <YouTubeFacade />
+            <figcaption>
+              <div>
+                <span>Featured recording</span>
+                <h3>Original piano music</h3>
+              </div>
+              <a href="https://www.youtube.com/@johncollinspianomusic" target="_blank" rel="noopener noreferrer">
+                Explore the piano channel <span aria-hidden="true">↗</span>
+              </a>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       <section className="soft-section"><div className="shell page-section"><div className="split-heading"><p className="eyebrow"><span /> Four practices</p><h2>Sound, structure, and time.</h2></div><div className="music-grid">{practices.map(([number, title, body]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
 
       <section className="music-question"><div className="shell"><p>RECURRING QUESTION</p><h2>What does music reveal about prediction, control, memory, and meaning that a static description cannot?</h2><a href="/writing">Follow the writing index <span>↗</span></a></div></section>
     </main>
   );
 }
-

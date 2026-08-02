@@ -185,6 +185,22 @@ test("renders every public HTML route", async () => {
   }
 });
 
+test("presents the featured piano recording as a lightweight accessible facade", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/music", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+  const html = await response.text();
+
+  assert.match(html, /Piano Music/);
+  assert.match(html, /i\.ytimg\.com\/vi\/ogi3rv9Rd8g\/maxresdefault\.jpg/);
+  assert.match(html, /Play featured original piano music by John Patrick Collins/);
+  assert.doesNotMatch(html, /youtube-nocookie\.com\/embed\/ogi3rv9Rd8g/);
+  assert.match(html, /href="https:\/\/www\.youtube\.com\/@johncollinspianomusic"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+});
+
 test("links to the Stack Overflow profile from the footer", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
