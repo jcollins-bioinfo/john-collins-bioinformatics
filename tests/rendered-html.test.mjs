@@ -185,7 +185,7 @@ test("renders every public HTML route", async () => {
   }
 });
 
-test("presents the featured piano recording as a lightweight accessible facade", async () => {
+test("presents selected piano recordings as a lightweight accessible carousel", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
     new Request("http://localhost/music", { headers: { accept: "text/html" } }),
@@ -196,9 +196,25 @@ test("presents the featured piano recording as a lightweight accessible facade",
 
   assert.match(html, /Piano Music/);
   assert.match(html, /i\.ytimg\.com\/vi\/ogi3rv9Rd8g\/maxresdefault\.jpg/);
-  assert.match(html, /Play featured original piano music by John Patrick Collins/);
+  assert.match(html, /Selected piano compositions/);
+  assert.match(html, /Play Forever/);
+  assert.match(html, /Previous composition/);
+  assert.match(html, /Next composition/);
+  assert.match(html, /Op\. 1, No\. 15[^<]*Prelude in D-flat Major/);
   assert.doesNotMatch(html, /youtube-nocookie\.com\/embed\/ogi3rv9Rd8g/);
   assert.match(html, /href="https:\/\/www\.youtube\.com\/@johncollinspianomusic"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+
+  const component = await readFile(
+    path.join(projectRoot, "app", "music", "youtube-facade.tsx"),
+    "utf8",
+  );
+  for (const id of ["ogi3rv9Rd8g", "hx-z3kTaafg", "om2Fnk_LJwI", "-CT8sgU6lDo"]) {
+    assert.match(component, new RegExp(id.replaceAll("-", "\\-")));
+  }
+  assert.match(component, /current \+ direction \+ pianoVideos\.length\) % pianoVideos\.length/);
+  assert.match(component, /setIsPlaying\(false\)/);
+  assert.match(component, /naturalWidth < 640/);
+  assert.match(component, /"hqdefault" : "none"/);
 });
 
 test("links to the Stack Overflow profile from the footer", async () => {

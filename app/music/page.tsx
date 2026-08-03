@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { YouTubeFacade } from "./youtube-facade";
+import { PianoCarousel } from "./youtube-facade";
 
 export const metadata: Metadata = {
   title: "Music",
@@ -39,18 +39,10 @@ export default function MusicPage() {
             <p>Original piano music, composed and performed by John Patrick Collins.</p>
           </header>
 
-          <figure className="piano-feature">
-            <YouTubeFacade />
-            <figcaption>
-              <div>
-                <span>Featured recording</span>
-                <h3>Original piano music</h3>
-              </div>
-              <a href="https://www.youtube.com/@johncollinspianomusic" target="_blank" rel="noopener noreferrer">
-                Explore the piano channel <span aria-hidden="true">↗</span>
-              </a>
-            </figcaption>
-          </figure>
+          <PianoCarousel />
+          <a className="piano-channel-link" href="https://www.youtube.com/@johncollinspianomusic" target="_blank" rel="noopener noreferrer">
+            Explore the piano channel <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </section>
 
