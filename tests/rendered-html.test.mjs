@@ -195,7 +195,8 @@ test("presents selected piano recordings as a lightweight accessible carousel", 
   const html = await response.text();
 
   assert.match(html, /Piano Music/);
-  assert.match(html, /i\.ytimg\.com\/vi\/ogi3rv9Rd8g\/maxresdefault\.jpg/);
+  assert.match(html, /\/media\/forever-prelude-poster\.svg/);
+  assert.doesNotMatch(html, /i\.ytimg\.com\/vi\/ogi3rv9Rd8g/);
   assert.match(html, /Selected piano compositions/);
   assert.match(html, /Play Forever/);
   assert.match(html, /Previous composition/);
@@ -203,6 +204,7 @@ test("presents selected piano recordings as a lightweight accessible carousel", 
   assert.match(html, /Op\. 1, No\. 15[^<]*Prelude in D-flat Major/);
   assert.doesNotMatch(html, /youtube-nocookie\.com\/embed\/ogi3rv9Rd8g/);
   assert.match(html, /href="https:\/\/www\.youtube\.com\/@johncollinspianomusic"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+  await access(path.join(projectRoot, "public", "media", "forever-prelude-poster.svg"));
 
   const component = await readFile(
     path.join(projectRoot, "app", "music", "youtube-facade.tsx"),
