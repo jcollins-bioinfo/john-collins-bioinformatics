@@ -1,10 +1,15 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import test from "node:test";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
+
+async function sha256(filePath) {
+  return createHash("sha256").update(await readFile(filePath)).digest("hex");
+}
 
 async function loadWorker() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -280,6 +285,24 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /Supplementary Figure 1/i);
   assert.match(html, /Contextual Operator Response Dynamics/i);
   assert.match(html, /has not been peer reviewed/i);
+  assert.match(html, /3 August 2026/);
+  assert.match(html, /version 0\.2/i);
+  assert.match(html, /CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web\.png/);
+  assert.match(html, /width=["']2400["'][^>]*height=["']2163["']/i);
+  assert.match(html, /aria-describedby=["']fig-1-accessible-description["']/i);
+  for (const downloadName of [
+    "Figure 1 web PNG",
+    "Figure 1 600-dpi PNG",
+    "Figure 1 publication PDF",
+    "Figure 1 vector SVG",
+    "Figure 1 reproducibility package",
+    "Figure 1 machine-readable audit",
+  ]) assert.match(html, new RegExp(downloadName));
+  assert.match(html, /presentation and scientific-label corrections; frozen numerical inputs/);
+  assert.match(html, /Minimum workflow-text clearance[^<]*2\.002 pt/i);
+  assert.match(html, /statistics–legend separation[^<]*12\.762 pt/i);
+  assert.match(html, /legend occluded 0 of 1,229 observations/i);
+  assert.doesNotMatch(html, /\/research\/cgt\/figures\/main\/figure-01-fitness\.(?:png|pdf|svg)/);
 
   const publicationCss = await readFile(
     path.join(projectRoot, "app", "research", "cgt", "publication.module.css"),
@@ -289,7 +312,7 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(publicationCss, /\.contents\s*{[^}]*top:\s*76px;/s);
 });
 
-test("ships every canonical CGT figure in PNG, PDF, and SVG formats", async () => {
+test("ships every canonical CGT figure and the audited Figure 1 release", async () => {
   const stems = [
     ["main", "figure-01-fitness"],
     ["main", "figure-02-recurrent-geometry"],
@@ -315,10 +338,71 @@ test("ships every canonical CGT figure in PNG, PDF, and SVG formats", async () =
   assert.equal(manifest.figures.length, 11);
   assert.equal(manifest.report.main_figure_count, 5);
   assert.equal(manifest.report.supplementary_figure_count, 6);
-  assert.equal(manifest.report.physical_asset_count, 33);
-  assert.ok(manifest.figures.every((figure) =>
+  assert.equal(manifest.report.active_physical_asset_count, 36);
+  assert.equal(manifest.report.compatibility_alias_count, 3);
+  assert.equal(manifest.report.physical_asset_count, 39);
+  assert.ok(manifest.figures.slice(1).every((figure) =>
     ["png", "pdf", "svg"].every((format) => figure.assets[format]?.sha256),
   ));
+
+  const figureOne = manifest.figures[0];
+  const releaseAssets = {
+    png_web: [
+      "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png",
+      554317,
+      "6e4a410c90763ded6aac2eb7d95e14296c511dbbdf8b9b0d494634b583721808",
+      "image/png",
+    ],
+    png_600dpi: [
+      "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_600dpi.png",
+      1095745,
+      "990bce7ba1bb698295367fc374e2f392c6c55cc0517ef59abf0cff4304dd7dca",
+      "image/png",
+    ],
+    pdf: [
+      "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf",
+      63527,
+      "e850d1b4cc26209f1f365017dad32f24640c5726e75b251e80529939d5dfa1d9",
+      "application/pdf",
+    ],
+    svg: [
+      "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg",
+      349381,
+      "9a5c12ce5a611eb2e51a9b2a2dc2eaeaa0f8a05eaa1094144ee3219009c4f773",
+      "image/svg+xml",
+    ],
+    reproducibility_zip: [
+      "CGT_FIGURE_001_revised_reproducibility_package_v2.zip",
+      1837975,
+      "edfa3a5f55666428142695a373d81c68aa8ff6e34f3775727b785a58b7e803bc",
+      "application/zip",
+    ],
+    audit_json: [
+      "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_audit.json",
+      18645,
+      "f0e4a977b845adfe07cf41f1473b2bac7ec6a0d1d7a20f0f7f882b3caddb8ab1",
+      "application/json",
+    ],
+  };
+
+  assert.equal(figureOne.revision_scope, "presentation and scientific-label corrections; frozen numerical inputs");
+  for (const [key, [filename, bytes, digest, mimeType]] of Object.entries(releaseAssets)) {
+    const asset = figureOne.assets[key];
+    const assetPath = path.join(projectRoot, asset.repository_path);
+    assert.equal(asset.filename, filename);
+    assert.equal(asset.bytes, bytes);
+    assert.equal(asset.sha256, digest);
+    assert.equal(asset.mime_type, mimeType);
+    assert.equal(await sha256(assetPath), digest);
+  }
+
+  for (const [key, asset] of Object.entries(figureOne.compatibility_aliases)) {
+    const source = figureOne.assets[asset.mirrors_asset];
+    const aliasPath = path.join(projectRoot, asset.repository_path);
+    assert.equal(asset.active_page_reference, false);
+    assert.equal(asset.sha256, source.sha256, `${key} compatibility alias should contain corrected bytes`);
+    assert.equal(await sha256(aliasPath), source.sha256);
+  }
 
   await access(path.join(projectRoot, "public", "research", "cgt", "data", "cgt-cache-002-dataset-manifest.csv"));
 });

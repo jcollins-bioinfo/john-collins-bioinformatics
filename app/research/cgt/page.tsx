@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title,
     description,
     publishedTime: "2026-07-20T00:00:00Z",
-    modifiedTime: "2026-07-20T00:00:00Z",
+    modifiedTime: "2026-08-03T00:00:00Z",
     authors: ["John Patrick Collins"],
     images: [
       {
@@ -46,8 +46,8 @@ const articleJsonLd = {
     url: "https://johnpatrickcollins.info",
   },
   datePublished: "2026-07-20",
-  dateModified: "2026-07-20",
-  version: "0.1",
+  dateModified: "2026-08-03",
+  version: "0.2",
   creativeWorkStatus: "Preprint-style independent research report; not peer reviewed",
   isAccessibleForFree: true,
   inLanguage: "en",
@@ -111,9 +111,9 @@ export default function CgtPage() {
               </p>
               <dl>
                 <div><dt>Analysis freeze</dt><dd>15 July 2026</dd></div>
-                <div><dt>Web report</dt><dd>20 July 2026</dd></div>
+                <div><dt>Web report</dt><dd>3 August 2026</dd></div>
                 <div><dt>Author</dt><dd>John Patrick Collins</dd></div>
-                <div><dt>Version</dt><dd>0.1</dd></div>
+                <div><dt>Version</dt><dd>0.2</dd></div>
               </dl>
             </aside>
           </div>
@@ -713,7 +713,7 @@ export default function CgtPage() {
               <p>CITE THIS REPORT</p>
               <span>
                 Collins, J. P. (2026). <em>{title}.</em> CGT independent research report,
-                version 0.1. https://johnpatrickcollins.info/research/cgt
+                version 0.2. https://johnpatrickcollins.info/research/cgt
               </span>
             </div>
             <nav aria-label="Research report links">

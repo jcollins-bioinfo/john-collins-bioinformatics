@@ -1,0 +1,597 @@
+{
+  "figure_id": "CGT_FIGURE_001",
+  "revision_scope": "presentation and scientific-label corrections; frozen numerical inputs",
+  "figure_size_mm": [
+    183,
+    165
+  ],
+  "source_workbook": {
+    "name": "source_data.xlsx",
+    "sha256": "ec301ca02aa9246fd3c6b447b6682a3cb25b86adebfe78ed7b7ded8d993c0be3"
+  },
+  "upstream_shuffle_validation": {
+    "validated": true,
+    "normalized_benchmark": "context__groupby_gene",
+    "tasks": {
+      "regression": {
+        "n_shuffles": 100,
+        "folds_per_shuffle": 5,
+        "null_mean": -0.0016036303110636332,
+        "null_min": -0.08989919636698593,
+        "null_max": 0.06999833553233545
+      },
+      "classification": {
+        "n_shuffles": 100,
+        "folds_per_shuffle": 5,
+        "null_mean": 0.4998653396156672,
+        "null_min": 0.3980559165727947,
+        "null_max": 0.5784976027024082
+      }
+    }
+  },
+  "metrics": {
+    "panel_b": {
+      "n_genes": 1229,
+      "pooled_spearman": 0.6132436571112824,
+      "predictive_r2": 0.35340433673689176,
+      "ols_slope": 0.38607405555022584,
+      "ols_intercept": 0.2940972166581413
+    },
+    "panel_c": {
+      "observed_fold_mean": 0.6223154520996811,
+      "null_mean": -0.0016036303110636327,
+      "null_max": 0.06999833553233545,
+      "permutation_p_plus_one": 0.009900990099009901,
+      "n_shuffles": 100
+    },
+    "panel_d": {
+      "observed_fold_mean": 0.9190729868811303,
+      "null_mean": 0.4998653396156672,
+      "null_max": 0.5784976027024082,
+      "permutation_p_plus_one": 0.009900990099009901,
+      "n_shuffles": 100
+    },
+    "panel_f": {
+      "regression": [
+        [
+          0.6223154520996811,
+          0.6240846610360744,
+          0.6218602874430079
+        ],
+        [
+          0.6155497582737113,
+          0.6226858123676748,
+          0.619707480244003
+        ],
+        [
+          0.5073068342937759,
+          0.5102219649577499,
+          0.5091461053496011
+        ]
+      ],
+      "classification": [
+        [
+          0.9190729868811304,
+          0.9221344508580728,
+          0.9173518006528972
+        ],
+        [
+          0.9044613570753854,
+          0.9103720857872788,
+          0.9032357880460944
+        ],
+        [
+          0.7948144399307198,
+          0.7973893275294415,
+          0.7970509838687247
+        ]
+      ],
+      "scheme_order": [
+        "context",
+        "dataset_shrink",
+        "dataset"
+      ],
+      "variant_order": [
+        "mean",
+        "mean_median",
+        "mean_median_sd"
+      ]
+    },
+    "layout": {
+      "canvas_px_at_audit_dpi": [
+        1080.7086614173227,
+        974.4094488188977
+      ],
+      "safety_margin_pt": 1.5,
+      "min_font_pt": 6.0,
+      "max_font_pt": 9.2,
+      "outside_text_count": 0,
+      "outside_text": [],
+      "text_overlap_count": 0,
+      "text_overlaps": [],
+      "container_inset_pt": 2.0,
+      "contained_text_count": 10,
+      "minimum_container_clearance_pt": 2.0022342467999987,
+      "container_checks": [
+        {
+          "container": "panel_a_box_0",
+          "role": "title",
+          "minimum_clearance_pt": 2.0129108961327256,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 33.184392137837335,
+            "right": 70.99934448818891,
+            "top": 4.193564366943178
+          }
+        },
+        {
+          "container": "panel_a_box_0",
+          "role": "body",
+          "minimum_clearance_pt": 2.0022342467999987,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 4.1713213474999975,
+            "right": 12.87434448818891,
+            "top": 34.78663515728044
+          }
+        },
+        {
+          "container": "panel_a_box_1",
+          "role": "title",
+          "minimum_clearance_pt": 2.0129108961327256,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 33.184392137837335,
+            "right": 53.74934448818891,
+            "top": 4.193564366943178
+          }
+        },
+        {
+          "container": "panel_a_box_1",
+          "role": "body",
+          "minimum_clearance_pt": 2.0022342467999987,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 4.1713213474999975,
+            "right": 10.62434448818891,
+            "top": 34.78663515728044
+          }
+        },
+        {
+          "container": "panel_a_box_2",
+          "role": "title",
+          "minimum_clearance_pt": 2.0129108961327256,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 33.184392137837335,
+            "right": 62.249344488188854,
+            "top": 4.193564366943178
+          }
+        },
+        {
+          "container": "panel_a_box_2",
+          "role": "body",
+          "minimum_clearance_pt": 2.0022342467999987,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 4.1713213474999975,
+            "right": 20.249344488188854,
+            "top": 34.78663515728044
+          }
+        },
+        {
+          "container": "panel_a_box_3",
+          "role": "title",
+          "minimum_clearance_pt": 2.0129108961327256,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 33.184392137837335,
+            "right": 76.87434448818885,
+            "top": 4.193564366943178
+          }
+        },
+        {
+          "container": "panel_a_box_3",
+          "role": "body",
+          "minimum_clearance_pt": 2.0022342467999987,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 4.1713213474999975,
+            "right": 14.999344488188854,
+            "top": 34.78663515728044
+          }
+        },
+        {
+          "container": "panel_a_box_4",
+          "role": "title",
+          "minimum_clearance_pt": 2.0129108961327256,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 33.184392137837335,
+            "right": 40.749344488188854,
+            "top": 4.193564366943178
+          }
+        },
+        {
+          "container": "panel_a_box_4",
+          "role": "body",
+          "minimum_clearance_pt": 2.0022342467999987,
+          "clearances_px": {
+            "left": 20.551836614173226,
+            "bottom": 4.1713213474999975,
+            "right": 24.749344488188854,
+            "top": 34.78663515728044
+          }
+        }
+      ],
+      "container_violation_count": 0,
+      "container_violations": [],
+      "protected_pair_count": 1,
+      "protected_pair_checks": [
+        {
+          "first": "panel_b_statistics",
+          "second": "panel_b_legend",
+          "overlap_area_px2": 0.0,
+          "minimum_separation_pt": 12.762213987957367
+        }
+      ],
+      "protected_overlap_count": 0,
+      "protected_overlaps": [],
+      "point_occlusion_checks": [
+        {
+          "point_set": "panel_b_oof",
+          "occluder": "panel_b_legend",
+          "n_points": 1229,
+          "occluded_point_count": 0
+        }
+      ],
+      "point_occlusion_violation_count": 0,
+      "point_occlusion_violations": []
+    },
+    "layout_export_dpi_audits": {
+      "web_png": {
+        "canvas_px_at_audit_dpi": [
+          2400.0,
+          2163.934426229508
+        ],
+        "safety_margin_pt": 1.5,
+        "min_font_pt": 6.0,
+        "max_font_pt": 9.2,
+        "outside_text_count": 0,
+        "outside_text": [],
+        "text_overlap_count": 0,
+        "text_overlaps": [],
+        "container_inset_pt": 2.0,
+        "contained_text_count": 10,
+        "minimum_container_clearance_pt": 2.1366791286897695,
+        "container_checks": [
+          {
+            "container": "panel_a_box_0",
+            "role": "title",
+            "minimum_clearance_pt": 2.4617132583374444,
+            "clearances_px": {
+              "left": 45.64080000000001,
+              "bottom": 75.77116374216985,
+              "right": 157.38419999999996,
+              "top": 11.389347315441
+            }
+          },
+          {
+            "container": "panel_a_box_0",
+            "role": "body",
+            "minimum_clearance_pt": 2.1907145617606356,
+            "clearances_px": {
+              "left": 45.64080000000001,
+              "bottom": 10.13554642417489,
+              "right": 29.009199999999964,
+              "top": 78.12496463343587
+            }
+          },
+          {
+            "container": "panel_a_box_1",
+            "role": "title",
+            "minimum_clearance_pt": 2.4617132583374444,
+            "clearances_px": {
+              "left": 45.64080000000013,
+              "bottom": 75.77116374216985,
+              "right": 119.75919999999996,
+              "top": 11.389347315441
+            }
+          },
+          {
+            "container": "panel_a_box_1",
+            "role": "body",
+            "minimum_clearance_pt": 2.1366791286897695,
+            "clearances_px": {
+              "left": 45.64080000000013,
+              "bottom": 9.88554642417489,
+              "right": 24.384199999999964,
+              "top": 77.87496463343587
+            }
+          },
+          {
+            "container": "panel_a_box_2",
+            "role": "title",
+            "minimum_clearance_pt": 2.4617132583374444,
+            "clearances_px": {
+              "left": 45.64080000000024,
+              "bottom": 75.77116374216985,
+              "right": 138.75919999999996,
+              "top": 11.389347315441
+            }
+          },
+          {
+            "container": "panel_a_box_2",
+            "role": "body",
+            "minimum_clearance_pt": 2.1907145617606356,
+            "clearances_px": {
+              "left": 45.64080000000024,
+              "bottom": 10.13554642417489,
+              "right": 45.009199999999964,
+              "top": 78.12496463343587
+            }
+          },
+          {
+            "container": "panel_a_box_3",
+            "role": "title",
+            "minimum_clearance_pt": 2.4617132583374444,
+            "clearances_px": {
+              "left": 45.6407999999999,
+              "bottom": 75.77116374216985,
+              "right": 169.75919999999996,
+              "top": 11.389347315441
+            }
+          },
+          {
+            "container": "panel_a_box_3",
+            "role": "body",
+            "minimum_clearance_pt": 2.1907145617606356,
+            "clearances_px": {
+              "left": 45.6407999999999,
+              "bottom": 10.13554642417489,
+              "right": 34.509199999999964,
+              "top": 78.12496463343587
+            }
+          },
+          {
+            "container": "panel_a_box_4",
+            "role": "title",
+            "minimum_clearance_pt": 2.4617132583374444,
+            "clearances_px": {
+              "left": 45.6407999999999,
+              "bottom": 75.77116374216985,
+              "right": 89.63419999999996,
+              "top": 11.389347315441
+            }
+          },
+          {
+            "container": "panel_a_box_4",
+            "role": "body",
+            "minimum_clearance_pt": 2.1907145617606356,
+            "clearances_px": {
+              "left": 45.6407999999999,
+              "bottom": 10.13554642417489,
+              "right": 56.384199999999964,
+              "top": 78.12496463343587
+            }
+          }
+        ],
+        "container_violation_count": 0,
+        "container_violations": [],
+        "protected_pair_count": 1,
+        "protected_pair_checks": [
+          {
+            "first": "panel_b_statistics",
+            "second": "panel_b_legend",
+            "overlap_area_px2": 0.0,
+            "minimum_separation_pt": 13.147962019453416
+          }
+        ],
+        "protected_overlap_count": 0,
+        "protected_overlaps": [],
+        "point_occlusion_checks": [
+          {
+            "point_set": "panel_b_oof",
+            "occluder": "panel_b_legend",
+            "n_points": 1229,
+            "occluded_point_count": 0
+          }
+        ],
+        "point_occlusion_violation_count": 0,
+        "point_occlusion_violations": []
+      },
+      "png_600dpi": {
+        "canvas_px_at_audit_dpi": [
+          4322.834645669291,
+          3897.6377952755906
+        ],
+        "safety_margin_pt": 1.5,
+        "min_font_pt": 6.0,
+        "max_font_pt": 9.2,
+        "outside_text_count": 0,
+        "outside_text": [],
+        "text_overlap_count": 0,
+        "text_overlaps": [],
+        "container_inset_pt": 2.0,
+        "contained_text_count": 10,
+        "minimum_container_clearance_pt": 2.250510896132728,
+        "container_checks": [
+          {
+            "container": "panel_a_box_0",
+            "role": "title",
+            "minimum_clearance_pt": 2.250510896132728,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 134.71756855134936,
+              "right": 283.24737795275564,
+              "top": 18.75425746777273
+            }
+          },
+          {
+            "container": "panel_a_box_0",
+            "role": "body",
+            "minimum_clearance_pt": 2.4846342467999967,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 20.705285389999972,
+              "right": 51.99737795275564,
+              "top": 143.16654062912176
+            }
+          },
+          {
+            "container": "panel_a_box_1",
+            "role": "title",
+            "minimum_clearance_pt": 2.250510896132728,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 134.71756855134936,
+              "right": 214.87237795275564,
+              "top": 18.75425746777273
+            }
+          },
+          {
+            "container": "panel_a_box_1",
+            "role": "body",
+            "minimum_clearance_pt": 2.3646342467999966,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 19.705285389999972,
+              "right": 42.99737795275564,
+              "top": 142.16654062912176
+            }
+          },
+          {
+            "container": "panel_a_box_2",
+            "role": "title",
+            "minimum_clearance_pt": 2.250510896132728,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 134.71756855134936,
+              "right": 249.49737795275541,
+              "top": 18.75425746777273
+            }
+          },
+          {
+            "container": "panel_a_box_2",
+            "role": "body",
+            "minimum_clearance_pt": 2.4846342467999967,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 20.705285389999972,
+              "right": 81.49737795275541,
+              "top": 143.16654062912176
+            }
+          },
+          {
+            "container": "panel_a_box_3",
+            "role": "title",
+            "minimum_clearance_pt": 2.250510896132728,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 134.71756855134936,
+              "right": 305.6223779527554,
+              "top": 18.75425746777273
+            }
+          },
+          {
+            "container": "panel_a_box_3",
+            "role": "body",
+            "minimum_clearance_pt": 2.4846342467999967,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 20.705285389999972,
+              "right": 61.497377952755414,
+              "top": 143.16654062912176
+            }
+          },
+          {
+            "container": "panel_a_box_4",
+            "role": "title",
+            "minimum_clearance_pt": 2.250510896132728,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 134.71756855134936,
+              "right": 161.62237795275541,
+              "top": 18.75425746777273
+            }
+          },
+          {
+            "container": "panel_a_box_4",
+            "role": "body",
+            "minimum_clearance_pt": 2.4846342467999967,
+            "clearances_px": {
+              "left": 82.2073464566929,
+              "bottom": 20.705285389999972,
+              "right": 100.62237795275541,
+              "top": 143.16654062912176
+            }
+          }
+        ],
+        "container_violation_count": 0,
+        "container_violations": [],
+        "protected_pair_count": 1,
+        "protected_pair_checks": [
+          {
+            "first": "panel_b_statistics",
+            "second": "panel_b_legend",
+            "overlap_area_px2": 0.0,
+            "minimum_separation_pt": 13.062213987957366
+          }
+        ],
+        "protected_overlap_count": 0,
+        "protected_overlaps": [],
+        "point_occlusion_checks": [
+          {
+            "point_set": "panel_b_oof",
+            "occluder": "panel_b_legend",
+            "n_points": 1229,
+            "occluded_point_count": 0
+          }
+        ],
+        "point_occlusion_violation_count": 0,
+        "point_occlusion_violations": []
+      }
+    }
+  },
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-6.12.13-x86_64-with-glibc2.39",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "matplotlib": "3.10.8",
+    "scipy": "1.17.0",
+    "scikit_learn": "1.8.0",
+    "font": "DejaVu Sans",
+    "svg_text_mode": "paths",
+    "pdf_fonttype": 42
+  },
+  "outputs": {
+    "pdf": {
+      "name": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf",
+      "bytes": 63527,
+      "sha256": "e850d1b4cc26209f1f365017dad32f24640c5726e75b251e80529939d5dfa1d9"
+    },
+    "svg": {
+      "name": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg",
+      "bytes": 349381,
+      "sha256": "9a5c12ce5a611eb2e51a9b2a2dc2eaeaa0f8a05eaa1094144ee3219009c4f773"
+    },
+    "png_600dpi": {
+      "name": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_600dpi.png",
+      "bytes": 1095745,
+      "sha256": "990bce7ba1bb698295367fc374e2f392c6c55cc0517ef59abf0cff4304dd7dca"
+    },
+    "png_web": {
+      "name": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png",
+      "bytes": 554317,
+      "sha256": "6e4a410c90763ded6aac2eb7d95e14296c511dbbdf8b9b0d494634b583721808"
+    }
+  },
+  "known_source_limitations": [
+    "The workbook supplies only the top eight of sixteen ridge coefficients.",
+    "Family shorthand labels are inherited from the frozen workbook and are not re-derived here.",
+    "The 2,720 upstream response-profile count and 1,630 matched gene-dataset records are different stages; the figure labels 2,720 as upstream response profiles.",
+    "One hundred shuffles make 1/101 the smallest attainable plus-one empirical P value.",
+    "Test-gene CGT features were measured; this is supervised-stage gene holdout, not prediction without CGT measurements."
+  ]
+}

@@ -3,6 +3,7 @@
   --cgt-orange: #d67c27;
   --cgt-violet: #7864a6;
   --cgt-red: #b64f56;
+  overflow-x: clip;
 }
 
 .hero {
@@ -392,6 +393,13 @@
   cursor: zoom-in;
 }
 
+.figureImageLink:focus-visible,
+.figureDownloads a:focus-visible,
+.figureDetails summary:focus-visible {
+  outline: 3px solid #087c6b;
+  outline-offset: 4px;
+}
+
 .figureImage {
   display: block;
   width: 100%;
@@ -501,6 +509,15 @@
 
 .figureDetails code {
   font-size: 10px;
+}
+
+.assetMetadata {
+  display: grid;
+  gap: 5px;
+}
+
+.assetMetadata span {
+  color: #46534f;
 }
 
 .methodsIntro {

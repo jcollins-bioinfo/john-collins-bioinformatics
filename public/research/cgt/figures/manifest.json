@@ -1,8 +1,8 @@
 {
   "schema": {
     "name": "cgt-figure-manifest",
-    "version": "1.0.0",
-    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release.",
+    "version": "1.1.0",
+    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1 revision and its downloads.",
     "required_figure_fields": [
       "id",
       "run_id",
@@ -17,17 +17,25 @@
       "qa",
       "caveats"
     ],
-    "asset_formats": [
+    "standard_asset_formats": [
       "png",
       "pdf",
       "svg"
+    ],
+    "figure_01_release_asset_formats": [
+      "png_web",
+      "png_600dpi",
+      "pdf",
+      "svg",
+      "reproducibility_zip",
+      "audit_json"
     ],
     "hash_algorithm": "SHA-256"
   },
   "report": {
     "title": "CGT canonical figure extraction manifest",
     "project": "Constraint Geometry Theory (CGT)",
-    "manifest_generated_date_utc": "2026-07-20",
+    "manifest_generated_date_utc": "2026-08-03",
     "source_drive_root": {
       "drive_id": "1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU",
       "drive_url": "https://drive.google.com/drive/folders/1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU"
@@ -40,7 +48,9 @@
     "logical_figure_count": 11,
     "main_figure_count": 5,
     "supplementary_figure_count": 6,
-    "physical_asset_count": 33
+    "active_physical_asset_count": 36,
+    "compatibility_alias_count": 3,
+    "physical_asset_count": 39
   },
   "freeze": {
     "release_id": "CGT_CORE_001",
@@ -81,12 +91,14 @@
     ]
   },
   "audit": {
-    "local_verification_date_utc": "2026-07-20",
+    "local_verification_date_utc": "2026-08-03",
     "integrity": {
-      "expected_physical_assets": 33,
-      "present_physical_assets": 33,
-      "sha256_matches": 33,
-      "byte_size_matches": 33,
+      "expected_physical_assets": 39,
+      "present_physical_assets": 39,
+      "sha256_matches": 39,
+      "byte_size_matches": 39,
+      "active_release_assets": 36,
+      "compatibility_aliases": 3,
       "complete_png_pdf_svg_triplets": 11,
       "result": "pass"
     },
@@ -104,7 +116,7 @@
       "status": "candidate_unreviewed"
     },
     "qa_summary": {
-      "figure_01": "Listed compliance checks pass.",
+      "figure_01": "Audited at design, web-export, and 600-dpi resolution: zero out-of-canvas text objects, text–text overlaps, workflow-box containment violations, protected statistics–legend overlaps, or legend-occluded observations; minimum workflow-text clearance is 2.002 pt and statistics–legend separation is 12.762 pt.",
       "figure_02": "Minimum text size 4.35 pt is below the 5–7 pt target.",
       "figure_03": "Minimum text size 4.20 pt is below the 5–7 pt target.",
       "figure_04": "Minimum text size 4.50 pt is below target; three clipping diagnostics were recorded.",
@@ -120,7 +132,7 @@
     ],
     "caveats": [
       "This manifest records the selected release and its provenance; it does not itself establish peer review, reproducibility outside the captured environment, or causal validity.",
-      "All figures remain in the freeze state minor_polish, with publisher-specific issues documented in qa_summary and per-figure QA.",
+      "Figure 1 has revision scope presentation and scientific-label corrections; frozen numerical inputs. Figures 2–5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
       "The recovery bundle verifies capture integrity but is candidate/unreviewed and explicitly does not establish a CORD result.",
       "CGT topography assets were excluded because the freeze report classifies them as exploratory.",
       "Scientific interpretation must preserve the claim boundaries recorded in the associated legends, methods, source data, notebooks, and claim ledger."
@@ -136,8 +148,13 @@
       "order": 1,
       "title": "Residual perturbation geometry predicts external CRISPR-derived gene fitness",
       "evidence_tier": "core",
+      "revision_scope": "presentation and scientific-label corrections; frozen numerical inputs",
       "dimensions": {
-        "png": {
+        "png_web": {
+          "width_px": 2400,
+          "height_px": 2163
+        },
+        "png_600dpi": {
           "width_px": 4322,
           "height_px": 3897,
           "nominal_dpi": 600
@@ -163,35 +180,98 @@
         }
       },
       "assets": {
+        "png_web": {
+          "filename": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png",
+          "mime_type": "image/png",
+          "bytes": 554317,
+          "sha256": "6e4a410c90763ded6aac2eb7d95e14296c511dbbdf8b9b0d494634b583721808",
+          "width_px": 2400,
+          "height_px": 2163,
+          "purpose": "in-page display and web download"
+        },
+        "png_600dpi": {
+          "filename": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_600dpi.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_600dpi.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_600dpi.png",
+          "mime_type": "image/png",
+          "bytes": 1095745,
+          "sha256": "990bce7ba1bb698295367fc374e2f392c6c55cc0517ef59abf0cff4304dd7dca",
+          "width_px": 4322,
+          "height_px": 3897,
+          "nominal_dpi": 600,
+          "purpose": "publication-resolution PNG download"
+        },
+        "pdf": {
+          "filename": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf",
+          "mime_type": "application/pdf",
+          "bytes": 63527,
+          "sha256": "e850d1b4cc26209f1f365017dad32f24640c5726e75b251e80529939d5dfa1d9",
+          "width_mm": 183,
+          "height_mm": 165,
+          "pages": 1,
+          "purpose": "publication PDF download"
+        },
+        "svg": {
+          "filename": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg",
+          "mime_type": "image/svg+xml",
+          "bytes": 349381,
+          "sha256": "9a5c12ce5a611eb2e51a9b2a2dc2eaeaa0f8a05eaa1094144ee3219009c4f773",
+          "width_mm": 183,
+          "height_mm": 165,
+          "purpose": "vector download and full-resolution open route"
+        },
+        "reproducibility_zip": {
+          "filename": "CGT_FIGURE_001_revised_reproducibility_package_v2.zip",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_001_revised_reproducibility_package_v2.zip",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_001_revised_reproducibility_package_v2.zip",
+          "mime_type": "application/zip",
+          "bytes": 1837975,
+          "sha256": "edfa3a5f55666428142695a373d81c68aa8ff6e34f3775727b785a58b7e803bc",
+          "purpose": "Figure 1 release package; not a claim that the complete historical analysis is reproducible"
+        },
+        "audit_json": {
+          "filename": "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_audit.json",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_audit.json",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_audit.json",
+          "mime_type": "application/json",
+          "bytes": 18645,
+          "sha256": "f0e4a977b845adfe07cf41f1473b2bac7ec6a0d1d7a20f0f7f882b3caddb8ab1",
+          "purpose": "machine-readable Figure 1 geometry, input, output, and environment audit"
+        }
+      },
+      "compatibility_aliases": {
         "png": {
           "local_path": "/research/cgt/figures/main/figure-01-fitness.png",
           "repository_path": "public/research/cgt/figures/main/figure-01-fitness.png",
           "mime_type": "image/png",
-          "bytes": 963553,
-          "sha256": "4ef9856a05c2e3cce9f3547a2164cd8875b0190509748262bb1b69fae0f0c146",
-          "drive_id": "1pgsLAUOGNdnVZSUV_9SQG59i2xMLLCJn",
-          "drive_url": "https://drive.google.com/file/d/1pgsLAUOGNdnVZSUV_9SQG59i2xMLLCJn/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T06:12:29.000Z"
+          "bytes": 1095745,
+          "sha256": "990bce7ba1bb698295367fc374e2f392c6c55cc0517ef59abf0cff4304dd7dca",
+          "mirrors_asset": "png_600dpi",
+          "active_page_reference": false
         },
         "pdf": {
           "local_path": "/research/cgt/figures/main/figure-01-fitness.pdf",
           "repository_path": "public/research/cgt/figures/main/figure-01-fitness.pdf",
           "mime_type": "application/pdf",
-          "bytes": 80347,
-          "sha256": "f49a381f7f0cdc435bd7fd94858f85aaf2dc3ac505890cbf843dca3d25539937",
-          "drive_id": "13Cn7A0lTja6aEn2IpRdh1zviqweXLCRi",
-          "drive_url": "https://drive.google.com/file/d/13Cn7A0lTja6aEn2IpRdh1zviqweXLCRi/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T06:12:30.000Z"
+          "bytes": 63527,
+          "sha256": "e850d1b4cc26209f1f365017dad32f24640c5726e75b251e80529939d5dfa1d9",
+          "mirrors_asset": "pdf",
+          "active_page_reference": false
         },
         "svg": {
           "local_path": "/research/cgt/figures/main/figure-01-fitness.svg",
           "repository_path": "public/research/cgt/figures/main/figure-01-fitness.svg",
           "mime_type": "image/svg+xml",
-          "bytes": 242410,
-          "sha256": "cd95eaf0563ec1407f4a490364868023dde41e666905477ada02229ea01478a0",
-          "drive_id": "19NjC0Kq-5Tn5vl3ub9knzprA05Xy2zYQ",
-          "drive_url": "https://drive.google.com/file/d/19NjC0Kq-5Tn5vl3ub9knzprA05Xy2zYQ/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T06:12:30.000Z"
+          "bytes": 349381,
+          "sha256": "9a5c12ce5a611eb2e51a9b2a2dc2eaeaa0f8a05eaa1094144ee3219009c4f773",
+          "mirrors_asset": "svg",
+          "active_page_reference": false
         }
       },
       "provenance": {
@@ -209,6 +289,8 @@
           "archive_drive_id": "1JaOHntY00PlNODdViN6DI0hqAGmwTYNs"
         },
         "source_data_xlsx": {
+          "filename": "source_data.xlsx",
+          "sha256": "ec301ca02aa9246fd3c6b447b6682a3cb25b86adebfe78ed7b7ded8d993c0be3",
           "drive_id": "1rF65jj_l3hDVt6QTWYOgpJjUajUS6Wki",
           "drive_url": "https://drive.google.com/file/d/1rF65jj_l3hDVt6QTWYOgpJjUajUS6Wki/view?usp=drivesdk"
         },
@@ -220,25 +302,57 @@
           "drive_id": "1SOpCm4wYTYNbr6FbslMcu-c4AeP8QoSb",
           "drive_url": "https://drive.google.com/file/d/1SOpCm4wYTYNbr6FbslMcu-c4AeP8QoSb/view?usp=drivesdk"
         },
+        "revision_package": {
+          "filename": "CGT_FIGURE_001_revised_reproducibility_package_v2.zip",
+          "bytes": 1837975,
+          "sha256": "edfa3a5f55666428142695a373d81c68aa8ff6e34f3775727b785a58b7e803bc",
+          "validated_date_utc": "2026-08-03",
+          "archive_member_count": 12,
+          "integrity_test": "pass",
+          "unsafe_path_count": 0,
+          "hidden_system_file_count": 0,
+          "unexpected_executable_count": 0,
+          "credential_pattern_match_count": 0
+        },
         "upstream_runs": [
           "CGT_PREDICT_005",
           "CGT_CONSTRAINT_002E"
         ]
       },
       "freeze": {
-        "status": "minor_polish",
+        "status": "presentation_revision",
+        "revision_scope": "presentation and scientific-label corrections; frozen numerical inputs",
+        "numerical_inputs": "frozen",
         "release_recommendation": "main_candidate"
       },
       "qa": {
-        "status": "pass",
-        "source_note": "listed compliance checks pass",
-        "local_asset_triplet_complete": true,
-        "local_byte_sizes_match_drive_inventory": true,
-        "local_sha256_matches_recovery_capture": true
+        "status": "audit_backed",
+        "audited_resolutions": [
+          "design",
+          "web_export",
+          "600_dpi"
+        ],
+        "zero_out_of_canvas_text_objects": true,
+        "zero_text_text_overlaps": true,
+        "zero_workflow_box_containment_violations": true,
+        "zero_protected_statistics_legend_overlaps": true,
+        "minimum_workflow_text_clearance_pt": 2.002,
+        "statistics_legend_separation_pt": 12.762,
+        "legend_occluded_observations": 0,
+        "legend_occlusion_denominator": 1229,
+        "minimum_text_pt": 6.0,
+        "maximum_text_pt": 9.2,
+        "local_release_asset_count": 6,
+        "local_byte_size_matches": 6,
+        "local_sha256_matches": 6,
+        "legacy_aliases_contain_corrected_bytes": true
       },
       "caveats": [
-        "The fitness analysis is retrospective and gene-level; it does not establish causal direction.",
-        "Reported model coefficients are conditional on the fitted specification and should not be interpreted as universal biological effects."
+        "The result supports predictive association within the represented data regime rather than universal transfer or causality.",
+        "Regression and thresholded classification are two views of the same external GeneEffect source, not independent biological confirmations.",
+        "Test-gene CGT features were measured rather than predicted.",
+        "The full-data ridge coefficients are descriptive conditional weights, not causal effects or coefficient-stability estimates.",
+        "The downloadable Figure 1 package does not by itself establish that the complete historical analysis is reproducible from source."
       ]
     },
     {
