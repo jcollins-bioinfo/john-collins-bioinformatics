@@ -33,6 +33,12 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
     supporting: "Supporting projection",
     supplementary: "Supplementary evidence",
   }[figure.role];
+  const descriptionId = `${figure.id}-accessible-description`;
+  const downloads = figure.releaseAssets ?? [
+    { href: figure.pdf, filename: undefined, linkText: "Download PDF" },
+    { href: figure.svg, filename: undefined, linkText: "Open vector SVG" },
+    { href: figure.image, filename: undefined, linkText: "Open 600-dpi PNG" },
+  ];
 
   return (
     <figure className={styles.figure} id={figure.id}>
@@ -55,6 +61,8 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
             height={figure.height}
             sizes="(max-width: 720px) calc(100vw - 36px), (max-width: 1400px) calc(100vw - 64px), 1320px"
             alt={figure.alt}
+            aria-describedby={descriptionId}
+            aria-details={`${figure.id}-details`}
             unoptimized
           />
         </a>
@@ -69,22 +77,45 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
             <p key={paragraph}>{paragraph}</p>
           ))}
           <nav className={styles.figureDownloads} aria-label={`${figure.label} downloads`}>
-            <a href={figure.pdf} target="_blank" rel="noreferrer">Download PDF</a>
-            <a href={figure.svg} target="_blank" rel="noreferrer">Open vector SVG</a>
-            <a href={figure.image} target="_blank" rel="noreferrer">Open 600-dpi PNG</a>
+            {downloads.map((asset) => (
+              <a
+                href={asset.href}
+                download={figure.releaseAssets ? asset.filename : undefined}
+                target={figure.releaseAssets ? undefined : "_blank"}
+                rel={figure.releaseAssets ? undefined : "noreferrer"}
+                key={asset.href}
+              >
+                {asset.linkText}
+              </a>
+            ))}
           </nav>
-          <details className={styles.figureDetails}>
+          <details className={styles.figureDetails} id={`${figure.id}-details`}>
             <summary>Accessible description and provenance</summary>
             <div>
-              <p>{figure.accessibleDescription}</p>
+              <p id={descriptionId}>{figure.accessibleDescription}</p>
               <dl>
                 <div><dt>Source run</dt><dd>{figure.sourceRun}</dd></div>
                 <div><dt>Notebook</dt><dd>{figure.sourceNotebook}</dd></div>
                 <div><dt>Upstream runs</dt><dd>{figure.upstreamRuns.join(" · ")}</dd></div>
                 <div><dt>Freeze status</dt><dd>{figure.freezeStatus}</dd></div>
+                {figure.revisionScope ? <div><dt>Revision scope</dt><dd>{figure.revisionScope}</dd></div> : null}
                 <div><dt>Quality note</dt><dd>{figure.qaNote}</dd></div>
-                <div><dt>PNG SHA-256</dt><dd><code>{figure.imageSha256}</code></dd></div>
+                <div><dt>Display PNG SHA-256</dt><dd><code>{figure.imageSha256}</code></dd></div>
                 <div><dt>Notebook SHA-256</dt><dd><code>{figure.notebookSha256}</code></dd></div>
+                {figure.releaseAssets?.map((asset) => (
+                  <div key={asset.href}>
+                    <dt>{asset.label}</dt>
+                    <dd className={styles.assetMetadata}>
+                      <code>{asset.filename}</code>
+                      <span>
+                        {asset.width && asset.height ? `${asset.width.toLocaleString()} × ${asset.height.toLocaleString()} px · ` : ""}
+                        {asset.nominalDpi ? `${asset.nominalDpi} dpi · ` : ""}
+                        {asset.bytes.toLocaleString()} bytes · {asset.mimeType}
+                      </span>
+                      <code>SHA-256 {asset.sha256}</code>
+                    </dd>
+                  </div>
+                ))}
               </dl>
             </div>
           </details>

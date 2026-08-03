@@ -1,5 +1,18 @@
 export type FigureRole = "core" | "synthesis" | "supporting" | "supplementary";
 
+export type FigureReleaseAsset = {
+  label: string;
+  linkText: string;
+  href: string;
+  filename: string;
+  bytes: number;
+  mimeType: string;
+  sha256: string;
+  width?: number;
+  height?: number;
+  nominalDpi?: number;
+};
+
 export type FigureSpec = {
   id: string;
   label: string;
@@ -20,6 +33,8 @@ export type FigureSpec = {
   upstreamRuns: string[];
   freezeStatus: string;
   qaNote: string;
+  revisionScope?: string;
+  releaseAssets?: FigureReleaseAsset[];
 };
 
 export type Reference = {
@@ -42,27 +57,87 @@ export const mainFigures: FigureSpec[] = [
     label: "Figure 1",
     title: "Residual perturbation geometry predicts external CRISPR-derived gene fitness",
     role: "core",
-    image: `${mainRoot}/figure-01-fitness.png`,
-    pdf: `${mainRoot}/figure-01-fitness.pdf`,
-    svg: `${mainRoot}/figure-01-fitness.svg`,
-    width: 4322,
-    height: 3897,
-    alt: "Six-panel validation figure showing the CGT workflow, supervised-stage test-gene predictions, permutation controls, conditional ridge weights, and robustness across feature constructions.",
+    image: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png`,
+    pdf: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf`,
+    svg: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg`,
+    width: 2400,
+    height: 2163,
+    alt: "Six-panel CGT fitness-prediction figure; detailed description follows.",
     accessibleDescription:
-      "The main relationship is predictive rather than causal: gene-level CGT coordinates are associated with an external CRISPR fitness endpoint under supervised-stage held-out-gene cross-validation. The test-gene CGT features were measured rather than predicted. Performance exceeds 100 endpoint-shuffle controls, while harder grouping schemes in Supplementary Figure 1 sharply reduce generalization.",
+      "The figure has six labeled panels. Panel a is a five-box workflow from Perturb-seq response profiles through context-mean subtraction and measured gene-level CGT features to a supervised random-forest mapping and an external DepMap −GeneEffect endpoint. Panel b is a neutral-gray scatter plot of observed essentiality strength against out-of-fold prediction for 1,229 genes. The fitted calibration line rises more shallowly than the identity line, showing regression toward the mean; pooled rank correlation is 0.613. Panels c and d show 100 shuffle-level null means near zero Spearman correlation and 0.5 ROC AUC, respectively, while all five observed folds cluster near 0.62 correlation and 0.92 AUC. Panel e is a horizontal bar plot of the top eight standardized ridge coefficients; F12 translation/RQC is the largest-magnitude coefficient and is negative. Panel f contains two three-by-three heatmaps. Performance changes little when median or standard-deviation summaries are added within a residualization scheme, but falls under dataset-mean residualization to about 0.51 correlation and 0.80 AUC.",
     caption: [
-      "a, Perturbational responses from 39 datasets across 8 contexts were residualized against context, represented in 16 CGT family coordinates, aggregated by gene, and compared with the external DepMap CRISPR GeneEffect endpoint using grouped supervised-stage held-out-gene cross-validation.",
-      "b, Out-of-fold predictions for 1,229 genes. Higher essentiality strength denotes greater knockout-associated fitness loss; pooled Spearman ρ = 0.613 and R² = 0.353.",
-      "c–d, Five-fold random-forest regression and essential-gene classification compared with 100 independent endpoint shuffles. Shuffle-level one-sided Monte Carlo permutation P = 1/101 = 0.0099 for both endpoint views; folds nested within a shuffle were averaged before testing.",
-      "e, Standardized coefficients from a multivariable ridge model. Signs are conditional predictive weights and do not identify causal effects. f, Performance across three residualization schemes and three gene-level aggregation choices.",
+      "a, A prediction-focused set of 2,720 perturbational response profiles from 39 datasets and 8 contexts was context-mean residualized and summarized as 16 gene-level CGT features. These measured features were mapped to an external DepMap 26Q1 CRISPR endpoint in five-fold, gene-grouped supervised cross-validation. b, Out-of-fold predictions for 1,229 genes. Essentiality strength is −GeneEffect; pooled Spearman ρ = 0.613 and predictive R² = 0.353. The OLS calibration slope is 0.386, indicating shrinkage toward the mean. c–d, Regression and essential-gene classification compared with 100 endpoint label shuffles. The null distributions contain cross-validated means from whole shuffles; open circles are the five observed fold values and the diamond is their mean. One-sided plus-one empirical permutation P = 1/101 = 0.0099 for each endpoint view. e, The eight largest absolute standardized ridge coefficients among 16 mean-absolute-residual features. These full-data coefficients are descriptive conditional weights, not causal effects or coefficient-stability estimates. f, Feature-construction sensitivity across three residualization schemes and three cumulative gene-level aggregation choices. Aggregation choice has little effect within a scheme, whereas dataset-mean residualization materially attenuates performance.",
+      "Regression and thresholded classification are two views of the same external GeneEffect source, not independent biological confirmations. Test-gene CGT features were measured rather than predicted. Harder program-family, dataset, context, and study-proxy holdouts remain weak, so the result supports predictive association within the represented data regime rather than universal transfer or causality.",
     ],
     sourceRun: "CGT_FIGURE_001",
     sourceNotebook: "CGT-FIGURE-001_residual_geometry_predicts_gene_fitness.ipynb",
     notebookSha256: "b9082d525c9f6aa58bf3cffa9ce56abf8e5f9bf2cf121c018a07497470fd1825",
-    imageSha256: "4ef9856a05c2e3cce9f3547a2164cd8875b0190509748262bb1b69fae0f0c146",
+    imageSha256: "6e4a410c90763ded6aac2eb7d95e14296c511dbbdf8b9b0d494634b583721808",
     upstreamRuns: ["CGT_PREDICT_005", "CGT_CONSTRAINT_002E"],
-    freezeStatus: "Analysis-frozen; minor publication polish recorded",
-    qaNote: "All listed publication-style compliance checks passed.",
+    freezeStatus: "Analysis-frozen Figure 1 release",
+    revisionScope: "presentation and scientific-label corrections; frozen numerical inputs",
+    qaNote: "Automated geometry audits at design, web-export, and 600-dpi resolution found zero out-of-canvas text objects, zero text–text overlaps, zero workflow-box containment violations, and zero protected statistics–legend overlaps. Minimum workflow-text clearance from its container stroke was 2.002 pt; panel-b statistics–legend separation was 12.762 pt; the legend occluded 0 of 1,229 observations at all three audited resolutions.",
+    releaseAssets: [
+      {
+        label: "Web PNG",
+        linkText: "Download Figure 1 web PNG (2,400 × 2,163)",
+        href: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png`,
+        filename: "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web.png",
+        bytes: 554317,
+        mimeType: "image/png",
+        sha256: "6e4a410c90763ded6aac2eb7d95e14296c511dbbdf8b9b0d494634b583721808",
+        width: 2400,
+        height: 2163,
+      },
+      {
+        label: "600-dpi PNG",
+        linkText: "Download Figure 1 600-dpi PNG (4,322 × 3,897)",
+        href: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_600dpi.png`,
+        filename: "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_600dpi.png",
+        bytes: 1095745,
+        mimeType: "image/png",
+        sha256: "990bce7ba1bb698295367fc374e2f392c6c55cc0517ef59abf0cff4304dd7dca",
+        width: 4322,
+        height: 3897,
+        nominalDpi: 600,
+      },
+      {
+        label: "Publication PDF",
+        linkText: "Download Figure 1 publication PDF",
+        href: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf`,
+        filename: "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.pdf",
+        bytes: 63527,
+        mimeType: "application/pdf",
+        sha256: "e850d1b4cc26209f1f365017dad32f24640c5726e75b251e80529939d5dfa1d9",
+      },
+      {
+        label: "Vector SVG",
+        linkText: "Download Figure 1 vector SVG",
+        href: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg`,
+        filename: "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised.svg",
+        bytes: 349381,
+        mimeType: "image/svg+xml",
+        sha256: "9a5c12ce5a611eb2e51a9b2a2dc2eaeaa0f8a05eaa1094144ee3219009c4f773",
+      },
+      {
+        label: "Reproducibility package",
+        linkText: "Download Figure 1 reproducibility package (ZIP)",
+        href: `${mainRoot}/CGT_FIGURE_001_revised_reproducibility_package_v2.zip`,
+        filename: "CGT_FIGURE_001_revised_reproducibility_package_v2.zip",
+        bytes: 1837975,
+        mimeType: "application/zip",
+        sha256: "edfa3a5f55666428142695a373d81c68aa8ff6e34f3775727b785a58b7e803bc",
+      },
+      {
+        label: "Machine-readable audit",
+        linkText: "Download Figure 1 machine-readable audit (JSON)",
+        href: `${mainRoot}/CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_audit.json`,
+        filename: "CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_audit.json",
+        bytes: 18645,
+        mimeType: "application/json",
+        sha256: "f0e4a977b845adfe07cf41f1473b2bac7ec6a0d1d7a20f0f7f882b3caddb8ab1",
+      },
+    ],
   },
   {
     id: "fig-2",
