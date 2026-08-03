@@ -7,6 +7,7 @@ type PianoVideo = {
   subtitle: string;
   description: string;
   id: string;
+  poster?: string;
   youtubeTitle: string;
 };
 
@@ -16,6 +17,7 @@ export const pianoVideos: readonly PianoVideo[] = [
     subtitle: "Op. 1, No. 15 — Prelude in D-flat Major",
     description: "A large-scale D-flat major prelude from an original cycle spanning all 24 major and minor keys.",
     id: "ogi3rv9Rd8g",
+    poster: "/media/forever-prelude-poster.svg",
     youtubeTitle: 'Op. 1, No. 15 - "Forever" (Prelude in D-flat Major) (An original modern piano piece by John Collins)',
   },
   {
@@ -44,6 +46,15 @@ export const pianoVideos: readonly PianoVideo[] = [
 function VideoThumbnail({ video }: { video: PianoVideo }) {
   const [quality, setQuality] = useState<"maxresdefault" | "hqdefault" | "none">("maxresdefault");
   const fallBack = () => setQuality((current) => current === "maxresdefault" ? "hqdefault" : "none");
+
+  if (video.poster) {
+    return (
+      // The featured work uses a version-controlled poster so the initial
+      // facade does not depend on YouTube's thumbnail CDN.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={video.poster} alt="" loading="eager" decoding="async" />
+    );
+  }
 
   if (quality === "none") return <span className="piano-thumbnail-fallback" aria-hidden="true" />;
 
