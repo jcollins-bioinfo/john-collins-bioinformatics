@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact John Patrick Collins about bioinformatics, scientific software, research, writing, or music.",
-};
+export const metadata = createPageMetadata("/contact");
 
 export default function ContactPage() {
   return (
@@ -17,8 +14,6 @@ export default function ContactPage() {
         <a href="mailto:jcollins.bioinformatics@gmail.com"><span>EMAIL / PRIMARY</span><h2>jcollins.bioinformatics<br />@gmail.com</h2><b>Write an email ↗</b></a>
         <a href="https://github.com/jcollins-bioinfo" target="_blank" rel="noreferrer"><span>CODE / PUBLIC</span><h2>github.com/<br />jcollins-bioinfo</h2><b>Visit GitHub ↗</b></a>
       </section>
-      <section className="shell contact-note"><span>NOTE</span><p>For the clearest reply, include the context, the decision or problem at hand, and what a useful next step would look like.</p></section>
     </main>
   );
 }
-

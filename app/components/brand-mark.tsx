@@ -26,6 +26,7 @@ const HOVER_INTENT_DELAY_MS = 260;
 const FOCUS_INTENT_DELAY_MS = 140;
 const REPLAY_COOLDOWN_MS = 650;
 const MOTION_DURATION_MS = 2800;
+const AMBIENT_LOOP_DURATION_MS = 20_000;
 
 const SVG_TOP = 120;
 const SVG_HEIGHT = 965;
@@ -154,19 +155,21 @@ function phaseAt(progress: number) {
 
 type BrandMarkProps = {
   className?: string;
+  continuous?: boolean;
   intro?: boolean;
   interactive?: boolean;
 };
 
 export function BrandMark({
   className = "",
+  continuous = false,
   intro = false,
   interactive = false,
 }: BrandMarkProps) {
   const instanceId = useId().replace(/:/g, "");
   const shellRef = useRef<HTMLSpanElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const motionEnabled = intro || interactive;
+  const motionEnabled = continuous || intro || interactive;
   const primaryStrandId = `dna-primary-${instanceId}`;
   const secondaryStrandId = `dna-secondary-${instanceId}`;
   const primaryDepthId = `dna-primary-depth-${instanceId}`;
@@ -228,7 +231,7 @@ export function BrandMark({
 
     let animationFrame: number | undefined;
     let animationStartedAt = 0;
-    let activeKind: "intro" | "automatic" | "replay" | null = null;
+    let activeKind: "ambient" | "intro" | "automatic" | "replay" | null = null;
     let introTimer: number | undefined;
     let automaticTimer: number | undefined;
     let automaticDueAt = 0;
@@ -417,6 +420,21 @@ export function BrandMark({
 
     const step = (now: number) => {
       if (disposed || !activeKind) return;
+      if (activeKind === "ambient") {
+        const progress =
+          ((now - animationStartedAt) % AMBIENT_LOOP_DURATION_MS) /
+          AMBIENT_LOOP_DURATION_MS;
+        const fundamental = FULL_TURN * progress;
+        // Two gentle, periodic counter-motions keep the rotation organic while
+        // returning to precisely the same pose at the loop boundary.
+        const angle =
+          fundamental +
+          Math.sin(fundamental) * 0.13 +
+          Math.sin(fundamental * 2) * 0.045;
+        applyHelixFrame(angle, 1);
+        animationFrame = window.requestAnimationFrame(step);
+        return;
+      }
       const progress = Math.min((now - animationStartedAt) / MOTION_DURATION_MS, 1);
       const entrance = smoothStep(Math.min(progress / 0.07, 1));
       const exit = smoothStep(Math.min((1 - progress) / 0.07, 1));
@@ -429,14 +447,14 @@ export function BrandMark({
       }
     };
 
-    function play(kind: "intro" | "automatic" | "replay") {
+    function play(kind: "ambient" | "intro" | "automatic" | "replay") {
       if (
         disposed ||
         reducedMotion.matches ||
         animationFrame !== undefined ||
         !motionLayer ||
         typeof window.requestAnimationFrame !== "function" ||
-        (kind !== "intro" && !introHasCompleted) ||
+        (kind !== "ambient" && kind !== "intro" && !introHasCompleted) ||
         (kind === "replay" &&
           window.performance.now() - lastFinishedAt < REPLAY_COOLDOWN_MS)
       ) {
@@ -452,7 +470,7 @@ export function BrandMark({
       }
 
       activeKind = kind;
-      shell.dataset.animating = "true";
+      shell!.dataset.animating = "true";
       applyHelixFrame(0, 0);
       animationStartedAt = window.performance.now();
       animationFrame = window.requestAnimationFrame(step);
@@ -483,7 +501,15 @@ export function BrandMark({
           window.clearTimeout(automaticTimer);
           automaticTimer = undefined;
         }
+        if (activeKind === "ambient" && animationFrame !== undefined) {
+          window.cancelAnimationFrame(animationFrame);
+          animationFrame = undefined;
+          activeKind = null;
+          shell.dataset.animating = "false";
+          resetHelixFrame();
+        }
       } else {
+        if (continuous && logoIsVisible) play("ambient");
         scheduleIntro();
         if (automaticPending) requestAutomaticPlayback();
         else if (introHasCompleted) scheduleAutomatic(automaticRemaining);
@@ -540,7 +566,7 @@ export function BrandMark({
       if (intro) introHasCompleted = true;
     };
 
-    if (intro) {
+    if (intro || continuous) {
       if (reducedMotion.matches) {
         introHasCompleted = true;
       } else {
@@ -548,6 +574,19 @@ export function BrandMark({
           observer = new IntersectionObserver(
             ([entry]) => {
               logoIsVisible = entry.isIntersecting && entry.intersectionRatio > 0;
+              if (continuous && logoIsVisible && activeKind === null) play("ambient");
+              if (
+                continuous &&
+                !logoIsVisible &&
+                activeKind === "ambient" &&
+                animationFrame !== undefined
+              ) {
+                window.cancelAnimationFrame(animationFrame);
+                animationFrame = undefined;
+                activeKind = null;
+                shell.dataset.animating = "false";
+                resetHelixFrame();
+              }
               scheduleIntro();
               requestAutomaticPlayback();
             },
@@ -556,6 +595,7 @@ export function BrandMark({
           observer.observe(shell);
         } else {
           logoIsVisible = true;
+          if (continuous) play("ambient");
           scheduleIntro();
         }
       }
@@ -587,13 +627,14 @@ export function BrandMark({
       document.removeEventListener("visibilitychange", onVisibilityChange);
       reducedMotion.removeEventListener("change", onMotionPreferenceChange);
     };
-  }, [interactive, intro]);
+  }, [continuous, interactive, intro]);
 
   return (
     <span
       aria-hidden="true"
       className={`brand-mark-shell ${className}`.trim()}
       data-animating="false"
+      data-brand-continuous={continuous ? "true" : undefined}
       data-brand-interactive={interactive ? "true" : undefined}
       data-brand-intro={intro ? "true" : undefined}
       data-brand-mark="dna-helix"

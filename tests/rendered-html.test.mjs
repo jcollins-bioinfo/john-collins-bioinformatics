@@ -1,13 +1,11 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import test from "node:test";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
-
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
+const productionOrigin = "https://johnpatrickcollins.info";
 
 async function loadWorker() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -19,7 +17,20 @@ async function loadWorker() {
 
 const env = {
   ASSETS: {
-    fetch: async () => new Response("Not found", { status: 404 }),
+    fetch: async (request) => {
+      const pathname = new URL(request.url).pathname;
+      try {
+        const body = await readFile(
+          path.join(projectRoot, "public", decodeURIComponent(pathname.slice(1))),
+        );
+        const contentType = pathname.endsWith(".png")
+          ? "image/png"
+          : "application/octet-stream";
+        return new Response(body, { headers: { "content-type": contentType } });
+      } catch {
+        return new Response("Not found", { status: 404 });
+      }
+    },
   },
 };
 
@@ -28,24 +39,43 @@ const ctx = {
   passThroughOnException() {},
 };
 
-test("renders development preview metadata", async () => {
-  const worker = await loadWorker();
-
-  const response = await worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    env,
-    ctx,
+function elements(html, selector, attribute, value) {
+  const tags = html.match(new RegExp(`<${selector}\\b[^>]*>`, "gi")) ?? [];
+  return tags.filter((tag) =>
+    new RegExp(`\\b${attribute}=["']${value}["']`, "i").test(tag),
   );
+}
 
-  assert.equal(response.status, 200);
-  assert.match(
-    response.headers.get("content-type") ?? "",
-    /^text\/html\b/i,
-  );
-  assert.match(await response.text(), developmentPreviewMeta);
-});
+function attribute(tag, name) {
+  return tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1] ?? "";
+}
+
+function oneMeta(html, key, value) {
+  const matches = elements(html, "meta", key, value);
+  assert.equal(matches.length, 1, `expected one ${key}=${value}`);
+  const content = attribute(matches[0], "content");
+  assert.ok(content, `${key}=${value} must not be empty`);
+  return content;
+}
+
+async function discoverPageRoutes(directory = path.join(projectRoot, "app"), prefix = "") {
+  const routes = [];
+  const entries = await readdir(directory, { withFileTypes: true });
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const segment = entry.name.startsWith("(") ? "" : `/${entry.name}`;
+    routes.push(...await discoverPageRoutes(path.join(directory, entry.name), `${prefix}${segment}`));
+  }
+  if (entries.some((entry) => entry.isFile() && entry.name === "page.tsx")) {
+    routes.push(prefix || "/");
+  }
+  return routes.sort();
+}
+
+function pngDimensions(buffer) {
+  assert.equal(buffer.toString("ascii", 1, 4), "PNG", "expected a PNG signature");
+  return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
+}
 
 test("publishes the complete branded favicon family", async () => {
   const worker = await loadWorker();
@@ -145,6 +175,7 @@ test("renders the source-faithful DNA identity with phase-projected helix motion
   );
   assert.match(component, /const INITIAL_DELAY_MS = 1800/);
   assert.match(component, /const AUTOMATIC_REPLAY_DELAY_MS = 30_000/);
+  assert.match(component, /const AMBIENT_LOOP_DURATION_MS = 20_000/);
   assert.match(component, /const HOVER_INTENT_DELAY_MS = 260/);
   assert.match(component, /const HELIX_SLICE_COUNT = 32/);
   assert.match(component, /phase-projected-double-helix/);
@@ -163,6 +194,8 @@ test("renders the source-faithful DNA identity with phase-projected helix motion
   assert.match(component, /automaticRemaining = Math\.max/);
   assert.match(component, /window\.clearTimeout\(automaticTimer\)/);
   assert.match(component, /observer\?\.disconnect\(\)/);
+  assert.match(html, /data-brand-continuous=["']true["']/i);
+  assert.match(component, /Math\.sin\(fundamental \* 2\) \* 0\.045/);
 
   const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
   assert.match(css, /\.brand-mark-motion\s*{[^}]*opacity:\s*0/s);
@@ -172,26 +205,30 @@ test("renders the source-faithful DNA identity with phase-projected helix motion
   );
 });
 
-test("renders every public HTML route", async () => {
+test("publishes complete crawler metadata for every routed and sitemap URL", async () => {
   const worker = await loadWorker();
-  const routes = [
-    "/",
-    "/about",
-    "/bioinformatics",
-    "/research",
-    "/research/cgt",
-    "/projects",
-    "/writing",
-    "/music",
-    "/now",
-    "/cv",
-    "/contact",
-  ];
+  const routes = await discoverPageRoutes();
+  const sitemapResponse = await worker.fetch(
+    new Request(`${productionOrigin}/sitemap.xml`),
+    env,
+    ctx,
+  );
+  assert.equal(sitemapResponse.status, 200);
+  assert.match(sitemapResponse.headers.get("content-type") ?? "", /xml/i);
+  const sitemapXml = await sitemapResponse.text();
+  const sitemapRoutes = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((match) => new URL(match[1]).pathname)
+    .sort();
+  assert.deepEqual(sitemapRoutes, routes, "the sitemap and App Router pages must match");
 
   for (const route of routes) {
+    const expectedUrl = `${productionOrigin}${route === "/" ? "/" : route}`;
     const response = await worker.fetch(
-      new Request(`http://localhost${route}`, {
-        headers: { accept: "text/html" },
+      new Request(`${productionOrigin}${route}`, {
+        headers: {
+          accept: "text/html",
+          "user-agent": "LinkedInBot/1.0",
+        },
       }),
       env,
       ctx,
@@ -199,8 +236,141 @@ test("renders every public HTML route", async () => {
 
     assert.equal(response.status, 200, `${route} should render`);
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-    assert.match(await response.text(), /John Patrick Collins/i);
+    const html = await response.text();
+    assert.match(html, /<html[^>]*\blang=["']en["']/i);
+    assert.equal(elements(html, "meta", "charset", "utf-8").length, 1);
+    assert.equal(elements(html, "meta", "name", "viewport").length, 1);
+
+    const titles = [...html.matchAll(/<title>([^<]+)<\/title>/gi)];
+    assert.equal(titles.length, 1, `${route} must have exactly one title`);
+    assert.ok(titles[0][1].trim(), `${route} title must not be empty`);
+
+    const description = oneMeta(html, "name", "description");
+    const canonicalTags = elements(html, "link", "rel", "canonical");
+    assert.equal(canonicalTags.length, 1, `${route} must have one canonical URL`);
+    assert.equal(attribute(canonicalTags[0], "href"), expectedUrl);
+
+    const ogTitle = oneMeta(html, "property", "og:title");
+    const ogDescription = oneMeta(html, "property", "og:description");
+    assert.equal(ogTitle, titles[0][1]);
+    assert.equal(oneMeta(html, "property", "og:url"), expectedUrl);
+    assert.equal(oneMeta(html, "property", "og:site_name"), "John Patrick Collins");
+    assert.match(oneMeta(html, "property", "og:type"), /^(website|article)$/);
+    const ogImage = oneMeta(html, "property", "og:image");
+    assert.match(ogImage, /^https:\/\/johnpatrickcollins\.info\/social\/.+\.png$/);
+    assert.equal(oneMeta(html, "property", "og:image:type"), "image/png");
+    assert.equal(oneMeta(html, "property", "og:image:width"), "1200");
+    assert.equal(oneMeta(html, "property", "og:image:height"), "627");
+    const ogImageAlt = oneMeta(html, "property", "og:image:alt");
+
+    assert.equal(oneMeta(html, "name", "twitter:card"), "summary_large_image");
+    assert.equal(oneMeta(html, "name", "twitter:title"), ogTitle);
+    assert.equal(oneMeta(html, "name", "twitter:description"), ogDescription);
+    assert.equal(oneMeta(html, "name", "twitter:image"), ogImage);
+    assert.equal(oneMeta(html, "name", "twitter:image:alt"), ogImageAlt);
+    assert.equal(description, ogDescription);
+
+    const robots = oneMeta(html, "name", "robots");
+    assert.match(robots, /index/i);
+    assert.match(robots, /follow/i);
+    assert.doesNotMatch(html, /codex-preview|localhost|terminal\.local|\.openai/i);
+
+    const imagePath = new URL(ogImage).pathname;
+    const imageResponse = await worker.fetch(new Request(ogImage), env, ctx);
+    assert.equal(imageResponse.status, 200, `${imagePath} must be publicly served`);
+    assert.match(imageResponse.headers.get("content-type") ?? "", /^image\/png\b/i);
+    const image = await readFile(path.join(projectRoot, "public", imagePath.slice(1)));
+    assert.deepEqual(pngDimensions(image), { width: 1200, height: 627 });
+    assert.ok(image.byteLength < 5_000_000, `${imagePath} must be under 5 MB`);
   }
+});
+
+test("publishes crawler policy and returns a real 404 for unknown pages", async () => {
+  const worker = await loadWorker();
+  const robotsResponse = await worker.fetch(
+    new Request(`${productionOrigin}/robots.txt`, {
+      headers: { "user-agent": "LinkedInBot/1.0" },
+    }),
+    env,
+    ctx,
+  );
+  assert.equal(robotsResponse.status, 200);
+  const robots = await robotsResponse.text();
+  assert.match(robots, /User-Agent:\s*\*/i);
+  assert.match(robots, /Allow:\s*\//i);
+  assert.match(robots, /Host:\s*https:\/\/johnpatrickcollins\.info/i);
+  assert.match(robots, /Sitemap:\s*https:\/\/johnpatrickcollins\.info\/sitemap\.xml/i);
+
+  const missingResponse = await worker.fetch(
+    new Request(`${productionOrigin}/definitely-not-a-public-page`, {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+  assert.equal(missingResponse.status, 404);
+});
+
+test("presents selected piano recordings as a lightweight accessible carousel", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/music", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+  const html = await response.text();
+
+  assert.match(html, /Piano Music/);
+  assert.match(html, /\/media\/forever-prelude-poster\.svg/);
+  assert.doesNotMatch(html, /i\.ytimg\.com\/vi\/ogi3rv9Rd8g/);
+  assert.match(html, /Selected piano compositions/);
+  assert.match(html, /Play Forever/);
+  assert.match(html, /Previous composition/);
+  assert.match(html, /Next composition/);
+  assert.match(html, /Op\. 1, No\. 15[^<]*Prelude in D-flat Major/);
+  assert.doesNotMatch(html, /youtube-nocookie\.com\/embed\/ogi3rv9Rd8g/);
+  assert.match(html, /href="https:\/\/www\.youtube\.com\/@johncollinspianomusic"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+  await access(path.join(projectRoot, "public", "media", "forever-prelude-poster.svg"));
+
+  const component = await readFile(
+    path.join(projectRoot, "app", "music", "youtube-facade.tsx"),
+    "utf8",
+  );
+  for (const id of ["ogi3rv9Rd8g", "hx-z3kTaafg", "om2Fnk_LJwI", "-CT8sgU6lDo"]) {
+    assert.match(component, new RegExp(id.replaceAll("-", "\\-")));
+  }
+  assert.match(component, /current \+ direction \+ pianoVideos\.length\) % pianoVideos\.length/);
+  assert.match(component, /setIsPlaying\(false\)/);
+  assert.match(component, /naturalWidth < 640/);
+  assert.match(component, /"hqdefault" : "none"/);
+});
+
+test("links to the Stack Overflow profile from the footer", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  assert.match(
+    html,
+    /href=["']https:\/\/stackoverflow\.com\/users\/6714627\/john-collins\?tab=profile["'][^>]*>\s*Stack Overflow/i,
+  );
+});
+
+test("keeps the contact page focused on contact methods", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/contact", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+
+  const html = await response.text();
+  assert.doesNotMatch(html, /For the clearest reply/i);
+  assert.doesNotMatch(html, /class=["']shell contact-note["']/i);
 });
 
 test("renders accessible animated research-axis cards", async () => {
@@ -290,4 +460,41 @@ test("ships every canonical CGT figure in PNG, PDF, and SVG formats", async () =
   ));
 
   await access(path.join(projectRoot, "public", "research", "cgt", "data", "cgt-cache-002-dataset-manifest.csv"));
+});
+
+
+test("publishes the résumé and categorized scholarly record", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/publications", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Peer-reviewed articles/i);
+  assert.match(html, /Published conference abstracts/i);
+  for (const doi of [
+    "10.1016/j.cels.2026.101656",
+    "10.1158/1538-7445.AM2020-3253",
+    "10.1016/j.healun.2017.01.172",
+    "10.1016/j.jmoldx.2016.07.003",
+    "10.1016/j.healun.2016.01.205",
+  ]) assert.match(html, new RegExp(doi.replaceAll(".", "\\."), "i"));
+  assert.ok(html.indexOf("2020") < html.indexOf("2017"), "abstracts should be reverse chronological");
+  assert.match(html, /<strong>Collins J(?:P)?<\/strong>/i);
+  await access(path.join(projectRoot, "public", "John-Patrick-Collins_MSc_Senior Bioinformatics_Resume.pdf"));
+});
+
+
+test("redirects the www hostname without changing the path or query", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("https://www.johnpatrickcollins.info/research/cgt?source=test"),
+    env,
+    ctx,
+  );
+  assert.equal(response.status, 308);
+  assert.equal(response.headers.get("location"), "https://johnpatrickcollins.info/research/cgt?source=test");
 });

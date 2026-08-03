@@ -7,12 +7,26 @@ const primaryLinks = [
   ["Music", "/music"],
   ["Writing", "/writing"],
   ["About", "/about"],
+  ["Publications", "/publications"],
 ] as const;
 
 const indexLinks = [
   ["Projects", "/projects"],
   ["Now", "/now"],
   ["CV", "/cv"],
+  ["Résumé (PDF)", "/John-Patrick-Collins_MSc_Senior%20Bioinformatics_Resume.pdf"],
+  ["Contact", "/contact"],
+] as const;
+
+const footerLinks = [
+  ["Research", "/research"],
+  ["Bioinformatics", "/bioinformatics"],
+  ["Projects", "/projects"],
+  ["Publications", "/publications"],
+  ["Writing", "/writing"],
+  ["Music", "/music"],
+  ["About", "/about"],
+  ["Now", "/now"],
   ["Contact", "/contact"],
 ] as const;
 
@@ -58,15 +72,26 @@ export function SiteFooter() {
         <div>
           <p className="footer-label">Explore</p>
           <nav className="footer-nav" aria-label="Footer navigation">
-            {[...primaryLinks, ...indexLinks].map(([label, href]) => (
+            {footerLinks.map(([label, href]) => (
               <a key={href} href={href}>{label}</a>
             ))}
+            <span className="footer-document-links">
+              <a href="/cv">CV</a>
+              <span aria-hidden="true">/</span>
+              <a href="/John-Patrick-Collins_MSc_Senior%20Bioinformatics_Resume.pdf">Résumé (PDF)</a>
+            </span>
           </nav>
         </div>
         <div>
           <p className="footer-label">Elsewhere</p>
           <a className="footer-outbound" href="https://github.com/jcollins-bioinfo" target="_blank" rel="noreferrer">
             GitHub <span aria-hidden="true">↗</span>
+          </a>
+          <a className="footer-outbound" href="https://www.linkedin.com/in/johncollins-bioinformatics" target="_blank" rel="noreferrer">
+            LinkedIn <span aria-hidden="true">↗</span>
+          </a>
+          <a className="footer-outbound" href="https://stackoverflow.com/users/6714627/john-collins?tab=profile" target="_blank" rel="noreferrer">
+            Stack Overflow <span aria-hidden="true">↗</span>
           </a>
           <a className="footer-outbound" href="mailto:jcollins.bioinformatics@gmail.com">
             Email <span aria-hidden="true">↗</span>
