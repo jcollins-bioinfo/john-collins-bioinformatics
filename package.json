@@ -6,18 +6,22 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "install:ci": "bash scripts/install-ci.sh",
+    "generate:social": "node scripts/generate-social-cards.mjs",
+    "generate:resume": "node scripts/generate-resume.mjs",
+    "generate:assets": "npm run generate:social && npm run generate:resume",
+    "predev": "npm run generate:assets",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
-    "build": "bash scripts/build-verified.sh",
+    "prebuild": "npm run generate:assets",
+    "build": "vinext build && npm run validate:artifact",
     "deploy:cloudflare": "npm run build && wrangler deploy",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
-    "validate:artifact": "bash scripts/validate-artifact.sh",
-    "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate"
+    "validate:artifact": "node scripts/validate-artifact.mjs",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "typecheck": "tsc --noEmit",
+    "preview:cloudflare": "npm run build && wrangler dev"
   },
   "dependencies": {
-    "drizzle-orm": "0.45.2",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"
@@ -30,10 +34,10 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
-    "drizzle-kit": "0.31.10",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
     "react-server-dom-webpack": "19.2.6",
+    "sharp": "0.34.5",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vinext": "0.0.50",
@@ -41,5 +45,5 @@
     "wrangler": "4.92.0"
   },
   "type": "module",
-  "displayName": "John Patrick Collins \u2014 Personal Site"
+  "displayName": "John Patrick Collins — Personal Site"
 }

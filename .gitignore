@@ -36,8 +36,15 @@ yarn-error.log*
 
 # typescript
 next-env.d.ts
+*.tsbuildinfo
 /dist/
+public/social/*.png
 /.wrangler/
-/.sites-runtime/
 /outputs/
 /work/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# generated public documents
+public/*.pdf

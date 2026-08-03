@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "About John Patrick Collins—scientist, software engineer, independent researcher, composer, pianist, and writer.",
-};
+export const metadata = createPageMetadata("/about");
 
 const principles = [
   ["01", "Make complexity legible", "I am drawn to systems whose surface complexity conceals a smaller set of governing relationships."],
@@ -72,4 +69,3 @@ export default function AboutPage() {
     </main>
   );
 }
-

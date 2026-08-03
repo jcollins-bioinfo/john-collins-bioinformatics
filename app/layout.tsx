@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Lato, Montserrat, Oswald } from "next/font/google";
 import { SiteFooter, SiteHeader } from "./components/site-chrome";
+import { createPageMetadata, SITE_ORIGIN } from "./seo";
 import "./globals.css";
 
 const lato = Lato({
@@ -23,16 +24,8 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://johnpatrickcollins.info"),
-  title: {
-    default: "John Patrick Collins | Science, Software, Music & Research",
-    template: "%s | John Patrick Collins",
-  },
-  description:
-    "The personal site of John Patrick Collins: bioinformatics, scientific software, independent research, music, writing, and ongoing projects.",
-  other: {
-    "codex-preview": "development",
-  },
+  ...createPageMetadata("/"),
+  metadataBase: new URL(SITE_ORIGIN),
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -67,6 +60,15 @@ export default function RootLayout({
       <body
         className={`${lato.className} antialiased`}
       >
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "John Patrick Collins",
+          url: "https://johnpatrickcollins.info",
+          jobTitle: ["Bioinformatics Data Scientist", "Scientific Software Engineer", "Computational Biologist"],
+          sameAs: ["https://github.com/jcollins-bioinfo", "https://www.linkedin.com/in/johncollins-bioinformatics"],
+          alumniOf: { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
+        }) }} />
         <SiteHeader />
         {children}
         <SiteFooter />

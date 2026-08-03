@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description: "A living project index spanning bioinformatics systems, independent research, scientific software, music, and writing.",
-};
+export const metadata = createPageMetadata("/projects");
 
 const projects = [
   {

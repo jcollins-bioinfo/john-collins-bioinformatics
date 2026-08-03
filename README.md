@@ -15,6 +15,7 @@ Source for [johnpatrickcollins.info](https://johnpatrickcollins.info), a persona
 - `/now` — dated current-focus page
 - `/cv` — experience, capabilities, and education
 - `/contact` — professional contact routes
+- `/publications` — peer-reviewed articles and published conference abstracts
 
 The root is intentionally broad. Each practice has a canonical section so the domain can expand without turning the homepage into an undifferentiated portfolio.
 
@@ -24,7 +25,6 @@ The root is intentionally broad. Each practice has a canonical section so the do
 - Next-compatible Vinext runtime
 - Tailwind CSS 4 plus a custom responsive design system
 - Cloudflare Workers deployment with custom-domain routing
-- OpenAI Sites checkpoint deployments
 
 ## Local development
 
@@ -38,8 +38,10 @@ npm run dev
 Useful checks:
 
 ```bash
+npm run typecheck
 npm run lint
 npm test
+npm run preview:cloudflare
 ```
 
 ## Cloudflare deployment
