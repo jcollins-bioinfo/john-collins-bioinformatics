@@ -36,8 +36,9 @@ yarn-error.log*
 
 # typescript
 next-env.d.ts
+*.tsbuildinfo
 /dist/
+public/social/*.png
 /.wrangler/
-/.sites-runtime/
 /outputs/
 /work/

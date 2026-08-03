@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Writing",
-  description: "The developing writing index of John Patrick Collins: research notes, technical essays, music, cognition, and long-form projects.",
-};
+export const metadata = createPageMetadata("/writing");
 
 const desks = [
   ["01", "Research notes", "Definitions, models, experiments, and progress from Constraint Geometry Theory and adjacent work."],
@@ -31,4 +28,3 @@ export default function WritingPage() {
     </main>
   );
 }
-

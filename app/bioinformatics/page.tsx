@@ -1,10 +1,7 @@
-import type { Metadata } from "next";
 import { BrandMark } from "../components/brand-mark";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Bioinformatics",
-  description: "John Patrick Collins’s bioinformatics portfolio: NGS pipelines, scientific software, computational biology, and research infrastructure.",
-};
+export const metadata = createPageMetadata("/bioinformatics");
 
 const projects = [
   {

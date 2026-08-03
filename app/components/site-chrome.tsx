@@ -68,6 +68,9 @@ export function SiteFooter() {
           <a className="footer-outbound" href="https://github.com/jcollins-bioinfo" target="_blank" rel="noreferrer">
             GitHub <span aria-hidden="true">↗</span>
           </a>
+          <a className="footer-outbound" href="https://stackoverflow.com/users/6714627/john-collins?tab=profile" target="_blank" rel="noreferrer">
+            Stack Overflow <span aria-hidden="true">↗</span>
+          </a>
           <a className="footer-outbound" href="mailto:jcollins.bioinformatics@gmail.com">
             Email <span aria-hidden="true">↗</span>
           </a>
