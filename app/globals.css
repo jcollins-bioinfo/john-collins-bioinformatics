@@ -70,7 +70,7 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
 .split-heading .eyebrow { margin-top: 12px; }
 .split-heading h2, .longform-copy h2, .compact-cta h2 { margin: 0; font-size: clamp(38px, 4.4vw, 68px); line-height: 1; letter-spacing: -.055em; }
 .split-heading > div > p { max-width: 620px; margin: 26px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
-.page-hero { min-height: 530px; display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(50px, 8vw, 130px); align-items: end; padding-block: 100px 88px; border-bottom: 1px solid var(--ink); }
+.page-hero { min-height: 530px; display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(50px, 8vw, 130px); align-items: end; padding-block: 100px 88px; } /* border-bottom: 1px solid var(--ink); } */
 .page-hero h1, .contact-hero h1 { margin: 0; font-size: clamp(56px, 6.1vw, 94px); line-height: .93; letter-spacing: -.065em; }
 .page-hero h1 em, .contact-hero h1 em, .music-hero h1 em, .cgt-hero h1 em { color: transparent; font-style: normal; -webkit-text-stroke: 1.2px var(--ink); }
 .page-lede { max-width: 600px; margin: 0 0 8px; color: #384642; font-size: clamp(19px, 1.6vw, 24px); font-weight: 300; line-height: 1.65; }
