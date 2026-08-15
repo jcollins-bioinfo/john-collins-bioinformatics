@@ -190,6 +190,35 @@ test("renders every public HTML route", async () => {
   }
 });
 
+test("renders the accessible full-bleed heteroscedastic field with a safe animation lifecycle", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/about", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /data-heteroscedastic-field/);
+  assert.match(html, /A generative field representing heteroscedasticity/);
+  assert.match(html, /<canvas[^>]*aria-hidden=["']true["']/i);
+  assert.doesNotMatch(html, /class=["']shell[^"']*["'][^>]*data-heteroscedastic-field/i);
+
+  const component = await readFile(
+    path.join(projectRoot, "app", "components", "heteroscedastic-field.tsx"),
+    "utf8",
+  );
+  assert.match(component, /requestAnimationFrame/);
+  assert.match(component, /ResizeObserver/);
+  assert.match(component, /IntersectionObserver/);
+  assert.match(component, /prefers-reduced-motion: reduce/);
+  assert.match(component, /visibilitychange/);
+  assert.doesNotMatch(component, /setInterval/);
+
+  const aboutPage = await readFile(path.join(projectRoot, "app", "about", "page.tsx"), "utf8");
+  assert.match(aboutPage, /<\/section>\s*<HeteroscedasticField \/>\s*<section className="shell page-section about-story">/s);
+});
+
 test("presents selected piano recordings as a lightweight accessible carousel", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(

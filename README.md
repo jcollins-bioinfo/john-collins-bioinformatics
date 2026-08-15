@@ -19,6 +19,8 @@ Source for [johnpatrickcollins.info](https://johnpatrickcollins.info), a persona
 
 The root is intentionally broad. Each practice has a canonical section so the domain can expand without turning the homepage into an undifferentiated portfolio.
 
+The About page includes a dependency-free Canvas 2D heteroscedastic field with a deterministic static composition for reduced-motion preferences. Its configurable source anchor is reserved for later portrait-video composition; the portrait hand midpoint should align to `(sourceXRatio * width, 50% * height)`.
+
 ## Technology
 
 - React 19 and TypeScript

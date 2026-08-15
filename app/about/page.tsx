@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HeteroscedasticField } from "../components/heteroscedastic-field";
 
 export const metadata: Metadata = {
   title: "About",
@@ -25,6 +26,8 @@ export default function AboutPage() {
           interest in how complex systems are structured, regulated, interpreted, and changed.
         </p>
       </section>
+
+      <HeteroscedasticField />
 
       <section className="shell page-section about-story">
         <p className="section-index">01 / ORIENTATION</p>
@@ -72,4 +75,3 @@ export default function AboutPage() {
     </main>
   );
 }
-
