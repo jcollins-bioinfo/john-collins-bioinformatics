@@ -190,6 +190,57 @@ test("renders every public HTML route", async () => {
   }
 });
 
+test("renders the About lede as one accessible 225-step animation", async () => {
+  const worker = await loadWorker();
+  const expectedLede =
+    "I’m John Patrick Collins: a bioinformatics data scientist and software engineer, an independent researcher, and a composer and pianist. My work is united by an interest in how complex systems are structured, regulated, interpreted, and changed.";
+  const response = await worker.fetch(
+    new Request("http://localhost/about", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+  const html = await response.text();
+  const ledeMatch = html.match(/<p class="page-lede">([\s\S]*?)<\/p>/);
+  assert.ok(ledeMatch, "the About lede should render");
+  const ledeHtml = ledeMatch[1];
+  const ledeText = ledeHtml
+    .replace(/<[^>]+>/g, "")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&#x27;", "'")
+    .replaceAll("&quot;", '"');
+
+  assert.equal(ledeText, expectedLede);
+  assert.equal(html.split(expectedLede).length - 1, 0, "the lede is represented once, not duplicated");
+  assert.match(ledeHtml, /class="fade-in-char" style="--char-index:0"[^>]*>I<\/span>/);
+  assert.match(
+    ledeHtml,
+    /class="mercury-name-container fade-in-char"><span class="nano-mercury-char fade-in-char" style="animation-delay:-16\.6066s;top:-2px;--char-index:4">John Patrick Collins<\/span><\/span>/,
+  );
+  assert.match(ledeHtml, /style="--char-index:5"[^>]*>:<\/span>/);
+  assert.match(ledeHtml, /style="--char-index:224"[^>]*>\.<\/span><\/span>$/);
+
+  const indices = [...ledeHtml.matchAll(/--char-index:(\d+)/g)].map((match) => Number(match[1]));
+  assert.deepEqual(indices, Array.from({ length: 225 }, (_, index) => index));
+  assert.equal((ledeHtml.match(/--char-index:4(?:\D|$)/g) ?? []).length, 1);
+  assert.doesNotMatch(ledeHtml, /John<\/span>|>J<\/span><span/);
+
+  for (const route of ["/", "/bioinformatics", "/research"]) {
+    const unrelatedResponse = await worker.fetch(
+      new Request(`http://localhost${route}`, { headers: { accept: "text/html" } }),
+      env,
+      ctx,
+    );
+    const unrelatedHtml = await unrelatedResponse.text();
+    assert.doesNotMatch(unrelatedHtml, /fade-in-char|mercury-name-container|nano-mercury-char/);
+  }
+
+  for (const element of ["header", "footer"]) {
+    const chromeMatch = html.match(new RegExp(`<${element}\\b[\\s\\S]*?<\\/${element}>`));
+    assert.ok(chromeMatch?.[0].includes("John Patrick Collins"), `${element} should retain its identity text`);
+    assert.doesNotMatch(chromeMatch[0], /fade-in-char|mercury-name-container|nano-mercury-char/);
+  }
+});
+
 test("renders the accessible full-bleed heteroscedastic field with a safe animation lifecycle", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
