@@ -73,9 +73,9 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
 .page-hero { min-height: 530px; display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(50px, 8vw, 130px); align-items: end; padding-block: 100px 88px; } /* border-bottom: 1px solid var(--ink); } */
 .page-hero h1, .contact-hero h1 { margin: 0; font-size: clamp(56px, 6.1vw, 94px); line-height: .93; letter-spacing: -.065em; }
 .page-hero h1 em, .contact-hero h1 em, .music-hero h1 em, .cgt-hero h1 em { color: transparent; font-style: normal; -webkit-text-stroke: 1.2px var(--ink); }
-.page-lede { max-width: 600px; margin: 0 0 8px; color: #384642; font-size: clamp(19px, 1.6vw, 24px); font-weight: 300; line-height: 1.65; }
+.page-lede { max-width: 600px; margin: 0 0 8px; color: #384642; font-size: clamp(19px, 1.6vw, 24px); font-weight: 400; line-height: 1.65; }
 .page-lede > p { margin-top: 0; }
-.fade-in-word { display: inline-block; white-space: nowrap; }
+.fade-in-word { display: inline-flex; margin-right: 0.25em; white-space: nowrap; }
 .fade-in-char {
   display: inline-block;
   opacity: 0;
@@ -119,7 +119,7 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
   0%, 99.2%, 100% { filter: brightness(1) contrast(1) blur(0); }
   99.6% { filter: brightness(3.5) contrast(2) blur(0.05px); }
 }
-.mercury-name-container { display: inline-block; white-space: nowrap; }
+.mercury-name-container { display: inline-block; white-space: nowrap; margin-right: 0.3em; }
 .nano-mercury-char {
   position: relative;
   display: inline-block;
