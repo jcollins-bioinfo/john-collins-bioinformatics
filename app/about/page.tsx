@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties, ReactNode } from "react";
 import { HeteroscedasticField } from "../components/heteroscedastic-field";
 
 export const metadata: Metadata = {
@@ -12,6 +13,52 @@ const principles = [
   ["03", "Keep disciplines in conversation", "Biology, software, mathematics, cognition, and music often reveal different aspects of the same structural questions."],
 ];
 
+const aboutLedePrefix = "I’m ";
+const aboutName = "John Patrick Collins";
+const aboutLedeSuffix =
+  ": a bioinformatics data scientist and software engineer, an independent researcher, and a composer and pianist. My work is united by an interest in how complex systems are structured, regulated, interpreted, and changed.";
+
+type CharacterStyle = CSSProperties & { "--char-index": number };
+
+function animatedCharacters(text: string, startingIndex: number): ReactNode[] {
+  const output: ReactNode[] = [];
+  let word: ReactNode[] = [];
+
+  const flushWord = () => {
+    if (word.length > 0) {
+      output.push(
+        <span className="fade-in-word" key={`word-${startingIndex + output.length}`}>
+          {word}
+        </span>,
+      );
+      word = [];
+    }
+  };
+
+  Array.from(text).forEach((character, offset) => {
+    const index = startingIndex + offset;
+    const characterSpan = (
+      <span
+        className="fade-in-char"
+        key={`char-${index}`}
+        style={{ "--char-index": index } as CharacterStyle}
+      >
+        {character}
+      </span>
+    );
+
+    if (character === " ") {
+      flushWord();
+      output.push(characterSpan);
+    } else {
+      word.push(characterSpan);
+    }
+  });
+  flushWord();
+
+  return output;
+}
+
 export default function AboutPage() {
   return (
     <main id="top" className="interior-page">
@@ -21,9 +68,20 @@ export default function AboutPage() {
           <h1>One person.<br /><em>Several practices.</em></h1>
         </div>
         <p className="page-lede">
-          I’m John Patrick Collins: a bioinformatics data scientist and software engineer,
-          an independent researcher, and a composer and pianist. My work is united by an
-          interest in how complex systems are structured, regulated, interpreted, and changed.
+          {animatedCharacters(aboutLedePrefix, 0)}
+          <span className="mercury-name-container fade-in-char">
+            <span
+              className="nano-mercury-char fade-in-char"
+              style={{
+                animationDelay: "-16.6066s",
+                top: "-2px",
+                "--char-index": 4,
+              } as CharacterStyle}
+            >
+              {aboutName}
+            </span>
+          </span>
+          {animatedCharacters(aboutLedeSuffix, 5)}
         </p>
       </section>
 
