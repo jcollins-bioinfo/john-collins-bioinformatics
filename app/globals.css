@@ -177,7 +177,7 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
 .heteroscedastic-field__source { position: absolute; z-index: 0; top: 50%; left: var(--heteroscedastic-source-x); width: 5px; height: 5px; border-radius: 50%; background: var(--paper); box-shadow: 0 0 6px var(--teal),0 0 18px rgba(199,243,107,.65),0 0 34px rgba(100,221,196,.35); transform: translate(-50%,-50%); }
 .soft-section { background: var(--paper-deep); border-block: 1px solid var(--line); }
 .principle-grid, .question-grid, .music-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ink); }
-.principle-grid article, .question-grid article, .music-grid article { min-height: 300px; display: flex; flex-direction: column; padding: 28px; border-right: 1px solid var(--ink); }
+.principle-grid article, .question-grid article, .music-grid article { min-height: 300px; display: flow; flex-direction: column; padding: 28px; border-right: 1px solid var(--ink); }
 .principle-grid article:last-child, .question-grid article:last-child, .music-grid article:last-child { border-right: 0; }
 .principle-grid span, .question-grid span, .music-grid span { color: var(--muted); font: 500 11px/1 var(--font-oswald), sans-serif; }
 .principle-grid h3, .question-grid h3, .music-grid h3 { margin: auto 0 14px; font-size: 24px; letter-spacing: -.035em; }
