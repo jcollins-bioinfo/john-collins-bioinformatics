@@ -190,6 +190,22 @@ test("renders every public HTML route", async () => {
   }
 });
 
+test("integrates the existing Cloudflare Turnstile widget on the contact page", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/contact", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /https:\/\/challenges\.cloudflare\.com\/turnstile\/v0\/api\.js/);
+  assert.match(html, /class=["'][^"']*cf-turnstile[^"']*["']/);
+  assert.match(html, /data-sitekey=["']0x4AAAAAAERzVqx-2DEjWWLa["']/);
+  assert.match(html, /data-size=["']flexible["']/);
+});
+
 test("renders the About lede as one accessible 225-step animation", async () => {
   const worker = await loadWorker();
   const expectedLede =
