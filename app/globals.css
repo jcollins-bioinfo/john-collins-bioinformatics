@@ -397,7 +397,7 @@ article.modern-hover-card:hover h3,
 .piano-showcase-heading { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 64px; margin-bottom: 52px; }
 .piano-showcase-heading .eyebrow { margin: 0 0 18px; }
 .piano-showcase-heading h2 { margin: 0; font-size: clamp(46px, 5.4vw, 82px); line-height: .95; letter-spacing: -.06em; }
-.piano-showcase-heading > p { max-width: 440px; margin: 0 0 5px; color: var(--muted); font-size: 17px; font-weight: 300; line-height: 1.65; }
+.piano-showcase-heading > p { margin: 0 0 5px; color: var(--muted); font-size: 17px; font-weight: 300; line-height: 1.65; }
 .piano-carousel { position: relative; }
 .piano-video-stage { position: relative; }
 .piano-video-frame { position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: var(--ink); border: 1px solid var(--ink); box-shadow: 14px 14px 0 var(--teal); animation: piano-crossfade .22s ease-out; }
