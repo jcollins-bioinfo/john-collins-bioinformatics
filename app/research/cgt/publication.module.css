@@ -336,6 +336,7 @@
 }
 
 .resultBlock {
+  scroll-margin-top: var(--research-sticky-offset, 216px);
   padding-top: 110px;
 }
 

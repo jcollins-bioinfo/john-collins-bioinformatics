@@ -1,6 +1,8 @@
 import Image from "next/image";
 import katex from "katex";
 import type { ReactNode } from "react";
+import { ResearchResultsNavigator } from "../research-results-navigator";
+import type { ResearchResultsNavigation } from "../results-navigation";
 import type { FigureSpec } from "./content";
 import { referenceIndex, references } from "./content";
 import styles from "./publication.module.css";
@@ -357,15 +359,19 @@ export function ArticleSection({
   title,
   children,
   className = "",
+  resultsNavigation,
 }: {
   id: string;
   index: string;
   title: string;
   children: ReactNode;
   className?: string;
+  /** Opt in to contextual Results navigation with stable subsection metadata. */
+  resultsNavigation?: ResearchResultsNavigation;
 }) {
   return (
     <section className={`${styles.articleSection} ${className}`} id={id} aria-labelledby={`${id}-heading`}>
+      {resultsNavigation ? <ResearchResultsNavigator config={resultsNavigation} /> : null}
       <header className={styles.sectionHeader}>
         <p>{index}</p>
         <h2 id={`${id}-heading`}>{title}</h2>
