@@ -3,6 +3,20 @@ import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } fr
 import handler from "vinext/server/app-router-entry";
 
 const CANONICAL_HOST = "johnpatrickcollins.info";
+const RELEASE_ASSET_CONTENT_TYPES = new Map([
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised.pdf",
+    "application/pdf",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_v1.zip",
+    "application/zip",
+  ],
+  [
+    "/research/cgt/figures/main/figure-02-recurrent-geometry.pdf",
+    "application/pdf",
+  ],
+]);
 
 interface AssetFetcher {
   fetch(request: Request): Promise<Response>;
@@ -48,6 +62,20 @@ const worker = {
           return result.response();
         },
       }, allowedWidths);
+    }
+
+    const releaseContentType = RELEASE_ASSET_CONTENT_TYPES.get(url.pathname);
+    if (releaseContentType && env?.ASSETS) {
+      const response = await env.ASSETS.fetch(request);
+      if (response.status !== 404) {
+        const headers = new Headers(response.headers);
+        headers.set("Content-Type", releaseContentType);
+        return new Response(response.body, {
+          status: response.status,
+          statusText: response.statusText,
+          headers,
+        });
+      }
     }
 
     return handler.fetch(request, env, ctx);

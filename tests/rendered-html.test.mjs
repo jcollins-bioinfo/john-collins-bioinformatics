@@ -190,6 +190,36 @@ test("renders every public HTML route", async () => {
   }
 });
 
+test("serves audited Figure 2 PDF and ZIP downloads with exact MIME types", async () => {
+  const worker = await loadWorker();
+  const body = new Uint8Array([0x43, 0x47, 0x54]);
+  const assetEnv = {
+    ASSETS: {
+      fetch: async () => new Response(body, {
+        headers: { "content-type": "application/octet-stream" },
+      }),
+    },
+  };
+  const expected = new Map([
+    ["/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised.pdf", "application/pdf"],
+    ["/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_v1.zip", "application/zip"],
+    ["/research/cgt/figures/main/figure-02-recurrent-geometry.pdf", "application/pdf"],
+  ]);
+
+  for (const [route, contentType] of expected) {
+    const response = await worker.fetch(new Request(`http://localhost${route}`), assetEnv, ctx);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("content-type"), contentType);
+    assert.deepEqual(new Uint8Array(await response.arrayBuffer()), body);
+  }
+
+  const wranglerConfig = await readFile(path.join(projectRoot, "wrangler.jsonc"), "utf8");
+  for (const route of expected.keys()) {
+    assert.match(wranglerConfig, new RegExp(route.replaceAll(".", "\\.")));
+  }
+  assert.match(wranglerConfig, /"run_worker_first"\s*:/);
+});
+
 test("integrates the existing Cloudflare Turnstile widget on the contact page", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
@@ -400,6 +430,30 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /legend occluded 0 of 1,229 observations/i);
   assert.doesNotMatch(html, /\/research\/cgt\/figures\/main\/figure-01-fitness\.(?:png|pdf|svg)/);
 
+  const figureTwoMatch = html.match(/<figure\b[^>]*id=["']fig-2["'][\s\S]*?<\/figure>/i);
+  assert.ok(figureTwoMatch, "Figure 2 should render as a complete figure block");
+  const figureTwoHtml = figureTwoMatch[0];
+  assert.match(figureTwoHtml, /CGT_FIGURE_002_recurrent_geometry_revised_web\.png/);
+  assert.match(figureTwoHtml, /width=["']2400["'][^>]*height=["']2500["']/i);
+  assert.match(figureTwoHtml, /aria-describedby=["']fig-2-accessible-description["']/i);
+  assert.match(figureTwoHtml, /href=["']\/research\/cgt\/figures\/main\/CGT_FIGURE_002_recurrent_geometry_revised\.svg["']/i);
+  assert.match(figureTwoHtml, /Open Figure 2 as a full-resolution SVG in a new tab/);
+  assert.match(figureTwoHtml, /Residual family-coordinate structure recurs within the leave-dataset-out benchmark but attenuates under study-proxy and context exclusion/);
+  assert.match(figureTwoHtml, /Two upstream analysis universes are shown and are not interchangeable/);
+  assert.match(figureTwoHtml, /transductive preprocessing, not a fully nested inductive pipeline/);
+  assert.match(figureTwoHtml, /Overall organization and encodings/);
+  assert.match(figureTwoHtml, /Accessibility-level interpretation boundary/);
+  for (const downloadName of [
+    "Figure 2 web PNG",
+    "Figure 2 600-dpi PNG",
+    "Figure 2 publication PDF",
+    "Figure 2 vector SVG",
+    "Figure 2 reproducibility package",
+    "Figure 2 machine-readable audit",
+  ]) assert.match(figureTwoHtml, new RegExp(downloadName));
+  assert.doesNotMatch(figureTwoHtml, /\/research\/cgt\/figures\/main\/figure-02-recurrent-geometry\.(?:png|pdf|svg)/);
+  assert.doesNotMatch(figureTwoHtml, />Download PDF<|>Open vector SVG<|>Open 600-dpi PNG</);
+
   const publicationCss = await readFile(
     path.join(projectRoot, "app", "research", "cgt", "publication.module.css"),
     "utf8",
@@ -408,7 +462,7 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(publicationCss, /\.contents\s*{[^}]*top:\s*76px;/s);
 });
 
-test("ships every canonical CGT figure and the audited Figure 1 release", async () => {
+test("ships every canonical CGT figure and the audited Figure 1 and Figure 2 releases", async () => {
   const stems = [
     ["main", "figure-01-fitness"],
     ["main", "figure-02-recurrent-geometry"],
@@ -434,10 +488,10 @@ test("ships every canonical CGT figure and the audited Figure 1 release", async 
   assert.equal(manifest.figures.length, 11);
   assert.equal(manifest.report.main_figure_count, 5);
   assert.equal(manifest.report.supplementary_figure_count, 6);
-  assert.equal(manifest.report.active_physical_asset_count, 36);
-  assert.equal(manifest.report.compatibility_alias_count, 3);
-  assert.equal(manifest.report.physical_asset_count, 39);
-  assert.ok(manifest.figures.slice(1).every((figure) =>
+  assert.equal(manifest.report.active_physical_asset_count, 39);
+  assert.equal(manifest.report.compatibility_alias_count, 6);
+  assert.equal(manifest.report.physical_asset_count, 45);
+  assert.ok(manifest.figures.slice(2).every((figure) =>
     ["png", "pdf", "svg"].every((format) => figure.assets[format]?.sha256),
   ));
 
@@ -499,6 +553,87 @@ test("ships every canonical CGT figure and the audited Figure 1 release", async 
     assert.equal(asset.sha256, source.sha256, `${key} compatibility alias should contain corrected bytes`);
     assert.equal(await sha256(aliasPath), source.sha256);
   }
+
+  const figureTwo = manifest.figures[1];
+  const figureTwoTitle = "Residual family-coordinate structure recurs within the leave-dataset-out benchmark but attenuates under study-proxy and context exclusion";
+  const figureTwoAssets = {
+    png_web: [
+      "CGT_FIGURE_002_recurrent_geometry_revised_web.png",
+      994659,
+      "43704a92196e9681c0cd8c8c666e56c7e69461e530a1a84bbdd4d662cac9e5e6",
+      "image/png",
+    ],
+    png_600dpi: [
+      "CGT_FIGURE_002_recurrent_geometry_revised_600dpi.png",
+      1051585,
+      "a530b276be8dd3d51a025c9a90e93f3226960102e5b30d29759123f4ae1f14bd",
+      "image/png",
+    ],
+    pdf: [
+      "CGT_FIGURE_002_recurrent_geometry_revised.pdf",
+      41435,
+      "5a1d008c95ad3c214193a5aeefa6dcf053336d8f4f7a1ef74354b93f4e6e753d",
+      "application/pdf",
+    ],
+    svg: [
+      "CGT_FIGURE_002_recurrent_geometry_revised.svg",
+      265227,
+      "7c418610b2beef4f112b266b1765b5007ef2ff9e1dd03ba4f17b8bcea78b3721",
+      "image/svg+xml",
+    ],
+    reproducibility_zip: [
+      "CGT_FIGURE_002_recurrent_geometry_revised_v1.zip",
+      18958999,
+      "3c187c5dd4369e9cd0c4b4c91386ed37b675b446de7dde637a5f8d85642cc947",
+      "application/zip",
+    ],
+    audit_json: [
+      "CGT_FIGURE_002_recurrent_geometry_revised_audit.json",
+      19215,
+      "6631f78a4a447b57c630ebe535e8afbdd463892f88feb7e58b701cc263ec4a58",
+      "application/json",
+    ],
+  };
+
+  assert.equal(figureTwo.title, figureTwoTitle);
+  assert.equal(figureTwo.dimensions.png_web.width_px, 2400);
+  assert.equal(figureTwo.dimensions.png_web.height_px, 2500);
+  assert.equal(figureTwo.dimensions.png_600dpi.width_px, 4320);
+  assert.equal(figureTwo.dimensions.png_600dpi.height_px, 4500);
+  assert.equal(figureTwo.dimensions.png_600dpi.nominal_dpi, 600);
+  assert.deepEqual(figureTwo.dimensions.svg.view_box, [0, 0, 518.4, 540]);
+  assert.match(figureTwo.release_status, /all mandatory automated and rendered visual QA passed/);
+  assert.match(figureTwo.revision_scope, /No original or upstream scientific input was modified/);
+  for (const [key, [filename, bytes, digest, mimeType]] of Object.entries(figureTwoAssets)) {
+    const asset = figureTwo.assets[key];
+    const assetPath = path.join(projectRoot, asset.repository_path);
+    assert.equal(asset.filename, filename);
+    assert.equal(asset.bytes, bytes);
+    assert.equal(asset.sha256, digest);
+    assert.equal(asset.mime_type, mimeType);
+    assert.equal(await sha256(assetPath), digest);
+  }
+
+  for (const [key, asset] of Object.entries(figureTwo.compatibility_aliases)) {
+    const source = figureTwo.assets[asset.mirrors_asset];
+    const aliasPath = path.join(projectRoot, asset.repository_path);
+    assert.equal(asset.active_page_reference, false);
+    assert.equal(asset.sha256, source.sha256, `${key} Figure 2 compatibility alias should contain corrected bytes`);
+    assert.equal(await sha256(aliasPath), source.sha256);
+  }
+
+  const figureTwoCopy = JSON.parse(await readFile(
+    path.join(projectRoot, "app", "research", "cgt", "figure-02-copy.json"),
+    "utf8",
+  ));
+  assert.equal(
+    createHash("sha256").update(figureTwoCopy.caption_markdown_lines.join("\n")).digest("hex"),
+    "aa0e1d2bac14808601f0fcb1589069f8e0c404132169bf2b67eadf48c413eb5c",
+  );
+  assert.equal(
+    createHash("sha256").update(figureTwoCopy.accessible_description_markdown_lines.join("\n")).digest("hex"),
+    "a8c4d4dad575411a2edf2944627a0f5bdaabba1fb805f3bbc19cbc1026dd723f",
+  );
 
   await access(path.join(projectRoot, "public", "research", "cgt", "data", "cgt-cache-002-dataset-manifest.csv"));
 });

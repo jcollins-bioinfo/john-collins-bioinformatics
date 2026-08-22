@@ -10,8 +10,9 @@
     "build": "vinext build && npm run validate:artifact",
     "deploy:cloudflare": "npm run build && wrangler deploy",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run validate:cgt-figure-002 && npm run build && node --test tests/rendered-html.test.mjs",
     "validate:artifact": "node scripts/validate-artifact.mjs",
+    "validate:cgt-figure-002": "node scripts/validate-cgt-figure-002.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "typecheck": "tsc --noEmit",
     "preview:cloudflare": "npm run build && wrangler dev"
