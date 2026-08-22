@@ -549,8 +549,8 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /has not been peer reviewed/i);
   assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
   assert.match(html, /<dt>Web report<\/dt><dd>22 August 2026<\/dd>/);
-  assert.match(html, /<dt>Version<\/dt><dd>0\.2\.1<\/dd>/);
-  assert.match(html, /version (?:<!-- -->)?0\.2\.1/i);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.0<\/dd>/);
+  assert.match(html, /version (?:<!-- -->)?0\.3\.0/i);
   assert.match(html, /CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web\.png/);
   assert.match(html, /width=["']2400["'][^>]*height=["']2163["']/i);
   assert.match(html, /aria-describedby=["']fig-1-accessible-description["']/i);
@@ -1091,4 +1091,41 @@ test("redirects the www hostname without changing the path or query", async () =
   );
   assert.equal(response.status, 308);
   assert.equal(response.headers.get("location"), "https://johnpatrickcollins.info/research/cgt?source=test");
+});
+
+test("CGT opts into the reusable contextual Results navigation", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/research/cgt", { headers: { accept: "text/html" } }), env, ctx,
+  );
+  const html = await response.text();
+  const items = [
+    ["results-fitness-endpoint", "Gene-level coordinates predict an external CRISPR fitness endpoint"],
+    ["results-recurrent-coordinates", "Residual response coordinates recur—primarily within related settings"],
+    ["results-candidate-annotations", "Study-conditioned candidate annotations of context-residualized family-mass directions"],
+    ["results-evidence-atlas", "The integrated atlas separates observations from theory"],
+    ["results-tumor-cohorts", "Predefined CGT scores vary across bulk tumor cohorts"],
+  ];
+  assert.match(html, /<nav[^>]+aria-label=["']Results sections["']/i);
+  for (const [id, label] of items) {
+    assert.match(html, new RegExp(`id=["']${id}["']`));
+    assert.match(html, new RegExp(`href=["']#${id}["']`));
+    assert.match(html, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
+  assert.match(html, /<dt>Web report<\/dt><dd>22 August 2026<\/dd>/);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.0<\/dd>/);
+
+  const source = await readFile(path.join(projectRoot, "app", "research", "results-navigation.ts"), "utf8");
+  assert.match(source, /new Set\(ids\)\.size !== ids\.length/);
+  assert.match(source, /urlSafeId\.test\(id\)/);
+  assert.match(source, /heading\.top > activationLine/);
+});
+
+test("research pages without Results configuration do not render a tertiary navigator", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/research", { headers: { accept: "text/html" } }), env, ctx,
+  );
+  assert.doesNotMatch(await response.text(), /aria-label=["']Results sections["']/i);
 });

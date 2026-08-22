@@ -7,6 +7,7 @@ import {
 } from "./publication-components";
 import { mainFigures, references, supplementaryFigures } from "./content";
 import styles from "./publication.module.css";
+import { defineResearchResultsNavigation } from "../results-navigation";
 
 const title = "Context-conditioned perturbation geometry links recurrent transcriptional responses to gene fitness";
 const description =
@@ -15,7 +16,7 @@ const reportMetadata = {
   analysisFreeze: "15 July 2026",
   dateModified: "2026-08-22",
   dateModifiedIso: "2026-08-22T00:00:00Z",
-  version: "0.2.1",
+  version: "0.3.0",
   webReportDate: "22 August 2026",
 } as const;
 
@@ -89,6 +90,17 @@ const contents = [
   ["References", "references"],
 ] as const;
 
+export const cgtResultsNavigation = defineResearchResultsNavigation({
+  regionId: "results",
+  items: [
+    { id: "results-fitness-endpoint", ordinal: "01", label: "Gene-level coordinates predict an external CRISPR fitness endpoint", shortLabel: "CRISPR fitness endpoint" },
+    { id: "results-recurrent-coordinates", ordinal: "02", label: "Residual response coordinates recur—primarily within related settings", shortLabel: "Recurrent coordinates" },
+    { id: "results-candidate-annotations", ordinal: "03", label: "Study-conditioned candidate annotations of context-residualized family-mass directions", shortLabel: "Candidate annotations" },
+    { id: "results-evidence-atlas", ordinal: "04", label: "The integrated atlas separates observations from theory", shortLabel: "Integrated atlas" },
+    { id: "results-tumor-cohorts", ordinal: "05", label: "Predefined CGT scores vary across bulk tumor cohorts", shortLabel: "Tumor cohorts" },
+  ],
+} as const);
+
 export default function CgtPage() {
   return (
     <main id="top" className={`interior-page cgt-page ${styles.page}`}>
@@ -133,7 +145,7 @@ export default function CgtPage() {
           <div><strong>1,229</strong><span>genes in fitness benchmark</span></div>
         </section>
 
-        <nav className={styles.contents} aria-label="Article contents">
+        <nav className={styles.contents} aria-label="Article contents" data-research-contents>
           <div className="shell">
             <p>CONTENTS</p>
             <ol>
@@ -242,8 +254,8 @@ export default function CgtPage() {
             </aside>
           </ArticleSection>
 
-          <ArticleSection id="results" index="03 / RESULTS" title="Results">
-            <div className={styles.resultBlock}>
+          <ArticleSection id="results" index="03 / RESULTS" title="Results" resultsNavigation={cgtResultsNavigation}>
+            <div className={styles.resultBlock} id="results-fitness-endpoint">
               <p className={styles.resultNumber}>RESULT / 01</p>
               <div className={styles.prose}>
                 <h3>Gene-level coordinates predict an external CRISPR fitness endpoint</h3>
@@ -277,7 +289,7 @@ export default function CgtPage() {
               <ScientificFigure figure={mainFigures[0]} />
             </div>
 
-            <div className={styles.resultBlock}>
+            <div className={styles.resultBlock} id="results-recurrent-coordinates">
               <p className={styles.resultNumber}>RESULT / 02</p>
               <div className={styles.prose}>
                 <h3>Residual response coordinates recur—primarily within related settings</h3>
@@ -308,7 +320,7 @@ export default function CgtPage() {
               <ScientificFigure figure={mainFigures[1]} />
             </div>
 
-            <div className={styles.resultBlock}>
+            <div className={styles.resultBlock} id="results-candidate-annotations">
               <p className={styles.resultNumber}>RESULT / 03</p>
               <div className={styles.prose}>
                 <h3>Study-conditioned candidate annotations of context-residualized family-mass directions</h3>
@@ -356,7 +368,7 @@ export default function CgtPage() {
               <ScientificFigure figure={mainFigures[2]} />
             </div>
 
-            <div className={styles.resultBlock}>
+            <div className={styles.resultBlock} id="results-evidence-atlas">
               <p className={styles.resultNumber}>RESULT / 04</p>
               <div className={styles.prose}>
                 <h3>The integrated atlas separates observations from theory</h3>
@@ -380,7 +392,7 @@ export default function CgtPage() {
               <ScientificFigure figure={mainFigures[3]} />
             </div>
 
-            <div className={styles.resultBlock}>
+            <div className={styles.resultBlock} id="results-tumor-cohorts">
               <p className={styles.resultNumber}>RESULT / 05</p>
               <div className={styles.prose}>
                 <h3>Predefined CGT scores vary across bulk tumor cohorts</h3>
