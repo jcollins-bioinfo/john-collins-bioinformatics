@@ -151,11 +151,19 @@ const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const figureTwo = manifest.figures.find((figure) => figure.id === "figure-02");
 assert.ok(figureTwo, "Figure 2 manifest entry exists");
 assert.equal(figureTwo.title, title);
-assert.equal(manifest.report.active_physical_asset_count, 39);
-assert.equal(manifest.report.compatibility_alias_count, 6);
-assert.equal(manifest.report.physical_asset_count, 45);
-assert.equal(manifest.audit.integrity.expected_physical_assets, 45);
-assert.equal(manifest.audit.integrity.sha256_matches, 45);
+const activeAssetPaths = manifest.figures.flatMap((figure) =>
+  Object.values(figure.assets ?? {}).map((asset) => asset.repository_path));
+const compatibilityAliasPaths = manifest.figures.flatMap((figure) =>
+  Object.values(figure.compatibility_aliases ?? {}).map((asset) => asset.repository_path));
+assert.equal(new Set(activeAssetPaths).size, activeAssetPaths.length, "active asset repository paths are unique");
+assert.equal(new Set(compatibilityAliasPaths).size, compatibilityAliasPaths.length, "compatibility alias repository paths are unique");
+assert.equal(activeAssetPaths.length, 42);
+assert.equal(compatibilityAliasPaths.length, 9);
+assert.equal(manifest.report.active_physical_asset_count, activeAssetPaths.length);
+assert.equal(manifest.report.compatibility_alias_count, compatibilityAliasPaths.length);
+assert.equal(manifest.report.physical_asset_count, activeAssetPaths.length + compatibilityAliasPaths.length);
+assert.equal(manifest.audit.integrity.expected_physical_assets, 51);
+assert.equal(manifest.audit.integrity.sha256_matches, 51);
 assert.deepEqual(manifest.schema.figure_02_release_asset_formats, Object.keys(assets));
 
 const verified = {};

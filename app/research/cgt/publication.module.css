@@ -430,6 +430,16 @@
   line-height: 1.72;
 }
 
+.figureResponsiveNote {
+  margin: 20px 0;
+  padding: 14px 16px;
+  border-left: 3px solid #087c6b;
+  background: var(--paper-deep);
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
 .captionBody {
   min-width: 0;
 }
@@ -439,6 +449,18 @@
   color: var(--ink);
   font-size: 16px;
   line-height: 1.35;
+}
+
+.figureMarkdown ol {
+  margin: 0 0 20px;
+  padding-left: 22px;
+  color: #46534f;
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.figureMarkdown li + li {
+  margin-top: 8px;
 }
 
 .figureMarkdown code,

@@ -10,7 +10,7 @@ import styles from "./publication.module.css";
 
 const title = "Context-conditioned perturbation geometry links recurrent transcriptional responses to gene fitness";
 const description =
-  "A provenance-tracked CGT project report integrating perturbational transcriptomics, CRISPR fitness screens, signed biological axes, and TCGA tumor-state projections.";
+  "A provenance-tracked CGT project report integrating perturbational transcriptomics, CRISPR fitness screens, context-residualized family-mass annotations, and TCGA tumor-state projections.";
 
 export const metadata: Metadata = {
   title: "CGT project report: context-conditioned perturbation geometry",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title,
     description,
     publishedTime: "2026-07-20T00:00:00Z",
-    modifiedTime: "2026-08-03T00:00:00Z",
+    modifiedTime: "2026-08-21T00:00:00Z",
     authors: ["John Patrick Collins"],
     images: [
       {
@@ -46,7 +46,7 @@ const articleJsonLd = {
     url: "https://johnpatrickcollins.info",
   },
   datePublished: "2026-07-20",
-  dateModified: "2026-08-03",
+  dateModified: "2026-08-21",
   version: "0.2",
   creativeWorkStatus: "Preprint-style independent research report; not peer reviewed",
   isAccessibleForFree: true,
@@ -166,8 +166,10 @@ export default function CgtPage() {
                 shuffles).
               </p>
               <p>
-                Signed-coordinate enrichment supported 3 headline and 6 supporting
-                candidate biological axes. However, transfer attenuated markedly when
+                Context-residualized family-mass queries yielded 3 headline and 6
+                supporting manually curated candidate annotations, with pathway
+                coherence that was study-conditioned rather than evidence of general
+                biological axes. Transfer attenuated markedly when
                 same-study proxies or entire contexts were excluded, and fitness
                 prediction weakened under harder grouped holdouts. CGT therefore
                 supports a context-conditioned descriptive and predictive geometry,
@@ -302,28 +304,46 @@ export default function CgtPage() {
             <div className={styles.resultBlock}>
               <p className={styles.resultNumber}>RESULT / 03</p>
               <div className={styles.prose}>
-                <h3>Signed directions support candidate biological interpretations</h3>
+                <h3>Study-conditioned candidate annotations of context-residualized family-mass directions</h3>
                 <p>
-                  Positive and negative coordinate tails were annotated using top-tail
-                  over-representation analysis and continuous rank enrichment against
-                  curated pathway collections. Gene-set enrichment tests coordinated
-                  association with existing annotations; they do not directly measure
-                  pathway activity or establish mechanism.<Citation references={["subramanian2005", "tamayo2016", "liberzon2015", "gillespie2022", "go2021", "kanehisa2000"]} />
+                  Each source coordinate was the normalized absolute SVD-score mass of a
+                  parent family within a perturbation profile; subtracting the assigned
+                  context mean produced the residual used downstream. “Lower” and
+                  “upper” therefore mean below and above context-mean family mass, not
+                  an SVD pole or intrinsic negative and positive biology. Explicit sign
+                  filtering removed the invalid F1, F3, and F15 upper views from 56
+                  attempted views, leaving 53 corrected valid views, with every gene tied
+                  at a query boundary retained.
                 </p>
                 <p>
-                  After de-duplication, sibling-direction consolidation, and manual
-                  evidence review, the project retained 3 headline and 6 supporting
-                  candidate axes. The headline interpretations were cytokine/JAK–STAT,
+                  ORA and one-sided rank analysis tested 3,807 de-duplicated MSigDB
+                  v2026.1.Hs sets across Hallmark, Reactome, Gene Ontology biological
+                  process, cellular component and molecular function, and KEGG. The
+                  pooled background contained 1,229 genes; high-confidence absolute
+                  views used their 255 eligible genes for both methods. Benjamini–Hochberg
+                  adjustment was performed separately for ORA and rank across all 201,771
+                  corrected view–term tests per method.<Citation references={["subramanian2005", "tamayo2016", "liberzon2015", "gillespie2022", "go2021", "kanehisa2000", "benjamini1995"]} />
+                </p>
+                <p>
+                  After 0.70-Jaccard consolidation and manual, post hoc naming,
+                  representative-term selection, and failure-mode review, the registry
+                  contained 3 headline and 6 supporting annotations displayed here,
+                  plus 4 exploratory and 2 excluded or unresolved groups. The headline
+                  shorthands were cytokine/JAK–STAT,
                   chromatin/epigenetic regulation, and translation/ribosome-associated
                   quality control. Supporting interpretations included chromatin–cytokine,
                   oxidative phosphorylation/TCA, lysosome/ECM, rRNA biogenesis,
                   sterol/SREBP, and antigen-receptor/T-cell signalling.
                 </p>
                 <p>
-                  ORA and rank enrichment interrogate overlapping gene information and
-                  cannot be counted as independent replication. The labels are therefore
-                  candidate annotations of signed latent directions, not autonomous
-                  causal programs.
+                  ORA and rank reuse the same coordinates and overlapping gene-set
+                  memberships, while RidgeCV and Spearman summaries reuse the same
+                  GeneEffect endpoint; none can be counted as independent replication.
+                  Study-proxy concentration and a closed, rank-deficient family coding
+                  further constrain interpretation. The labels are study-conditioned,
+                  manually curated, associative, pipeline-dependent shorthands—not latent
+                  mode identities, validated biological programs, universal axes,
+                  mechanisms, or causal constraint laws.
                 </p>
               </div>
               <ScientificFigure figure={mainFigures[2]} />
@@ -475,21 +495,27 @@ export default function CgtPage() {
               </section>
               <section>
                 <span>04.4</span>
-                <h3>Signed-axis annotation</h3>
+                <h3>Context-residualized family-mass annotation</h3>
                 <p>
-                  Positive and negative coordinate tails defined direction-specific gene
-                  sets. Symbol-only Hallmark, Reactome, Gene Ontology, and KEGG
-                  collections—plus compatible CORUM-like resources when available—were
-                  searched with top-tail ORA and continuous rank enrichment.<Citation references={["subramanian2005", "tamayo2016", "liberzon2015", "gillespie2022", "go2021", "kanehisa2000"]} />
-                  Results were corrected for multiple testing, de-duplicated, and reviewed
-                  across sibling directions.<Citation references={["benjamini1995"]} />
+                  Normalized absolute family mass was residualized against the assigned
+                  context mean. Lower and upper queries targeted 30 genes and
+                  absolute-residual queries targeted 40, with boundary ties retained.
+                  Explicit sign filtering left 53 valid views. One-sided Fisher ORA used
+                  the selected query; the one-sided Mann–Whitney analysis used all eligible
+                  coordinate-derived scores. Both methods tested 3,807 de-duplicated
+                  MSigDB v2026.1.Hs Hallmark, Reactome, Gene Ontology biological process,
+                  cellular component and molecular function, and KEGG sets.<Citation references={["subramanian2005", "tamayo2016", "liberzon2015", "gillespie2022", "go2021", "kanehisa2000"]} />
                 </p>
                 <p>
-                  Candidate names followed a declared manual curation layer. Related
-                  directions such as F3/F15 and F5/F6 were collapsed before axis-level
-                  interpretation. Enrichment magnitude, predictive weight, essentiality
-                  association, recurrence, and coessentiality were retained as distinct
-                  evidence dimensions rather than pooled into a single inferential test.
+                  The pooled universe contained 1,229 genes; high-confidence absolute
+                  views used their 255 eligible genes for both ORA and rank analysis.
+                  Benjamini–Hochberg adjustment was performed separately for each method
+                  over all 201,771 corrected view–term tests. Analytic candidates met the
+                  declared q-value and effect or overlap filters before 0.70-Jaccard
+                  consolidation and manual, post hoc naming and failure-mode review.<Citation references={["benjamini1995"]} />
+                  ORA and rank were dependent summaries, the two fitness summaries shared
+                  one endpoint, and related coordinates such as F3/F15 and F5/F6 were not
+                  treated as independent discoveries.
                 </p>
               </section>
               <section>
@@ -576,9 +602,12 @@ export default function CgtPage() {
               </p>
               <p>
                 Biological annotations should be read at the same level of restraint.
-                Enrichment of cytokine/JAK–STAT, chromatin, and translation-associated
-                gene sets makes these directions plausible candidate axes, but enrichment
-                and manual consolidation do not establish direct regulatory mechanisms.
+                Cytokine/JAK–STAT, chromatin, and translation-associated enrichment
+                supports study-conditioned pathway coherence in manually curated,
+                pipeline-dependent summaries. Study-proxy concentration, dependent
+                evidence inputs, and compositional non-identifiability prevent these
+                labels from identifying validated biological programs, universal axes,
+                mechanisms, or causal constraint laws.
                 Likewise, the TCGA projection shows that predefined CGT scores vary across
                 bulk tumor cohorts; it does not show that the axes cause tumor phenotypes,
                 predict treatment response, or operate uniformly within malignant cells.<Citation references={["hoadley2018", "aran2015"]} />

@@ -5,11 +5,14 @@ import { referenceIndex, references } from "./content";
 import styles from "./publication.module.css";
 
 function InlineFigureMarkdown({ text }: { text: string }) {
-  const tokens = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\\\([^\n]+?\\\))/g);
+  const tokens = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`|\\\([^\n]+?\\\))/g);
 
   return tokens.map((token, index) => {
     if (token.startsWith("**") && token.endsWith("**")) {
       return <strong key={index}>{token.slice(2, -2)}</strong>;
+    }
+    if (token.startsWith("*") && token.endsWith("*")) {
+      return <em key={index}>{token.slice(1, -1)}</em>;
     }
     if (token.startsWith("`") && token.endsWith("`")) {
       return <code key={index}>{token.slice(1, -1)}</code>;
@@ -78,6 +81,21 @@ function FigureMarkdown({ markdown, id }: { markdown: string; id?: string }) {
             ))}</tbody>
           </table>
         </div>,
+      );
+      continue;
+    }
+
+    if (/^\d+\.\s/.test(line)) {
+      const items: string[] = [];
+      const listStart = index;
+      while (index < lines.length && /^\d+\.\s/.test(lines[index])) {
+        items.push(lines[index].replace(/^\d+\.\s/, ""));
+        index += 1;
+      }
+      blocks.push(
+        <ol key={`ordered-list-${listStart}`}>
+          {items.map((item) => <li key={item}><InlineFigureMarkdown text={item} /></li>)}
+        </ol>,
       );
       continue;
     }
@@ -186,6 +204,9 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
               </a>
             ))}
           </nav>
+          {figure.responsiveNote
+            ? <p className={styles.figureResponsiveNote}>{figure.responsiveNote}</p>
+            : null}
           <details className={styles.figureDetails} id={`${figure.id}-details`}>
             <summary>Accessible description and provenance</summary>
             <div>
@@ -207,6 +228,7 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
                     <dd className={styles.assetMetadata}>
                       <code>{asset.filename}</code>
                       <span>
+                        {asset.role ? `${asset.role} · ` : ""}
                         {asset.width && asset.height ? `${asset.width.toLocaleString()} × ${asset.height.toLocaleString()} px · ` : ""}
                         {asset.nominalDpi ? `${asset.nominalDpi} dpi · ` : ""}
                         {asset.widthPt && asset.heightPt ? `${asset.widthPt} × ${asset.heightPt} pt · ` : ""}
