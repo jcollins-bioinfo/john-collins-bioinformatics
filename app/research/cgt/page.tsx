@@ -11,6 +11,13 @@ import styles from "./publication.module.css";
 const title = "Context-conditioned perturbation geometry links recurrent transcriptional responses to gene fitness";
 const description =
   "A provenance-tracked CGT project report integrating perturbational transcriptomics, CRISPR fitness screens, context-residualized family-mass annotations, and TCGA tumor-state projections.";
+const reportMetadata = {
+  analysisFreeze: "15 July 2026",
+  dateModified: "2026-08-22",
+  dateModifiedIso: "2026-08-22T00:00:00Z",
+  version: "0.2.1",
+  webReportDate: "22 August 2026",
+} as const;
 
 export const metadata: Metadata = {
   title: "CGT project report: context-conditioned perturbation geometry",
@@ -22,7 +29,7 @@ export const metadata: Metadata = {
     title,
     description,
     publishedTime: "2026-07-20T00:00:00Z",
-    modifiedTime: "2026-08-21T00:00:00Z",
+    modifiedTime: reportMetadata.dateModifiedIso,
     authors: ["John Patrick Collins"],
     images: [
       {
@@ -46,8 +53,8 @@ const articleJsonLd = {
     url: "https://johnpatrickcollins.info",
   },
   datePublished: "2026-07-20",
-  dateModified: "2026-08-21",
-  version: "0.2",
+  dateModified: reportMetadata.dateModified,
+  version: reportMetadata.version,
   creativeWorkStatus: "Preprint-style independent research report; not peer reviewed",
   isAccessibleForFree: true,
   inLanguage: "en",
@@ -110,10 +117,10 @@ export default function CgtPage() {
                 causal theory.
               </p>
               <dl>
-                <div><dt>Analysis freeze</dt><dd>15 July 2026</dd></div>
-                <div><dt>Web report</dt><dd>3 August 2026</dd></div>
+                <div><dt>Analysis freeze</dt><dd>{reportMetadata.analysisFreeze}</dd></div>
+                <div><dt>Web report</dt><dd>{reportMetadata.webReportDate}</dd></div>
                 <div><dt>Author</dt><dd>John Patrick Collins</dd></div>
-                <div><dt>Version</dt><dd>0.2</dd></div>
+                <div><dt>Version</dt><dd>{reportMetadata.version}</dd></div>
               </dl>
             </aside>
           </div>
@@ -742,7 +749,7 @@ export default function CgtPage() {
               <p>CITE THIS REPORT</p>
               <span>
                 Collins, J. P. (2026). <em>{title}.</em> CGT independent research report,
-                version 0.2. https://johnpatrickcollins.info/research/cgt
+                version {reportMetadata.version}. https://johnpatrickcollins.info/research/cgt
               </span>
             </div>
             <nav aria-label="Research report links">

@@ -26,7 +26,15 @@ function MathExpression({ expression, display = false }: { expression: string; d
     );
   }
 
-  return <span className={styles.figureInlineEquation} dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <span
+      aria-label="Scrollable inline mathematical expression"
+      className={styles.figureInlineEquation}
+      dangerouslySetInnerHTML={{ __html: html }}
+      role="region"
+      tabIndex={0}
+    />
+  );
 }
 
 function InlineFigureMarkdown({

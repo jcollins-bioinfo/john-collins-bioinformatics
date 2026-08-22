@@ -547,8 +547,10 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /Supplementary Figure 1/i);
   assert.match(html, /Contextual Operator Response Dynamics/i);
   assert.match(html, /has not been peer reviewed/i);
-  assert.match(html, /3 August 2026/);
-  assert.match(html, /version 0\.2/i);
+  assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
+  assert.match(html, /<dt>Web report<\/dt><dd>22 August 2026<\/dd>/);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.2\.1<\/dd>/);
+  assert.match(html, /version (?:<!-- -->)?0\.2\.1/i);
   assert.match(html, /CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web\.png/);
   assert.match(html, /width=["']2400["'][^>]*height=["']2163["']/i);
   assert.match(html, /aria-describedby=["']fig-1-accessible-description["']/i);
@@ -667,6 +669,22 @@ test("renders the audited Figure 3 release with canonical assets, accessible cop
     /study-conditioned pathway coherence in manually curated, pipeline-dependent summaries/,
     /does not identify validated biological programs, universal axes, mechanisms, or causal constraint laws/,
   ]) assert.match(figureThreeHtml, approvedCopy);
+
+  assert.ok((figureThreeHtml.match(/<math\b/g) ?? []).length >= 29, "Figure 3 inline expressions should include semantic MathML");
+  for (const expression of [
+    String.raw`A_{if}=\frac{\sum_{m\in f}\lvert U_{im}S_m\rvert}{\sum_g\sum_{m\in g}\lvert U_{im}S_m\rvert}`,
+    String.raw`R_{if}=A_{if}-\operatorname{mean}_{c(i)}(A_f)`,
+    String.raw`A_{if}\geq 0`, String.raw`q\leq 0.05`, String.raw`-\log_{10}(q)`,
+    String.raw`\mathtt{essentiality\_strength}=-\operatorname{mean}(\text{DepMap GeneEffect})`,
+    String.raw`0.19354839\times\mathrm{F3}`, String.raw`-\mathrm{F5}`,
+    String.raw`q=1.98\times10^{-55}`, String.raw`q=3.52\times10^{-15}`,
+  ]) assert.ok(figureThreeHtml.includes(`<annotation encoding="application/x-tex">${expression}</annotation>`), expression);
+  assert.ok((figureThreeHtml.match(/<code>NR<\/code>/g) ?? []).length >= 1);
+  assert.match(figureThreeHtml, /perturbation <em>i<\/em> and family <em>f<\/em>/);
+  assert.doesNotMatch(
+    figureThreeHtml.replace(/<annotation[\s\S]*?<\/annotation>/g, ""),
+    /\\[()]|\\(?:frac|sum|lvert|rvert|times|leq|operatorname|mathtt|text)/,
+  );
 
   const downloadsMatch = figureThreeHtml.match(
     /<nav\b[^>]*aria-label=["']Figure 3 downloads["'][^>]*>[\s\S]*?<\/nav>/i,
@@ -1008,7 +1026,7 @@ test("ships every canonical CGT figure and the audited Figure 1, Figure 2, and F
   assert.equal(figureThreeCopy.title, figureThreeTitle);
   assert.equal(
     createHash("sha256").update(figureThreeCopy.caption_markdown_lines.join("\n")).digest("hex"),
-    "7700fcc4aeba159e41ce5431dab482f13732db5079880f76ecf7f969948240a4",
+    "60b3911317ac2ea89c35b7fa07de3a27c0decb51c89cb7acb5289fec124471c6",
   );
   assert.equal(
     createHash("sha256").update(figureThreeCopy.alt).digest("hex"),
