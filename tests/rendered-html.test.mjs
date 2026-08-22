@@ -441,6 +441,20 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(figureTwoHtml, /Residual family-coordinate structure recurs within the leave-dataset-out benchmark but attenuates under study-proxy and context exclusion/);
   assert.match(figureTwoHtml, /Two upstream analysis universes are shown and are not interchangeable/);
   assert.match(figureTwoHtml, /transductive preprocessing, not a fully nested inductive pipeline/);
+  assert.equal((figureTwoHtml.match(/class=["'][^"']*katex-display/g) ?? []).length, 2);
+  assert.ok((figureTwoHtml.match(/<math\b/g) ?? []).length >= 20, "inline and display expressions should include semantic MathML");
+  assert.match(figureTwoHtml, /<annotation encoding=["']application\/x-tex["']>R_f=z\(C_f\/9\)/);
+  assert.match(figureTwoHtml, /<annotation encoding=["']application\/x-tex["']>S_f=z\(q_f\)/);
+  assert.match(figureTwoHtml, /H_f=-\\sum_c p_\{fc\}\\log p_\{fc\}/);
+  assert.match(figureTwoHtml, /0\.75\\,\\mathbb\{E\}\[y\\mid\\mathrm\{dataset\}\]/);
+  assert.match(figureTwoHtml, /\\alpha=n\/\(n\+2\)/);
+  assert.match(figureTwoHtml, /R_f-S_f\\leq-1/);
+  assert.match(figureTwoHtml, /-1&lt;R_f-S_f\\leq1/);
+  assert.match(figureTwoHtml, /R_f-S_f&gt;1/);
+  for (const identifier of ["B", "I", "C", "universal_candidate", "universality_index", "energy_fraction"]) {
+    assert.match(figureTwoHtml, new RegExp(`<code>${identifier}</code>`));
+  }
+  assert.doesNotMatch(figureTwoHtml.replace(/<annotation[\s\S]*?<\/annotation>/g, ""), /\\[()[\]]|\\(?:mathbb|mathrm|mid|sum|log|tfrac|left|right|leq|alpha)/);
   assert.match(figureTwoHtml, /Overall organization and encodings/);
   assert.match(figureTwoHtml, /Accessibility-level interpretation boundary/);
   for (const downloadName of [
@@ -628,7 +642,7 @@ test("ships every canonical CGT figure and the audited Figure 1 and Figure 2 rel
   ));
   assert.equal(
     createHash("sha256").update(figureTwoCopy.caption_markdown_lines.join("\n")).digest("hex"),
-    "aa0e1d2bac14808601f0fcb1589069f8e0c404132169bf2b67eadf48c413eb5c",
+    "eb29bcbec3c30174ba7e3fbaff025b2391620c819662d9c88f40c17963eb0ff1",
   );
   assert.equal(
     createHash("sha256").update(figureTwoCopy.accessible_description_markdown_lines.join("\n")).digest("hex"),
