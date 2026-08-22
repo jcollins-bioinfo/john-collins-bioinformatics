@@ -228,7 +228,7 @@ const copy = JSON.parse(await readFile(copyPath, "utf8"));
 const caption = copy.caption_markdown_lines.join("\n");
 const accessibleDescription = copy.accessible_description_markdown_lines.join("\n");
 assert.equal(copy.source_document_sha256, "6a476f9fdd64a38c6c96fdb5b695b4ca9dbaff84ea1de2bc4868f093d41a95f1");
-assert.equal(sha256(Buffer.from(caption)), "aa0e1d2bac14808601f0fcb1589069f8e0c404132169bf2b67eadf48c413eb5c");
+assert.equal(sha256(Buffer.from(caption)), "eb29bcbec3c30174ba7e3fbaff025b2391620c819662d9c88f40c17963eb0ff1");
 assert.equal(sha256(Buffer.from(accessibleDescription)), "a8c4d4dad575411a2edf2944627a0f5bdaabba1fb805f3bbc19cbc1026dd723f");
 assert.match(caption, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 assert.match(accessibleDescription, /### Accessibility-level interpretation boundary/);

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Lato, Montserrat, Oswald } from "next/font/google";
 import { SiteFooter, SiteHeader } from "./components/site-chrome";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 
 const lato = Lato({

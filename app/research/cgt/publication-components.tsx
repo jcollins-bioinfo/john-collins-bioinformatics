@@ -1,27 +1,121 @@
 import Image from "next/image";
+import katex from "katex";
 import type { ReactNode } from "react";
 import type { FigureSpec } from "./content";
 import { referenceIndex, references } from "./content";
 import styles from "./publication.module.css";
 
-function InlineFigureMarkdown({ text }: { text: string }) {
-  const tokens = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`|\\\([^\n]+?\\\))/g);
-
-  return tokens.map((token, index) => {
-    if (token.startsWith("**") && token.endsWith("**")) {
-      return <strong key={index}>{token.slice(2, -2)}</strong>;
-    }
-    if (token.startsWith("*") && token.endsWith("*")) {
-      return <em key={index}>{token.slice(1, -1)}</em>;
-    }
-    if (token.startsWith("`") && token.endsWith("`")) {
-      return <code key={index}>{token.slice(1, -1)}</code>;
-    }
-    if (token.startsWith("\\(") && token.endsWith("\\)")) {
-      return <span className={styles.figureInlineEquation} key={index}>{token.slice(2, -2)}</span>;
-    }
-    return token;
+function MathExpression({ expression, display = false }: { expression: string; display?: boolean }) {
+  const html = katex.renderToString(expression, {
+    displayMode: display,
+    output: "htmlAndMathml",
+    strict: "error",
+    throwOnError: true,
+    trust: false,
   });
+
+  if (display) {
+    return (
+      <div
+        aria-label="Scrollable mathematical equation"
+        className={styles.figureEquation}
+        dangerouslySetInnerHTML={{ __html: html }}
+        role="region"
+        tabIndex={0}
+      />
+    );
+  }
+
+  return <span className={styles.figureInlineEquation} dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+function InlineFigureMarkdown({
+  text,
+}: {
+  text: string;
+}): ReactNode[] {
+  type Delimiter = {
+    open: string;
+    close: string;
+    render: (value: string, key: number) => ReactNode;
+  };
+
+  const tokens: ReactNode[] = [];
+
+  const delimiters: Delimiter[] = [
+    {
+      open: "**",
+      close: "**",
+      render: (value, key) => <strong key={key}>{value}</strong>,
+    },
+    {
+      open: "*",
+      close: "*",
+      render: (value, key) => <em key={key}>{value}</em>,
+    },
+    {
+      open: "`",
+      close: "`",
+      render: (value, key) => <code key={key}>{value}</code>,
+    },
+    {
+      open: "\\(",
+      close: "\\)",
+      render: (value, key) => (
+        <MathExpression expression={value} key={key} />
+      ),
+    },
+  ];
+
+  let cursor = 0;
+
+  while (cursor < text.length) {
+    const matches = delimiters
+      .map((delimiter) => ({
+        delimiter,
+        index: text.indexOf(delimiter.open, cursor),
+      }))
+      .filter(({ index }) => index >= 0)
+      .sort(
+        (left, right) =>
+          left.index - right.index ||
+          right.delimiter.open.length - left.delimiter.open.length,
+      );
+
+    const match = matches[0];
+
+    if (!match) {
+      tokens.push(text.slice(cursor));
+      break;
+    }
+
+    if (match.index > cursor) {
+      tokens.push(text.slice(cursor, match.index));
+    }
+
+    const contentStart = match.index + match.delimiter.open.length;
+    const contentEnd = text.indexOf(
+      match.delimiter.close,
+      contentStart,
+    );
+
+    if (contentEnd < 0) {
+      throw new Error(
+        `Unclosed figure-caption delimiter: ${match.delimiter.open}`,
+      );
+    }
+
+    tokens.push(
+      match.delimiter.render(
+        text.slice(contentStart, contentEnd),
+        tokens.length,
+      ),
+    );
+
+    cursor = contentEnd + match.delimiter.close.length;
+  }
+
+  return tokens;
 }
 
 function parseTableRow(line: string) {
@@ -54,7 +148,7 @@ function FigureMarkdown({ markdown, id }: { markdown: string; id?: string }) {
         index += 1;
       }
       if (index < lines.length) index += 1;
-      blocks.push(<pre className={styles.figureEquation} key={`equation-${index}`}><code>{equation.join("\n")}</code></pre>);
+      blocks.push(<MathExpression display expression={equation.join("\n")} key={`equation-${index}`} />);
       continue;
     }
 
