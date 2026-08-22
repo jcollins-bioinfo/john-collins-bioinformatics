@@ -469,9 +469,21 @@
 }
 
 .figureInlineEquation {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
   color: inherit;
   font-size: 1em;
+  line-height: normal;
+  vertical-align: -0.2em;
   white-space: nowrap;
+}
+
+.figureInlineEquation:focus-visible {
+  outline: 2px solid #087c6b;
+  outline-offset: 2px;
 }
 
 .figureEquation {

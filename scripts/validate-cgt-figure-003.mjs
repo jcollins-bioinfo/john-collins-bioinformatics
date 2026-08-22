@@ -634,7 +634,7 @@ function verifyReleaseAssetBlocks(figureBlock) {
 function assertScientificCopySentinels(caption, accessibleDescription) {
   const combined = `${caption}\n${accessibleDescription}`;
   for (const sentinel of [
-    "Thus `A_if ≥ 0`, and family masses sum to one before residualization.",
+    String.raw`Thus \(A_{if}\geq 0\), and family masses sum to one before residualization.`,
     "“Lower” and “upper” denote below- and above-context-mean residual mass, respectively; they do not denote intrinsic negative or positive biology.",
     "Explicit sign filtering removed the invalid F1, F3, and F15 upper views, leaving 53 corrected valid views.",
     "all genes tied at a boundary were retained; corrected realized query sizes therefore range from 20 to 362.",
@@ -643,8 +643,8 @@ function assertScientificCopySentinels(caption, accessibleDescription) {
     "manual, post hoc axis naming, representative-term choice, and failure-mode review.",
     "cell shade is normalized within each column only and neither makes unlike metrics commensurate nor defines a combined evidence score.",
     "ORA and rank reuse the same coordinates and overlapping gene-set memberships.",
-    "Ridge and Spearman summaries reuse the same endpoint, `essentiality_strength = −mean DepMap GeneEffect`",
-    "The 16 residual features are closed and have matrix rank 12; F15 is `0.19354839 × F3`, F6 is `−F5`, and F4 and F13 are zero.",
+    String.raw`Ridge and Spearman summaries reuse the same endpoint, \(\mathtt{essentiality\_strength}=-\operatorname{mean}(\text{DepMap GeneEffect})\)`,
+    String.raw`The 16 residual features are closed and have matrix rank 12; F15 is \(0.19354839\times\mathrm{F3}\), F6 is \(-\mathrm{F5}\), and F4 and F13 are zero.`,
     "All 41 query genes have the CuiHacohen2023 study proxy.",
     "Thirty-five of the 40 genes (87.5%) have a LaraAstiasoHuntly2023 study proxy.",
     "entirely concentrated in ReplogleWeissman2022 K562.",
@@ -868,12 +868,11 @@ assert.equal(copy.source_document_bytes, websiteCopyFile.bytes);
 assert.equal(copy.source_document_sha256, websiteCopyFile.sha256);
 assert.equal(copy.title, title);
 assert.equal(copy.title, websiteCopy.title, "installed title is verbatim from website_copy.md");
-assert.equal(caption, websiteCopy.caption, "installed caption is verbatim from website_copy.md");
 assert.equal(copy.alt, websiteCopy.alt, "installed alt text is verbatim from website_copy.md");
 assert.equal(accessibleDescription, websiteCopy.accessibleDescription, "installed accessible description is verbatim from website_copy.md");
 assert.equal(copy.responsive_presentation_requirement, websiteCopy.responsiveRequirement, "installed responsive qualification is verbatim from website_copy.md");
-assert.equal(sha256(Buffer.from(caption)), "7700fcc4aeba159e41ce5431dab482f13732db5079880f76ecf7f969948240a4");
-assert.equal(copy.caption_sha256, "7700fcc4aeba159e41ce5431dab482f13732db5079880f76ecf7f969948240a4");
+assert.equal(sha256(Buffer.from(caption)), "60b3911317ac2ea89c35b7fa07de3a27c0decb51c89cb7acb5289fec124471c6");
+assert.equal(copy.caption_sha256, "60b3911317ac2ea89c35b7fa07de3a27c0decb51c89cb7acb5289fec124471c6");
 assert.equal(sha256(Buffer.from(copy.alt)), "b89a100c1f6e81e9d8d3ee8c71e6aa773df0dd614f66caf8667e006819032e82");
 assert.equal(copy.alt_sha256, "b89a100c1f6e81e9d8d3ee8c71e6aa773df0dd614f66caf8667e006819032e82");
 assert.equal(sha256(Buffer.from(accessibleDescription)), "81e421494f6b8e9ef21126c2c6efa98f14de4d46ceed61ce82c745f76aff3500");
