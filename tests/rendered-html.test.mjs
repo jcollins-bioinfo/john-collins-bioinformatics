@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import test from "node:test";
@@ -190,20 +190,37 @@ test("renders every public HTML route", async () => {
   }
 });
 
-test("serves audited Figure 2 PDF and ZIP downloads with exact MIME types", async () => {
+test("serves audited Figure 2 and Figure 3 PDF and ZIP downloads with exact MIME types", async () => {
   const worker = await loadWorker();
   const body = new Uint8Array([0x43, 0x47, 0x54]);
+  const figureThreeTransportBodies = new Map([
+    ["/_cgt/f3/c54503486663c217/p1", { body: new Uint8Array([0x43]), bytes: 25165824 }],
+    ["/_cgt/f3/c54503486663c217/p2", { body: new Uint8Array([0x47]), bytes: 25165824 }],
+    ["/_cgt/f3/c54503486663c217/p3", { body: new Uint8Array([0x54]), bytes: 22234035 }],
+  ]);
+  const assetRequests = [];
   const assetEnv = {
     ASSETS: {
-      fetch: async () => new Response(body, {
-        headers: { "content-type": "application/octet-stream" },
-      }),
+      fetch: async (request) => {
+        const pathname = new URL(request.url).pathname;
+        assetRequests.push({ pathname, method: request.method });
+        const transportPart = figureThreeTransportBodies.get(pathname);
+        return new Response(transportPart?.body ?? body, {
+          headers: {
+            "content-length": String(transportPart?.bytes ?? body.length),
+            "content-type": "application/octet-stream",
+          },
+        });
+      },
     },
   };
   const expected = new Map([
     ["/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised.pdf", "application/pdf"],
     ["/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_v1.zip", "application/zip"],
     ["/research/cgt/figures/main/figure-02-recurrent-geometry.pdf", "application/pdf"],
+    ["/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised.pdf", "application/pdf"],
+    ["/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_v1.zip", "application/zip"],
+    ["/research/cgt/figures/main/figure-03-signed-axes.pdf", "application/pdf"],
   ]);
 
   for (const [route, contentType] of expected) {
@@ -213,11 +230,130 @@ test("serves audited Figure 2 PDF and ZIP downloads with exact MIME types", asyn
     assert.deepEqual(new Uint8Array(await response.arrayBuffer()), body);
   }
 
+  const figureThreeZipPath = "/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_v1.zip";
+  const figureThreeZipResponse = await worker.fetch(
+    new Request(`http://localhost${figureThreeZipPath}`, { method: "HEAD" }),
+    assetEnv,
+    ctx,
+  );
+  assert.equal(figureThreeZipResponse.status, 200);
+  assert.equal(figureThreeZipResponse.headers.get("content-type"), "application/zip");
+  assert.equal(figureThreeZipResponse.headers.get("content-length"), "72565683");
+  assert.equal(
+    figureThreeZipResponse.headers.get("x-content-sha256"),
+    "c54503486663c217ddd6348ccef22642255c04112ff936ab615c9e104449987d",
+  );
+  assert.equal(
+    figureThreeZipResponse.headers.get("content-disposition"),
+    "attachment; filename=\"CGT_FIGURE_003_signed_axes_revised_v1.zip\"",
+  );
+  assert.deepEqual(
+    assetRequests.filter(({ pathname }) => figureThreeTransportBodies.has(pathname)),
+    [
+      ...[...figureThreeTransportBodies.keys()].map((pathname) => ({ pathname, method: "GET" })),
+      ...[...figureThreeTransportBodies.keys()].map((pathname) => ({ pathname, method: "HEAD" })),
+    ],
+  );
+
+  const methodNotAllowed = await worker.fetch(
+    new Request(`http://localhost${figureThreeZipPath}`, { method: "POST" }),
+    assetEnv,
+    ctx,
+  );
+  assert.equal(methodNotAllowed.status, 405);
+  assert.equal(methodNotAllowed.headers.get("allow"), "GET, HEAD");
+
+  const firstTransportPath = [...figureThreeTransportBodies.keys()][0];
+  const missingPartEnv = {
+    ASSETS: {
+      fetch: async (request) => {
+        const pathname = new URL(request.url).pathname;
+        if (pathname === firstTransportPath) return new Response(null, { status: 404 });
+        const part = figureThreeTransportBodies.get(pathname);
+        return new Response(part.body, { headers: { "content-length": String(part.bytes) } });
+      },
+    },
+  };
+  const missingPart = await worker.fetch(
+    new Request(`http://localhost${figureThreeZipPath}`),
+    missingPartEnv,
+    ctx,
+  );
+  assert.equal(missingPart.status, 502);
+
+  const wrongSizePartEnv = {
+    ASSETS: {
+      fetch: async (request) => {
+        const pathname = new URL(request.url).pathname;
+        const part = figureThreeTransportBodies.get(pathname);
+        return new Response(part.body, {
+          headers: { "content-length": String(part.bytes - (pathname === firstTransportPath ? 1 : 0)) },
+        });
+      },
+    },
+  };
+  const wrongSizePart = await worker.fetch(
+    new Request(`http://localhost${figureThreeZipPath}`),
+    wrongSizePartEnv,
+    ctx,
+  );
+  assert.equal(wrongSizePart.status, 502);
+
+  for (const transportPath of figureThreeTransportBodies.keys()) {
+    const response = await worker.fetch(new Request(`http://localhost${transportPath}`), assetEnv, ctx);
+    assert.equal(response.status, 404, `${transportPath} is not a public download route`);
+  }
+
   const wranglerConfig = await readFile(path.join(projectRoot, "wrangler.jsonc"), "utf8");
   for (const route of expected.keys()) {
     assert.match(wranglerConfig, new RegExp(route.replaceAll(".", "\\.")));
   }
   assert.match(wranglerConfig, /"run_worker_first"\s*:/);
+  for (const transportPath of figureThreeTransportBodies.keys()) {
+    assert.match(wranglerConfig, new RegExp(transportPath.replaceAll(".", "\\.")));
+  }
+});
+
+test("prepares an exact, deployable Figure 3 ZIP transport without rewriting the canonical ZIP", async () => {
+  const clientRoot = path.join(projectRoot, "dist", "client");
+  const releaseRelativePath = "research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_v1.zip";
+  const releasePath = path.join(clientRoot, releaseRelativePath);
+  const expectedSha256 = "c54503486663c217ddd6348ccef22642255c04112ff936ab615c9e104449987d";
+  const parts = [
+    ["p1", 25165824],
+    ["p2", 25165824],
+    ["p3", 22234035],
+  ];
+  const transportRoot = path.join(
+    clientRoot,
+    "_cgt",
+    "f3",
+    "c54503486663c217",
+  );
+
+  assert.equal((await stat(releasePath)).size, 72565683);
+  assert.equal(await sha256(releasePath), expectedSha256);
+
+  const reconstructedHash = createHash("sha256");
+  let reconstructedBytes = 0;
+  for (const [filename, expectedBytes] of parts) {
+    const part = await readFile(path.join(transportRoot, filename));
+    assert.equal(part.length, expectedBytes);
+    assert.ok(part.length < 25 * 1024 * 1024);
+    reconstructedBytes += part.length;
+    reconstructedHash.update(part);
+  }
+  assert.equal(reconstructedBytes, 72565683);
+  assert.equal(reconstructedHash.digest("hex"), expectedSha256);
+
+  const assetsIgnore = await readFile(path.join(clientRoot, ".assetsignore"), "utf8");
+  assert.ok(assetsIgnore.split(/\r?\n/).includes(releaseRelativePath));
+  const packageJson = JSON.parse(await readFile(path.join(projectRoot, "package.json"), "utf8"));
+  assert.match(packageJson.scripts.build, /prepare:cgt-figure-003-transport/);
+  assert.equal(
+    packageJson.scripts["prepare:cgt-figure-003-transport"],
+    "node scripts/prepare-cgt-figure-003-transport.mjs",
+  );
 });
 
 test("integrates the existing Cloudflare Turnstile widget on the contact page", async () => {
@@ -462,7 +598,108 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(publicationCss, /\.contents\s*{[^}]*top:\s*76px;/s);
 });
 
-test("ships every canonical CGT figure and the audited Figure 1 and Figure 2 releases", async () => {
+test("renders the audited Figure 3 release with canonical assets, accessible copy, and responsive open-original access", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/research/cgt", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const figureThreeMatch = html.match(/<figure\b[^>]*id=["']fig-3["'][\s\S]*?<\/figure>/i);
+  assert.ok(figureThreeMatch, "Figure 3 should render as a complete figure block");
+  const figureThreeHtml = figureThreeMatch[0];
+  const figureThreeCopy = JSON.parse(await readFile(
+    path.join(projectRoot, "app", "research", "cgt", "figure-03-copy.json"),
+    "utf8",
+  ));
+
+  assert.ok(
+    figureThreeHtml.includes(`<h3>${figureThreeCopy.title}</h3>`),
+    "Figure 3 should use the approved title verbatim",
+  );
+  assert.doesNotMatch(figureThreeHtml, /Signed dimensions map to candidate biological axes/);
+  assert.doesNotMatch(figureThreeHtml, /Signed dimensions of residual perturbation geometry map to candidate biological axes/);
+
+  const figureImageMatch = figureThreeHtml.match(
+    /<img\b[^>]*CGT_FIGURE_003_signed_axes_revised_web\.png[^>]*>/i,
+  );
+  assert.ok(figureImageMatch, "Figure 3 should render the cache-invalidating canonical web PNG");
+  const figureImageHtml = figureImageMatch[0];
+  assert.match(figureImageHtml, /src=["']\/research\/cgt\/figures\/main\/CGT_FIGURE_003_signed_axes_revised_web\.png["']/i);
+  assert.match(figureImageHtml, /width=["']2400["']/i);
+  assert.match(figureImageHtml, /height=["']2675["']/i);
+  assert.ok(figureImageHtml.includes(`alt="${figureThreeCopy.alt}"`));
+  assert.match(figureImageHtml, /aria-describedby=["']fig-3-accessible-description["']/i);
+  assert.match(figureImageHtml, /aria-details=["']fig-3-details["']/i);
+
+  const openOriginalMatch = figureThreeHtml.match(
+    /<a\b(?=[^>]*href=["']\/research\/cgt\/figures\/main\/CGT_FIGURE_003_signed_axes_revised\.svg["'])(?=[^>]*target=["']_blank["'])(?=[^>]*rel=["']noreferrer["'])(?=[^>]*aria-label=["']Open Figure 3 as a full-resolution SVG in a new tab["'])[^>]*>/i,
+  );
+  assert.ok(openOriginalMatch, "Figure 3 should expose a named keyboard- and touch-native open-original link");
+  assert.match(figureThreeHtml, /<details\b[^>]*id=["']fig-3-details["']/i);
+  assert.match(figureThreeHtml, /id=["']fig-3-accessible-description["']/i);
+  assert.match(figureThreeHtml, /Panel a (?:—|&mdash;) Operational definition and audit workflow/i);
+  assert.match(figureThreeHtml, /Panel f (?:—|&mdash;) Why the candidates are not general biological axes/i);
+
+  for (const approvedCopy of [
+    /201,771 corrected view(?:–|&ndash;)term tests per method/,
+    /cell shade is normalized within each column only/,
+    /ORA and rank reuse the same coordinates and overlapping gene-set memberships/,
+    /study-conditioned pathway coherence in manually curated, pipeline-dependent summaries/,
+    /does not identify validated biological programs, universal axes, mechanisms, or causal constraint laws/,
+  ]) assert.match(figureThreeHtml, approvedCopy);
+
+  const downloadsMatch = figureThreeHtml.match(
+    /<nav\b[^>]*aria-label=["']Figure 3 downloads["'][^>]*>[\s\S]*?<\/nav>/i,
+  );
+  assert.ok(downloadsMatch, "Figure 3 should render a labelled download group");
+  const downloadsHtml = downloadsMatch[0];
+  assert.equal((downloadsHtml.match(/<a\b/gi) ?? []).length, 6);
+  for (const [filename, linkText] of [
+    ["CGT_FIGURE_003_signed_axes_revised_web.png", "Download Figure 3 web PNG (2,400 × 2,675)"],
+    ["CGT_FIGURE_003_signed_axes_revised_600dpi.png", "Download Figure 3 600-dpi PNG (4,323 × 4,819)"],
+    ["CGT_FIGURE_003_signed_axes_revised.pdf", "Download Figure 3 publication PDF"],
+    ["CGT_FIGURE_003_signed_axes_revised.svg", "Download Figure 3 vector SVG"],
+    ["CGT_FIGURE_003_signed_axes_revised_v1.zip", "Download Figure 3 complete audited release (ZIP)"],
+    ["CGT_FIGURE_003_signed_axes_revised_audit.json", "Download Figure 3 machine-readable audit (JSON)"],
+  ]) {
+    assert.ok(downloadsHtml.includes(`href="/research/cgt/figures/main/${filename}"`));
+    assert.ok(downloadsHtml.includes(`download="${filename}"`));
+    assert.ok(downloadsHtml.includes(`>${linkText}</a>`));
+  }
+  assert.doesNotMatch(figureThreeHtml, /\/research\/cgt\/figures\/main\/figure-03-signed-axes\.(?:png|pdf|svg)/);
+  assert.ok(
+    figureThreeHtml.includes(figureThreeCopy.responsive_presentation_requirement),
+    "Figure 3 should render the approved narrow-screen readability boundary",
+  );
+
+  assert.match(html, /Context-residualized family-mass queries yielded 3 headline and 6[\s\S]*?study-conditioned rather than evidence of general biological axes/);
+  assert.match(html, /Explicit sign filtering removed the invalid F1, F3, and F15 upper views from 56[\s\S]*?leaving 53 corrected valid views/);
+  assert.match(html, /all 201,771 corrected view(?:–|&ndash;)term tests per method/);
+  assert.match(html, /Study-proxy concentration and a closed, rank-deficient family coding[\s\S]*?causal constraint laws/);
+  assert.match(html, /Context-residualized family-mass annotation/);
+  assert.doesNotMatch(html, /Signed directions support candidate biological interpretations/);
+  assert.doesNotMatch(html, /Positive and negative coordinate tails defined direction-specific gene sets/);
+  assert.doesNotMatch(html, /compatible CORUM-like resources when available/);
+  assert.doesNotMatch(html, /makes these directions plausible candidate axes/);
+
+  const publicationCss = await readFile(
+    path.join(projectRoot, "app", "research", "cgt", "publication.module.css"),
+    "utf8",
+  );
+  assert.match(publicationCss, /\.page\s*\{[^}]*overflow-x:\s*clip;/s);
+  assert.match(publicationCss, /\.figureImage\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto;/s);
+  assert.match(publicationCss, /\.figureImageLink:focus-visible,[\s\S]*?outline:\s*3px solid #087c6b;/);
+  assert.match(publicationCss, /\.figureDownloads\s*\{[^}]*display:\s*flex;[^}]*flex-wrap:\s*wrap;/s);
+  assert.match(publicationCss, /@media \(max-width:\s*620px\)[\s\S]*?\.figureDownloads\s*\{[^}]*display:\s*grid;/s);
+});
+
+test("ships every canonical CGT figure and the audited Figure 1, Figure 2, and Figure 3 releases", async () => {
   const stems = [
     ["main", "figure-01-fitness"],
     ["main", "figure-02-recurrent-geometry"],
@@ -488,10 +725,10 @@ test("ships every canonical CGT figure and the audited Figure 1 and Figure 2 rel
   assert.equal(manifest.figures.length, 11);
   assert.equal(manifest.report.main_figure_count, 5);
   assert.equal(manifest.report.supplementary_figure_count, 6);
-  assert.equal(manifest.report.active_physical_asset_count, 39);
-  assert.equal(manifest.report.compatibility_alias_count, 6);
-  assert.equal(manifest.report.physical_asset_count, 45);
-  assert.ok(manifest.figures.slice(2).every((figure) =>
+  assert.equal(manifest.report.active_physical_asset_count, 42);
+  assert.equal(manifest.report.compatibility_alias_count, 9);
+  assert.equal(manifest.report.physical_asset_count, 51);
+  assert.ok(manifest.figures.slice(3).every((figure) =>
     ["png", "pdf", "svg"].every((format) => figure.assets[format]?.sha256),
   ));
 
@@ -634,6 +871,155 @@ test("ships every canonical CGT figure and the audited Figure 1 and Figure 2 rel
     createHash("sha256").update(figureTwoCopy.accessible_description_markdown_lines.join("\n")).digest("hex"),
     "a8c4d4dad575411a2edf2944627a0f5bdaabba1fb805f3bbc19cbc1026dd723f",
   );
+
+  const figureThree = manifest.figures[2];
+  const figureThreeTitle = "Study-conditioned candidate annotations of context-residualized family-mass directions";
+  const figureThreeAssets = {
+    png_web: [
+      "CGT_FIGURE_003_signed_axes_revised_web.png",
+      1770635,
+      "f7bee8ebf1bcb491c239fd3cf63908521327c6055af24d50e383acdd139d8ad3",
+      "image/png",
+    ],
+    png_600dpi: [
+      "CGT_FIGURE_003_signed_axes_revised_600dpi.png",
+      1871881,
+      "30095053cb861bd7be782001fdd7e0fb5f3a988dd3a1d9c204e689b5e0e96398",
+      "image/png",
+    ],
+    pdf: [
+      "CGT_FIGURE_003_signed_axes_revised.pdf",
+      1600555,
+      "3dab4de28f38762de434eecb6b2a9bf9cde3cd469548231e189abb2627973383",
+      "application/pdf",
+    ],
+    svg: [
+      "CGT_FIGURE_003_signed_axes_revised.svg",
+      357204,
+      "40634f9fe70e9c002a13a1cc6318d84c96ad602a27f2faa027531b5cea3787a3",
+      "image/svg+xml",
+    ],
+    reproducibility_zip: [
+      "CGT_FIGURE_003_signed_axes_revised_v1.zip",
+      72565683,
+      "c54503486663c217ddd6348ccef22642255c04112ff936ab615c9e104449987d",
+      "application/zip",
+    ],
+    audit_json: [
+      "CGT_FIGURE_003_signed_axes_revised_audit.json",
+      104289,
+      "c8ff32a557e9a817d3e71019fd29e5b5001c869c2924ec7f95bfe03f496e6359",
+      "application/json",
+    ],
+  };
+
+  assert.equal(figureThree.id, "figure-03");
+  assert.equal(figureThree.title, figureThreeTitle);
+  assert.deepEqual(manifest.schema.figure_03_release_asset_formats, Object.keys(figureThreeAssets));
+  assert.equal(figureThree.dimensions.png_web.width_px, 2400);
+  assert.equal(figureThree.dimensions.png_web.height_px, 2675);
+  assert.deepEqual(figureThree.dimensions.png_web.embedded_dpi, [96.012, 96.012]);
+  assert.equal(figureThree.dimensions.png_web.icc_profile_sha256, "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796");
+  assert.equal(figureThree.dimensions.png_600dpi.width_px, 4323);
+  assert.equal(figureThree.dimensions.png_600dpi.height_px, 4819);
+  assert.deepEqual(figureThree.dimensions.png_600dpi.embedded_dpi, [599.9988, 599.9988]);
+  assert.equal(figureThree.dimensions.png_600dpi.icc_profile_sha256, "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796");
+  assert.deepEqual(
+    [figureThree.dimensions.pdf.width_pt, figureThree.dimensions.pdf.height_pt],
+    [518.740157, 578.267717],
+  );
+  assert.equal(figureThree.dimensions.pdf.pages, 1);
+  assert.equal(figureThree.dimensions.pdf.font_subtype, "TrueType");
+  assert.equal(figureThree.dimensions.pdf.embedded_font, true);
+  assert.equal(figureThree.dimensions.pdf.type_3_font_count, 0);
+  assert.deepEqual(figureThree.dimensions.svg.view_box, [0, 0, 518.740157, 578.267717]);
+  assert.equal(figureThree.dimensions.svg.text_mode, "paths");
+  assert.equal(figureThree.dimensions.svg.external_dependency_count, 0);
+  assert.equal(figureThree.dimensions.svg.raster_image_count, 0);
+  assert.match(figureThree.release_status, /hash-anchored human-review gates passed/);
+  assert.match(figureThree.revision_scope, /Frozen upstream scientific inputs were not modified/);
+  assert.equal(figureThree.qa.status, "pass");
+  assert.equal(figureThree.qa.local_release_asset_count, 6);
+  assert.equal(figureThree.qa.local_byte_size_matches, 6);
+  assert.equal(figureThree.qa.local_sha256_matches, 6);
+  assert.equal(figureThree.qa.legacy_aliases_contain_approved_bytes, true);
+  assert.match(figureThree.qa.responsive_note, /fine text is zoom-dependent and is not comfortably readable/);
+  assert.match(figureThree.qa.open_original_route, /keyboard- and touch-activated link to the checksum-pinned canonical SVG/);
+  assert.match(figureThree.caveats.at(-1), /manually curated, associative, pipeline-dependent summaries/);
+
+  for (const [key, [filename, bytes, digest, mimeType]] of Object.entries(figureThreeAssets)) {
+    const asset = figureThree.assets[key];
+    const repositoryPath = `public/research/cgt/figures/main/${filename}`;
+    const assetPath = path.join(projectRoot, repositoryPath);
+    assert.equal(asset.filename, filename);
+    assert.equal(asset.local_path, `/research/cgt/figures/main/${filename}`);
+    assert.equal(asset.repository_path, repositoryPath);
+    assert.equal(asset.bytes, bytes);
+    assert.equal(asset.sha256, digest);
+    assert.equal(asset.mime_type, mimeType);
+    assert.equal((await stat(assetPath)).size, bytes);
+    assert.equal(await sha256(assetPath), digest);
+  }
+
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(figureThree.compatibility_aliases).map(([key, asset]) => [key, asset.mirrors_asset])),
+    { png: "png_600dpi", pdf: "pdf", svg: "svg" },
+  );
+  for (const [key, asset] of Object.entries(figureThree.compatibility_aliases)) {
+    const source = figureThree.assets[asset.mirrors_asset];
+    const aliasPath = path.join(projectRoot, asset.repository_path);
+    assert.equal(asset.active_page_reference, false);
+    assert.equal(asset.bytes, source.bytes);
+    assert.equal(asset.sha256, source.sha256, `${key} Figure 3 compatibility alias should contain approved bytes`);
+    assert.equal((await stat(aliasPath)).size, source.bytes);
+    assert.equal(await sha256(aliasPath), source.sha256);
+  }
+
+  assert.equal(figureThree.provenance.release_package.bytes, 72565683);
+  assert.equal(figureThree.provenance.release_package.sha256, "c54503486663c217ddd6348ccef22642255c04112ff936ab615c9e104449987d");
+  assert.equal(figureThree.provenance.release_package.archive_member_count, 576);
+  assert.equal(figureThree.provenance.release_package.two_independent_builds_byte_identical, true);
+  assert.equal(figureThree.provenance.release_manifest.listed_entries, 575);
+  assert.equal(figureThree.provenance.release_manifest.self_excluding, true);
+  assert.equal(figureThree.provenance.approved_copy.sha256, "4b149884b48171ab0aacf280f8fcdd532226d3142e656cc9b17d0dc781fc39d4");
+  assert.equal(figureThree.provenance.final_audit.status, "pass");
+  assert.equal(figureThree.provenance.final_audit.hash_anchored_human_review, "pass");
+
+  const figureThreeCopy = JSON.parse(await readFile(
+    path.join(projectRoot, "app", "research", "cgt", "figure-03-copy.json"),
+    "utf8",
+  ));
+  assert.equal(figureThreeCopy.source_document_bytes, 17774);
+  assert.equal(figureThreeCopy.source_document_sha256, "4b149884b48171ab0aacf280f8fcdd532226d3142e656cc9b17d0dc781fc39d4");
+  assert.equal(figureThreeCopy.title, figureThreeTitle);
+  assert.equal(
+    createHash("sha256").update(figureThreeCopy.caption_markdown_lines.join("\n")).digest("hex"),
+    "7700fcc4aeba159e41ce5431dab482f13732db5079880f76ecf7f969948240a4",
+  );
+  assert.equal(
+    createHash("sha256").update(figureThreeCopy.alt).digest("hex"),
+    "b89a100c1f6e81e9d8d3ee8c71e6aa773df0dd614f66caf8667e006819032e82",
+  );
+  assert.equal(
+    createHash("sha256").update(figureThreeCopy.accessible_description_markdown_lines.join("\n")).digest("hex"),
+    "81e421494f6b8e9ef21126c2c6efa98f14de4d46ceed61ce82c745f76aff3500",
+  );
+  assert.equal(
+    createHash("sha256").update(figureThreeCopy.responsive_presentation_requirement).digest("hex"),
+    "5ffa5dc8025d279becd74f8ec228772a2d2446d8f4080c42e01ad02b1bf6ee73",
+  );
+
+  const figureThreeAudit = JSON.parse(await readFile(
+    path.join(projectRoot, figureThree.assets.audit_json.repository_path),
+    "utf8",
+  ));
+  assert.equal(figureThreeAudit.status, "pass");
+  assert.deepEqual(figureThreeAudit.gate_statuses, Array.from({ length: 11 }, () => "pass"));
+  assert.equal(figureThreeAudit.human_visual_audit.status, "pass");
+  assert.equal(figureThreeAudit.human_visual_audit.reviewed_hash_count, 11);
+  assert.deepEqual(figureThreeAudit.human_visual_audit.failures, []);
+  assert.equal(figureThreeAudit.determinism.status, "pass");
+  assert.equal(figureThreeAudit.determinism.byte_identical_file_count, 392);
 
   await access(path.join(projectRoot, "public", "research", "cgt", "data", "cgt-cache-002-dataset-manifest.csv"));
 });
