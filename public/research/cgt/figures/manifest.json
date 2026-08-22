@@ -1,8 +1,8 @@
 {
   "schema": {
     "name": "cgt-figure-manifest",
-    "version": "1.1.0",
-    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1 revision and its downloads.",
+    "version": "1.2.0",
+    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1 and Figure 2 revisions and their downloads.",
     "required_figure_fields": [
       "id",
       "run_id",
@@ -30,12 +30,20 @@
       "reproducibility_zip",
       "audit_json"
     ],
-    "hash_algorithm": "SHA-256"
+    "hash_algorithm": "SHA-256",
+    "figure_02_release_asset_formats": [
+      "png_web",
+      "png_600dpi",
+      "pdf",
+      "svg",
+      "reproducibility_zip",
+      "audit_json"
+    ]
   },
   "report": {
     "title": "CGT canonical figure extraction manifest",
     "project": "Constraint Geometry Theory (CGT)",
-    "manifest_generated_date_utc": "2026-08-03",
+    "manifest_generated_date_utc": "2026-08-20",
     "source_drive_root": {
       "drive_id": "1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU",
       "drive_url": "https://drive.google.com/drive/folders/1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU"
@@ -48,9 +56,9 @@
     "logical_figure_count": 11,
     "main_figure_count": 5,
     "supplementary_figure_count": 6,
-    "active_physical_asset_count": 36,
-    "compatibility_alias_count": 3,
-    "physical_asset_count": 39
+    "active_physical_asset_count": 39,
+    "compatibility_alias_count": 6,
+    "physical_asset_count": 45
   },
   "freeze": {
     "release_id": "CGT_CORE_001",
@@ -91,14 +99,14 @@
     ]
   },
   "audit": {
-    "local_verification_date_utc": "2026-08-03",
+    "local_verification_date_utc": "2026-08-20",
     "integrity": {
-      "expected_physical_assets": 39,
-      "present_physical_assets": 39,
-      "sha256_matches": 39,
-      "byte_size_matches": 39,
-      "active_release_assets": 36,
-      "compatibility_aliases": 3,
+      "expected_physical_assets": 45,
+      "present_physical_assets": 45,
+      "sha256_matches": 45,
+      "byte_size_matches": 45,
+      "active_release_assets": 39,
+      "compatibility_aliases": 6,
       "complete_png_pdf_svg_triplets": 11,
       "result": "pass"
     },
@@ -117,7 +125,7 @@
     },
     "qa_summary": {
       "figure_01": "Audited at design, web-export, and 600-dpi resolution: zero out-of-canvas text objects, text–text overlaps, workflow-box containment violations, protected statistics–legend overlaps, or legend-occluded observations; minimum workflow-text clearance is 2.002 pt and statistics–legend separation is 12.762 pt.",
-      "figure_02": "Minimum text size 4.35 pt is below the 5–7 pt target.",
+      "figure_02": "Exact 182.88 × 190.50 mm canvas; 4,320 × 4,500 publication PNG at 600 dpi; 2,400 × 2,500 web PNG; 7.0 pt minimum font; no canvas/container escape, text collision, legend/data collision, clipping, invalid SVG, unembedded PDF font, numerical mismatch, or cross-format failure; complete human visual review passed. The two-column composite is uncropped at 480 px, but small publication text requires an open-original or zoom affordance on narrow screens unless a separately approved mobile derivative is supplied.",
       "figure_03": "Minimum text size 4.20 pt is below the 5–7 pt target.",
       "figure_04": "Minimum text size 4.50 pt is below target; three clipping diagnostics were recorded.",
       "figure_05": "A text audit exists, but no Nature-compliance report was found."
@@ -132,7 +140,7 @@
     ],
     "caveats": [
       "This manifest records the selected release and its provenance; it does not itself establish peer review, reproducibility outside the captured environment, or causal validity.",
-      "Figure 1 has revision scope presentation and scientific-label corrections; frozen numerical inputs. Figures 2–5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
+      "Figures 1 and 2 are checksum-pinned audited replacement releases with their recorded revision scopes. Figures 3–5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
       "The recovery bundle verifies capture integrity but is candidate/unreviewed and explicitly does not establish a CORD result.",
       "CGT topography assets were excluded because the freeze report classifies them as exploratory.",
       "Scientific interpretation must preserve the claim boundaries recorded in the associated legends, methods, source data, notebooks, and claim ledger."
@@ -340,7 +348,7 @@
         "statistics_legend_separation_pt": 12.762,
         "legend_occluded_observations": 0,
         "legend_occlusion_denominator": 1229,
-        "minimum_text_pt": 6.0,
+        "minimum_text_pt": 6,
         "maximum_text_pt": 9.2,
         "local_release_asset_count": 6,
         "local_byte_size_matches": 6,
@@ -358,95 +366,198 @@
     {
       "id": "figure-02",
       "run_id": "CGT_FIGURE_002",
-      "logical_asset": "CGT_FIGURE_002_recurrent_residual_geometry",
+      "logical_asset": "CGT_FIGURE_002_recurrent_geometry_revised",
       "label": "Figure 2",
       "role": "main",
       "order": 2,
-      "title": "Residual perturbation geometry is recurrent across datasets and contexts",
+      "title": "Residual family-coordinate structure recurs within the leave-dataset-out benchmark but attenuates under study-proxy and context exclusion",
       "evidence_tier": "core",
+      "release_status": "Scientifically audited replacement release v1; all mandatory automated and rendered visual QA passed.",
+      "revision_scope": "Source-level provenance and numerical audit; deterministic six-panel reconstruction; corrected analysis-universe, denominator, uncertainty, score, class, and claim wording; publication typography, layout, accessibility, and cross-format integrity. No original or upstream scientific input was modified.",
       "dimensions": {
-        "png": {
-          "width_px": 4322,
-          "height_px": 4015,
-          "nominal_dpi": 600
+        "png_web": {
+          "width_px": 2400,
+          "height_px": 2500
+        },
+        "png_600dpi": {
+          "width_px": 4320,
+          "height_px": 4500,
+          "nominal_dpi": 600,
+          "embedded_dpi": [
+            599.9988,
+            599.9988
+          ]
         },
         "pdf": {
-          "width_pt": 518.74,
-          "height_pt": 481.89
+          "width_pt": 518.4,
+          "height_pt": 540,
+          "width_mm": 182.88,
+          "height_mm": 190.5,
+          "pages": 1
         },
         "svg": {
-          "width_pt": 518.740157,
-          "height_pt": 481.889764,
+          "width": "182.88mm",
+          "height": "190.50mm",
           "view_box": [
             0,
             0,
-            518.740157,
-            481.889764
+            518.4,
+            540
           ]
         },
         "physical": {
-          "width_mm": 183,
-          "height_mm": 170,
-          "basis": "SVG canvas"
+          "width_mm": 182.88,
+          "height_mm": 190.5,
+          "basis": "approved PDF and SVG canvas"
         }
       },
       "assets": {
+        "png_web": {
+          "filename": "CGT_FIGURE_002_recurrent_geometry_revised_web.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_web.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_web.png",
+          "mime_type": "image/png",
+          "bytes": 994659,
+          "sha256": "43704a92196e9681c0cd8c8c666e56c7e69461e530a1a84bbdd4d662cac9e5e6",
+          "width_px": 2400,
+          "height_px": 2500,
+          "purpose": "in-page display and web download"
+        },
+        "png_600dpi": {
+          "filename": "CGT_FIGURE_002_recurrent_geometry_revised_600dpi.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_600dpi.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_600dpi.png",
+          "mime_type": "image/png",
+          "bytes": 1051585,
+          "sha256": "a530b276be8dd3d51a025c9a90e93f3226960102e5b30d29759123f4ae1f14bd",
+          "width_px": 4320,
+          "height_px": 4500,
+          "nominal_dpi": 600,
+          "purpose": "publication-resolution PNG download"
+        },
+        "pdf": {
+          "filename": "CGT_FIGURE_002_recurrent_geometry_revised.pdf",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised.pdf",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised.pdf",
+          "mime_type": "application/pdf",
+          "bytes": 41435,
+          "sha256": "5a1d008c95ad3c214193a5aeefa6dcf053336d8f4f7a1ef74354b93f4e6e753d",
+          "width_pt": 518.4,
+          "height_pt": 540,
+          "width_mm": 182.88,
+          "height_mm": 190.5,
+          "pages": 1,
+          "purpose": "publication PDF download"
+        },
+        "svg": {
+          "filename": "CGT_FIGURE_002_recurrent_geometry_revised.svg",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised.svg",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised.svg",
+          "mime_type": "image/svg+xml",
+          "bytes": 265227,
+          "sha256": "7c418610b2beef4f112b266b1765b5007ef2ff9e1dd03ba4f17b8bcea78b3721",
+          "width": "182.88mm",
+          "height": "190.50mm",
+          "view_box": [
+            0,
+            0,
+            518.4,
+            540
+          ],
+          "purpose": "font-independent vector download and full-resolution open route"
+        },
+        "reproducibility_zip": {
+          "filename": "CGT_FIGURE_002_recurrent_geometry_revised_v1.zip",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_v1.zip",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_v1.zip",
+          "mime_type": "application/zip",
+          "bytes": 18958999,
+          "sha256": "3c187c5dd4369e9cd0c4b4c91386ed37b675b446de7dde637a5f8d85642cc947",
+          "purpose": "complete intact audited Figure 2 release package"
+        },
+        "audit_json": {
+          "filename": "CGT_FIGURE_002_recurrent_geometry_revised_audit.json",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_audit.json",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_002_recurrent_geometry_revised_audit.json",
+          "mime_type": "application/json",
+          "bytes": 19215,
+          "sha256": "6631f78a4a447b57c630ebe535e8afbdd463892f88feb7e58b701cc263ec4a58",
+          "purpose": "machine-readable Figure 2 numerical, geometry, cross-format, and visual QA audit"
+        }
+      },
+      "compatibility_aliases": {
         "png": {
           "local_path": "/research/cgt/figures/main/figure-02-recurrent-geometry.png",
           "repository_path": "public/research/cgt/figures/main/figure-02-recurrent-geometry.png",
           "mime_type": "image/png",
-          "bytes": 1015630,
-          "sha256": "39683bf1c8d03438d24585a155cfb212804a4aa2045f137b2835ed5cef376477",
-          "drive_id": "1RlOpcVD2zJvEpAalmKRf7RJ2sf_xs8bS",
-          "drive_url": "https://drive.google.com/file/d/1RlOpcVD2zJvEpAalmKRf7RJ2sf_xs8bS/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T18:14:53.562Z"
+          "bytes": 1051585,
+          "sha256": "a530b276be8dd3d51a025c9a90e93f3226960102e5b30d29759123f4ae1f14bd",
+          "mirrors_asset": "png_600dpi",
+          "active_page_reference": false
         },
         "pdf": {
           "local_path": "/research/cgt/figures/main/figure-02-recurrent-geometry.pdf",
           "repository_path": "public/research/cgt/figures/main/figure-02-recurrent-geometry.pdf",
           "mime_type": "application/pdf",
-          "bytes": 45198,
-          "sha256": "3c08a83d61369028b924795b537d506aa8d358542488d53db0994c011d0e5656",
-          "drive_id": "1v8qSI0NNeaXoneoCp9AdJv6rBfQ4aCjZ",
-          "drive_url": "https://drive.google.com/file/d/1v8qSI0NNeaXoneoCp9AdJv6rBfQ4aCjZ/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T18:14:53.510Z"
+          "bytes": 41435,
+          "sha256": "5a1d008c95ad3c214193a5aeefa6dcf053336d8f4f7a1ef74354b93f4e6e753d",
+          "mirrors_asset": "pdf",
+          "active_page_reference": false
         },
         "svg": {
           "local_path": "/research/cgt/figures/main/figure-02-recurrent-geometry.svg",
           "repository_path": "public/research/cgt/figures/main/figure-02-recurrent-geometry.svg",
           "mime_type": "image/svg+xml",
-          "bytes": 117117,
-          "sha256": "6a2b3803b7d8596ca623b2a8d54ba15a87eb2f62202f20eff851a04645322ca9",
-          "drive_id": "1gGPfCwArnjoOzoqbcYG2OIiYCo_DHfpv",
-          "drive_url": "https://drive.google.com/file/d/1gGPfCwArnjoOzoqbcYG2OIiYCo_DHfpv/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T18:14:53.556Z"
+          "bytes": 265227,
+          "sha256": "7c418610b2beef4f112b266b1765b5007ef2ff9e1dd03ba4f17b8bcea78b3721",
+          "mirrors_asset": "svg",
+          "active_page_reference": false
         }
       },
       "provenance": {
+        "source_run": "CGT_FIGURE_002",
         "output_folder": {
-          "drive_id": "1jDk9E6DoAvr9b5Xv7qP_XGhhxNoJ1rN_",
-          "drive_url": "https://drive.google.com/drive/folders/1jDk9E6DoAvr9b5Xv7qP_XGhhxNoJ1rN_"
-        },
-        "notebook_archive": {
-          "drive_id": "1FcLFKqmf1tstoR7XA4uTBdLjb-R65Dtn",
-          "drive_url": "https://drive.google.com/file/d/1FcLFKqmf1tstoR7XA4uTBdLjb-R65Dtn/view?usp=drivesdk"
+          "drive_id": "1qrOrTrJNATwh1zmNbAD0Mo3Wn6QoFgm_",
+          "drive_url": "https://drive.google.com/drive/folders/1qrOrTrJNATwh1zmNbAD0Mo3Wn6QoFgm_"
         },
         "source_notebook": {
           "filename": "CGT-FIGURE-002_recurrent_residual_geometry.ipynb",
+          "bytes": 399087,
           "sha256": "f8046ecb45971bb4d81288af00c0bca5ac2b075e2db6ae1dcd602dbebdf017d8",
-          "archive_drive_id": "1FcLFKqmf1tstoR7XA4uTBdLjb-R65Dtn"
+          "drive_id": "1arxGmsJtvJ5M0FTDkNaVfaz_niFCGPHD",
+          "drive_url": "https://colab.research.google.com/drive/1arxGmsJtvJ5M0FTDkNaVfaz_niFCGPHD",
+          "status": "canonical final standalone notebook; later ZIP archive is a stale initial revision"
         },
         "source_data_xlsx": {
-          "drive_id": "1mpsZkdwF0viHcwgK9sZevVwIrAkzYO34",
-          "drive_url": "https://drive.google.com/file/d/1mpsZkdwF0viHcwgK9sZevVwIrAkzYO34/view?usp=drivesdk"
+          "filename": "CGT_FIGURE_002_SourceData.xlsx",
+          "bytes": 72946,
+          "sha256": "60c9929454e8b2766efb7961b6652a6601e8df47787b97b8092cc76ac0144746",
+          "drive_id": "1mpsZkdwF0viHcwgK9sZevVwIrAkzYO34"
         },
-        "legend": {
-          "drive_id": "1ugHcEoGtp2KHoiMVqEUZOHFaU_fFVva1",
-          "drive_url": "https://drive.google.com/file/d/1ugHcEoGtp2KHoiMVqEUZOHFaU_fFVva1/view?usp=drivesdk"
+        "release_package": {
+          "filename": "CGT_FIGURE_002_recurrent_geometry_revised_v1.zip",
+          "bytes": 18958999,
+          "sha256": "3c187c5dd4369e9cd0c4b4c91386ed37b675b446de7dde637a5f8d85642cc947",
+          "validated_date_utc": "2026-08-20",
+          "archive_member_count": 193,
+          "directory_member_count": 35,
+          "regular_file_count": 158,
+          "total_uncompressed_bytes": 33327973,
+          "manifest_artifact_count": 157,
+          "manifest_artifact_bytes": 33280288,
+          "manifest_filename": "CGT_FIGURE_002_release_manifest.json",
+          "manifest_bytes": 47685,
+          "manifest_sha256": "5ead457fdd3dfcb4bc95764c5949aacbee7ab15980cbe9c401e69c0e9613b66c",
+          "integrity_test": "pass",
+          "unsafe_path_count": 0
         },
-        "methods": {
-          "drive_id": "1oQPB2Dj9Hav8yzfAfXYf4bUZlIlhMSQu",
-          "drive_url": "https://drive.google.com/file/d/1oQPB2Dj9Hav8yzfAfXYf4bUZlIlhMSQu/view?usp=drivesdk"
+        "approved_copy": {
+          "caption_and_accessibility_filename": "CGT_FIGURE_002_caption_and_accessibility.md",
+          "caption_and_accessibility_bytes": 16900,
+          "caption_and_accessibility_sha256": "6a476f9fdd64a38c6c96fdb5b695b4ca9dbaff84ea1de2bc4868f093d41a95f1",
+          "website_release_metadata_filename": "CGT_FIGURE_002_website_release_metadata.md",
+          "website_release_metadata_bytes": 3256,
+          "website_release_metadata_sha256": "ed0413c2b945f51033b3026ef550b29f2e55c56b21c03cf5e7ac3ba77ba7fa35"
         },
         "upstream_runs": [
           "CGT_META_003",
@@ -454,19 +565,47 @@
         ]
       },
       "freeze": {
-        "status": "minor_polish",
+        "status": "scientifically_audited_replacement_release_v1",
+        "release_status": "Scientifically audited replacement release v1; all mandatory automated and rendered visual QA passed.",
+        "revision_scope": "Source-level provenance and numerical audit; deterministic six-panel reconstruction; corrected analysis-universe, denominator, uncertainty, score, class, and claim wording; publication typography, layout, accessibility, and cross-format integrity. No original or upstream scientific input was modified.",
+        "numerical_inputs": "frozen",
         "release_recommendation": "main_candidate"
       },
       "qa": {
-        "status": "warning",
-        "source_note": "minimum text 4.35 pt fails 5–7 pt target",
-        "local_asset_triplet_complete": true,
-        "local_byte_sizes_match_drive_inventory": true,
-        "local_sha256_matches_recovery_capture": true
+        "status": "pass",
+        "quality_note": "Exact 182.88 × 190.50 mm canvas; 4,320 × 4,500 publication PNG at 600 dpi; 2,400 × 2,500 web PNG; 7.0 pt minimum font; no canvas/container escape, text collision, legend/data collision, clipping, invalid SVG, unembedded PDF font, numerical mismatch, or cross-format failure; complete human visual review passed. The two-column composite is uncropped at 480 px, but small publication text requires an open-original or zoom affordance on narrow screens unless a separately approved mobile derivative is supplied.",
+        "mandatory_rules": {
+          "cross_format": true,
+          "geometry": true,
+          "human_visual_review": true,
+          "ocr_or_text_presence": true,
+          "pdf": true,
+          "publication_png": true,
+          "scientific_recomputation": true,
+          "svg": true,
+          "web_png": true
+        },
+        "zero_canvas_or_container_escapes": true,
+        "zero_text_collisions": true,
+        "zero_legend_data_collisions": true,
+        "zero_clipping_failures": true,
+        "zero_invalid_svg_failures": true,
+        "zero_unembedded_pdf_fonts": true,
+        "zero_numerical_mismatches": true,
+        "zero_cross_format_failures": true,
+        "minimum_text_pt": 7,
+        "human_visual_review": "pass",
+        "local_release_asset_count": 6,
+        "local_byte_size_matches": 6,
+        "local_sha256_matches": 6,
+        "legacy_aliases_contain_corrected_bytes": true,
+        "responsive_note": "The two-column composite remains structurally intact and uncropped at 480 px, but 7 pt publication text is not claimed to be comfortably readable at that width. Website integration should provide open-original or zoom behavior unless a separately approved one-column derivative is supplied."
       },
       "caveats": [
-        "Recurrence within sampled datasets and contexts does not by itself demonstrate transportability to unseen perturbation regimes.",
-        "More stringent exclusion tests attenuate generalization and define an important boundary on the claim."
+        "The figure establishes descriptive, preprocessing-dependent associations inside the CGT family-coordinate pipeline. It does not establish an identified causal effect, a mechanistic cellular law, external phenotype prediction, or family universality.",
+        "Residual baselines were estimated once from the full PREDICT-003B table before holdout splitting rather than re-estimated inside each training fold; panels e/f therefore evaluate transfer conditional on transductive preprocessing, not a fully nested inductive pipeline.",
+        "The “same-study” exclusion is only a dataset-name-prefix proxy, not verified study identity.",
+        "Cluster-bootstrap intervals use only 4–34 held-out clusters depending on scheme/design and quantify resampling variability under that clustering choice; they do not establish mechanistic, causal, or biological universality."
       ]
     },
     {

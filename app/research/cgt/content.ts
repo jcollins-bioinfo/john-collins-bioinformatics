@@ -1,3 +1,5 @@
+import figureTwoCopy from "./figure-02-copy.json";
+
 export type FigureRole = "core" | "synthesis" | "supporting" | "supplementary";
 
 export type FigureReleaseAsset = {
@@ -11,6 +13,11 @@ export type FigureReleaseAsset = {
   width?: number;
   height?: number;
   nominalDpi?: number;
+  widthPt?: number;
+  heightPt?: number;
+  widthMm?: number;
+  heightMm?: number;
+  viewBox?: string;
 };
 
 export type FigureSpec = {
@@ -25,7 +32,8 @@ export type FigureSpec = {
   height: number;
   alt: string;
   accessibleDescription: string;
-  caption: string[];
+  accessibleDescriptionFormat?: "markdown";
+  caption: string[] | string;
   sourceRun: string;
   sourceNotebook: string;
   notebookSha256: string;
@@ -50,6 +58,8 @@ export type Reference = {
 
 const mainRoot = "/research/cgt/figures/main";
 const supplementRoot = "/research/cgt/figures/supplementary";
+const figureTwoCaption = figureTwoCopy.caption_markdown_lines.join("\n");
+const figureTwoAccessibleDescription = figureTwoCopy.accessible_description_markdown_lines.join("\n");
 
 export const mainFigures: FigureSpec[] = [
   {
@@ -142,29 +152,95 @@ export const mainFigures: FigureSpec[] = [
   {
     id: "fig-2",
     label: "Figure 2",
-    title: "Residual perturbation geometry recurs in related datasets but attenuates under context transfer",
+    title: "Residual family-coordinate structure recurs within the leave-dataset-out benchmark but attenuates under study-proxy and context exclusion",
     role: "core",
-    image: `${mainRoot}/figure-02-recurrent-geometry.png`,
-    pdf: `${mainRoot}/figure-02-recurrent-geometry.pdf`,
-    svg: `${mainRoot}/figure-02-recurrent-geometry.svg`,
-    width: 4322,
-    height: 4015,
-    alt: "Six-panel atlas of dataset composition, residual variance, family recurrence, perturbation-label transfer, controls, and increasingly strict generalization tests.",
-    accessibleDescription:
-      "Same-label residual prediction gives mean cosine similarity near 0.56 under leave-dataset-out evaluation, while shuffled and random-label controls are near zero. The apparent recurrence is not invariant: mean cosine falls to about 0.035 after exclusion of same-study proxies and to about 0.079 under leave-context-out evaluation.",
-    caption: [
-      "a, The residual-prediction atlas contains 2,720 perturbation observations from 39 datasets and 8 contexts. b, Residual and baseline fractions under context, dataset-shrinkage, and dataset residualization.",
-      "c–d, Distribution and recurrence of 248 perturbation modes from 43 datasets and 9 contexts across 16 unsupervised families. The family classes are descriptive summaries of recurrence, not universal biological laws.",
-      "e, Held-out same-label residual predictions achieve mean cosine 0.563 for context residuals and 0.558 for dataset-shrinkage residuals; label-shuffled and random-label controls give −0.020 and −0.012, respectively.",
-      "f, Transfer attenuates under stricter exclusions. For context residuals, mean cosine is 0.563 for leave-dataset-out, 0.035 after same-study-proxy exclusion, and 0.079 for leave-context-out. Error bars are 95% cluster-bootstrap intervals from 4,000 resamples.",
-    ],
+    image: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised_web.png`,
+    pdf: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised.pdf`,
+    svg: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised.svg`,
+    width: 2400,
+    height: 2500,
+    alt: "Six-panel figure separates two analysis universes. In PREDICT-003B (2,720 observations, 39 datasets, 8 contexts), context and dataset-shrinkage residuals show mean same-label leave-dataset-out cosine near 0.56, with shuffled and random-label controls near zero, but the signal falls to about 0.04 after a same-study-prefix exclusion and 0.07–0.08 under leave-context-out evaluation. META-003 (248 modes, 43 datasets, 9 contexts) contains one dominant broad-recurrence family, F14, and many single-context families. Results are descriptive and preprocessing-dependent, not causal or universally transportable.",
+    accessibleDescription: figureTwoAccessibleDescription,
+    accessibleDescriptionFormat: "markdown",
+    caption: figureTwoCaption,
     sourceRun: "CGT_FIGURE_002",
     sourceNotebook: "CGT-FIGURE-002_recurrent_residual_geometry.ipynb",
     notebookSha256: "f8046ecb45971bb4d81288af00c0bca5ac2b075e2db6ae1dcd602dbebdf017d8",
-    imageSha256: "39683bf1c8d03438d24585a155cfb212804a4aa2045f137b2835ed5cef376477",
+    imageSha256: "43704a92196e9681c0cd8c8c666e56c7e69461e530a1a84bbdd4d662cac9e5e6",
     upstreamRuns: ["CGT_META_003", "CGT_PREDICT_003B"],
-    freezeStatus: "Analysis-frozen; minor publication polish recorded",
-    qaNote: "Minimum embedded text is 4.35 pt, below the project’s 5–7 pt target; full-resolution formats are provided.",
+    freezeStatus: "Scientifically audited replacement release v1; all mandatory automated and rendered visual QA passed.",
+    revisionScope: "Source-level provenance and numerical audit; deterministic six-panel reconstruction; corrected analysis-universe, denominator, uncertainty, score, class, and claim wording; publication typography, layout, accessibility, and cross-format integrity. No original or upstream scientific input was modified.",
+    qaNote: "Exact 182.88 × 190.50 mm canvas; 4,320 × 4,500 publication PNG at 600 dpi; 2,400 × 2,500 web PNG; 7.0 pt minimum font; no canvas/container escape, text collision, legend/data collision, clipping, invalid SVG, unembedded PDF font, numerical mismatch, or cross-format failure; complete human visual review passed. The two-column composite is uncropped at 480 px, but small publication text requires an open-original or zoom affordance on narrow screens unless a separately approved mobile derivative is supplied.",
+    releaseAssets: [
+      {
+        label: "Web PNG",
+        linkText: "Download Figure 2 web PNG (2,400 × 2,500)",
+        href: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised_web.png`,
+        filename: "CGT_FIGURE_002_recurrent_geometry_revised_web.png",
+        bytes: 994659,
+        mimeType: "image/png",
+        sha256: "43704a92196e9681c0cd8c8c666e56c7e69461e530a1a84bbdd4d662cac9e5e6",
+        width: 2400,
+        height: 2500,
+      },
+      {
+        label: "600-dpi PNG",
+        linkText: "Download Figure 2 600-dpi PNG (4,320 × 4,500)",
+        href: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised_600dpi.png`,
+        filename: "CGT_FIGURE_002_recurrent_geometry_revised_600dpi.png",
+        bytes: 1051585,
+        mimeType: "image/png",
+        sha256: "a530b276be8dd3d51a025c9a90e93f3226960102e5b30d29759123f4ae1f14bd",
+        width: 4320,
+        height: 4500,
+        nominalDpi: 600,
+      },
+      {
+        label: "Publication PDF",
+        linkText: "Download Figure 2 publication PDF",
+        href: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised.pdf`,
+        filename: "CGT_FIGURE_002_recurrent_geometry_revised.pdf",
+        bytes: 41435,
+        mimeType: "application/pdf",
+        sha256: "5a1d008c95ad3c214193a5aeefa6dcf053336d8f4f7a1ef74354b93f4e6e753d",
+        widthPt: 518.4,
+        heightPt: 540.0,
+        widthMm: 182.88,
+        heightMm: 190.5,
+      },
+      {
+        label: "Vector SVG",
+        linkText: "Download Figure 2 vector SVG",
+        href: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised.svg`,
+        filename: "CGT_FIGURE_002_recurrent_geometry_revised.svg",
+        bytes: 265227,
+        mimeType: "image/svg+xml",
+        sha256: "7c418610b2beef4f112b266b1765b5007ef2ff9e1dd03ba4f17b8bcea78b3721",
+        widthPt: 518.4,
+        heightPt: 540.0,
+        widthMm: 182.88,
+        heightMm: 190.5,
+        viewBox: "0 0 518.4 540.0",
+      },
+      {
+        label: "Reproducibility package",
+        linkText: "Download Figure 2 reproducibility package (ZIP)",
+        href: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised_v1.zip`,
+        filename: "CGT_FIGURE_002_recurrent_geometry_revised_v1.zip",
+        bytes: 18958999,
+        mimeType: "application/zip",
+        sha256: "3c187c5dd4369e9cd0c4b4c91386ed37b675b446de7dde637a5f8d85642cc947",
+      },
+      {
+        label: "Machine-readable audit",
+        linkText: "Download Figure 2 machine-readable audit (JSON)",
+        href: `${mainRoot}/CGT_FIGURE_002_recurrent_geometry_revised_audit.json`,
+        filename: "CGT_FIGURE_002_recurrent_geometry_revised_audit.json",
+        bytes: 19215,
+        mimeType: "application/json",
+        sha256: "6631f78a4a447b57c630ebe535e8afbdd463892f88feb7e58b701cc263ec4a58",
+      },
+    ],
   },
   {
     id: "fig-3",

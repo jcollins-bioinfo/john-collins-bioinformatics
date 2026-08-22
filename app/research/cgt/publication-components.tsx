@@ -4,6 +4,103 @@ import type { FigureSpec } from "./content";
 import { referenceIndex, references } from "./content";
 import styles from "./publication.module.css";
 
+function InlineFigureMarkdown({ text }: { text: string }) {
+  const tokens = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\\\([^\n]+?\\\))/g);
+
+  return tokens.map((token, index) => {
+    if (token.startsWith("**") && token.endsWith("**")) {
+      return <strong key={index}>{token.slice(2, -2)}</strong>;
+    }
+    if (token.startsWith("`") && token.endsWith("`")) {
+      return <code key={index}>{token.slice(1, -1)}</code>;
+    }
+    if (token.startsWith("\\(") && token.endsWith("\\)")) {
+      return <span className={styles.figureInlineEquation} key={index}>{token.slice(2, -2)}</span>;
+    }
+    return token;
+  });
+}
+
+function parseTableRow(line: string) {
+  return line.slice(1, -1).split("|").map((cell) => cell.trim());
+}
+
+function FigureMarkdown({ markdown, id }: { markdown: string; id?: string }) {
+  const lines = markdown.split("\n");
+  const blocks: ReactNode[] = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+    if (!line.trim()) {
+      index += 1;
+      continue;
+    }
+
+    if (line.startsWith("### ")) {
+      blocks.push(<h4 key={`heading-${index}`}><InlineFigureMarkdown text={line.slice(4)} /></h4>);
+      index += 1;
+      continue;
+    }
+
+    if (line === "\\[") {
+      const equation: string[] = [];
+      index += 1;
+      while (index < lines.length && lines[index] !== "\\]") {
+        equation.push(lines[index]);
+        index += 1;
+      }
+      if (index < lines.length) index += 1;
+      blocks.push(<pre className={styles.figureEquation} key={`equation-${index}`}><code>{equation.join("\n")}</code></pre>);
+      continue;
+    }
+
+    if (line.startsWith("|") && line.endsWith("|")) {
+      const tableLines: string[] = [];
+      const tableStart = index;
+      while (index < lines.length && lines[index].startsWith("|") && lines[index].endsWith("|")) {
+        tableLines.push(lines[index]);
+        index += 1;
+      }
+      const rows = tableLines.map(parseTableRow);
+      const header = rows[0] ?? [];
+      const body = rows.slice(2);
+      blocks.push(
+        <div className={styles.figureTableScroll} key={`table-${tableStart}`} tabIndex={0} role="region" aria-label="Scrollable figure data table">
+          <table>
+            <thead><tr>{header.map((cell) => <th key={cell} scope="col"><InlineFigureMarkdown text={cell} /></th>)}</tr></thead>
+            <tbody>{body.map((row, rowIndex) => (
+              <tr key={row.join("|")}>
+                {row.map((cell, cellIndex) => cellIndex === 0
+                  ? <th key={`${rowIndex}-${cellIndex}`} scope="row"><InlineFigureMarkdown text={cell} /></th>
+                  : <td key={`${rowIndex}-${cellIndex}`}><InlineFigureMarkdown text={cell} /></td>)}
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>,
+      );
+      continue;
+    }
+
+    const paragraphStart = index;
+    const paragraph = [line];
+    index += 1;
+    while (
+      index < lines.length
+      && lines[index].trim()
+      && !lines[index].startsWith("### ")
+      && lines[index] !== "\\["
+      && !lines[index].startsWith("|")
+    ) {
+      paragraph.push(lines[index]);
+      index += 1;
+    }
+    blocks.push(<p key={`paragraph-${paragraphStart}`}><InlineFigureMarkdown text={paragraph.join(" ")} /></p>);
+  }
+
+  return <div className={styles.figureMarkdown} id={id}>{blocks}</div>;
+}
+
 export function Citation({ references: keys }: { references: string[] }) {
   return (
     <sup className={styles.citation}>
@@ -73,9 +170,9 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
           <h3>{figure.title}</h3>
         </div>
         <div className={styles.captionBody}>
-          {figure.caption.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
+          {typeof figure.caption === "string"
+            ? <FigureMarkdown markdown={figure.caption} />
+            : figure.caption.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           <nav className={styles.figureDownloads} aria-label={`${figure.label} downloads`}>
             {downloads.map((asset) => (
               <a
@@ -92,7 +189,9 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
           <details className={styles.figureDetails} id={`${figure.id}-details`}>
             <summary>Accessible description and provenance</summary>
             <div>
-              <p id={descriptionId}>{figure.accessibleDescription}</p>
+              {figure.accessibleDescriptionFormat === "markdown"
+                ? <FigureMarkdown markdown={figure.accessibleDescription} id={descriptionId} />
+                : <p id={descriptionId}>{figure.accessibleDescription}</p>}
               <dl>
                 <div><dt>Source run</dt><dd>{figure.sourceRun}</dd></div>
                 <div><dt>Notebook</dt><dd>{figure.sourceNotebook}</dd></div>
@@ -110,6 +209,9 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
                       <span>
                         {asset.width && asset.height ? `${asset.width.toLocaleString()} × ${asset.height.toLocaleString()} px · ` : ""}
                         {asset.nominalDpi ? `${asset.nominalDpi} dpi · ` : ""}
+                        {asset.widthPt && asset.heightPt ? `${asset.widthPt} × ${asset.heightPt} pt · ` : ""}
+                        {asset.widthMm && asset.heightMm ? `${asset.widthMm} × ${asset.heightMm} mm · ` : ""}
+                        {asset.viewBox ? `viewBox ${asset.viewBox} · ` : ""}
                         {asset.bytes.toLocaleString()} bytes · {asset.mimeType}
                       </span>
                       <code>SHA-256 {asset.sha256}</code>

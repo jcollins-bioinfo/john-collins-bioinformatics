@@ -1,0 +1,617 @@
+{
+  "canvas": {
+    "mm": [
+      182.88,
+      190.5
+    ],
+    "pt": [
+      518.4,
+      540.0
+    ],
+    "px_600dpi": [
+      4320,
+      4500
+    ],
+    "px_web": [
+      2400,
+      2500
+    ]
+  },
+  "core_artifacts": {
+    "pdf": {
+      "bytes": 41435,
+      "filename": "CGT_FIGURE_002_recurrent_geometry_revised.pdf",
+      "sha256": "5a1d008c95ad3c214193a5aeefa6dcf053336d8f4f7a1ef74354b93f4e6e753d"
+    },
+    "publication_png": {
+      "bytes": 1051585,
+      "filename": "CGT_FIGURE_002_recurrent_geometry_revised_600dpi.png",
+      "sha256": "a530b276be8dd3d51a025c9a90e93f3226960102e5b30d29759123f4ae1f14bd"
+    },
+    "qa_svg": {
+      "bytes": 148194,
+      "filename": "CGT_FIGURE_002_recurrent_geometry_revised_editable_text_qa.svg",
+      "sha256": "ccd33da3afbdad435e924f4ce6554a30bbaa44feae32412cdc73a45a1d800cd1"
+    },
+    "svg": {
+      "bytes": 265227,
+      "filename": "CGT_FIGURE_002_recurrent_geometry_revised.svg",
+      "sha256": "7c418610b2beef4f112b266b1765b5007ef2ff9e1dd03ba4f17b8bcea78b3721"
+    },
+    "web_png": {
+      "bytes": 994659,
+      "filename": "CGT_FIGURE_002_recurrent_geometry_revised_web.png",
+      "sha256": "43704a92196e9681c0cd8c8c666e56c7e69461e530a1a84bbdd4d662cac9e5e6"
+    }
+  },
+  "cross_format": {
+    "comparisons": {
+      "pdf_vs_png": {
+        "foreground_fraction_relative_delta": 0.01615525696223941,
+        "foreground_iou_after_2px_dilation": 0.9502181654693711,
+        "ssim_1200px": 0.9732010591006321
+      },
+      "pdf_vs_svg": {
+        "foreground_fraction_relative_delta": 0.008322646323889077,
+        "foreground_iou_after_2px_dilation": 0.9713404299263348,
+        "ssim_1200px": 0.9898658662425496
+      },
+      "svg_vs_png": {
+        "foreground_fraction_relative_delta": 0.007967065128318596,
+        "foreground_iou_after_2px_dilation": 0.9705339438530578,
+        "ssim_1200px": 0.9871640328414898
+      }
+    },
+    "per_panel": {
+      "a": {
+        "pdf_vs_png_ssim": 0.9754689671394791,
+        "svg_vs_png_ssim": 0.9909135559483865
+      },
+      "b": {
+        "pdf_vs_png_ssim": 0.9713904243315602,
+        "svg_vs_png_ssim": 0.9900025855803889
+      },
+      "c": {
+        "pdf_vs_png_ssim": 0.9712752413979164,
+        "svg_vs_png_ssim": 0.9781582349222759
+      },
+      "d": {
+        "pdf_vs_png_ssim": 0.9761476282490791,
+        "svg_vs_png_ssim": 0.9936459535815271
+      },
+      "e": {
+        "pdf_vs_png_ssim": 0.9705742228079716,
+        "svg_vs_png_ssim": 0.9878218809551582
+      },
+      "f": {
+        "pdf_vs_png_ssim": 0.9795223992011718,
+        "svg_vs_png_ssim": 0.9902905371130791
+      }
+    },
+    "renders": {
+      "pdf_300dpi": "work/figure2/revised/qa/CGT_FIGURE_002_pdf_poppler_300dpi.png",
+      "pdf_600dpi": "work/figure2/revised/qa/CGT_FIGURE_002_pdf_poppler_600dpi.png",
+      "svg_600dpi": "work/figure2/revised/qa/CGT_FIGURE_002_svg_inkscape_600dpi.png"
+    },
+    "status": "pass",
+    "thresholds": {
+      "foreground_iou_after_2px_dilation": 0.95,
+      "foreground_relative_delta": 0.0175,
+      "global_ssim": 0.97,
+      "panel_ssim": 0.96
+    }
+  },
+  "generated_utc": "2026-08-20T13:01:53.687993+00:00",
+  "geometry": {
+    "bbox_overlap_candidates_resolved_by_exact_masks": [
+      {
+        "intersection_pt": [
+          0.33408636509530254,
+          18.383497894844396
+        ],
+        "left": "panel_c_axis0_xtick_1",
+        "right": "panel_c_axis0_xtick_2"
+      },
+      {
+        "intersection_pt": [
+          7.403631932059469,
+          18.383497894844396
+        ],
+        "left": "panel_c_axis0_xtick_1",
+        "right": "panel_c_axis0_xtick_3"
+      },
+      {
+        "intersection_pt": [
+          16.832062073597328,
+          18.856304347008432
+        ],
+        "left": "panel_c_axis0_xtick_2",
+        "right": "panel_c_axis0_xtick_3"
+      },
+      {
+        "intersection_pt": [
+          1.6964500557906206,
+          18.856304347008432
+        ],
+        "left": "panel_c_axis0_xtick_2",
+        "right": "panel_c_axis0_xtick_4"
+      },
+      {
+        "intersection_pt": [
+          18.194425764292646,
+          41.716496309139444
+        ],
+        "left": "panel_c_axis0_xtick_3",
+        "right": "panel_c_axis0_xtick_4"
+      },
+      {
+        "intersection_pt": [
+          8.308654300788206,
+          49.02135599507375
+        ],
+        "left": "panel_c_axis0_xtick_3",
+        "right": "panel_c_axis0_xtick_5"
+      },
+      {
+        "intersection_pt": [
+          24.806630009290217,
+          41.716496309139444
+        ],
+        "left": "panel_c_axis0_xtick_4",
+        "right": "panel_c_axis0_xtick_5"
+      },
+      {
+        "intersection_pt": [
+          1.3178182484653291,
+          41.23186969567132
+        ],
+        "left": "panel_c_axis0_xtick_4",
+        "right": "panel_c_axis0_xtick_6"
+      },
+      {
+        "intersection_pt": [
+          17.815793956967383,
+          41.23186969567132
+        ],
+        "left": "panel_c_axis0_xtick_5",
+        "right": "panel_c_axis0_xtick_6"
+      },
+      {
+        "intersection_pt": [
+          6.101507911745756,
+          47.354713251195534
+        ],
+        "left": "panel_c_axis0_xtick_5",
+        "right": "panel_c_axis0_xtick_7"
+      },
+      {
+        "intersection_pt": [
+          22.59948362024778,
+          41.23186969567132
+        ],
+        "left": "panel_c_axis0_xtick_6",
+        "right": "panel_c_axis0_xtick_7"
+      },
+      {
+        "intersection_pt": [
+          14.805209342624892,
+          37.378497110534425
+        ],
+        "left": "panel_c_axis0_xtick_7",
+        "right": "panel_c_axis0_xtick_8"
+      }
+    ],
+    "bbox_overlaps_requiring_failure": [],
+    "canvas_failures": [],
+    "exact_rotated_tick_masks": {
+      "minimum_clearance_pt": 6.194836559587348,
+      "pairs": [
+        {
+          "clearance_pt": 7.759278316957062,
+          "left": "panel_c_axis0_xtick_0",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_1"
+        },
+        {
+          "clearance_pt": 7.756494053372309,
+          "left": "panel_c_axis0_xtick_1",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_2"
+        },
+        {
+          "clearance_pt": 8.072174428244226,
+          "left": "panel_c_axis0_xtick_2",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_3"
+        },
+        {
+          "clearance_pt": 7.015639671476864,
+          "left": "panel_c_axis0_xtick_3",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_4"
+        },
+        {
+          "clearance_pt": 6.194836559587348,
+          "left": "panel_c_axis0_xtick_4",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_5"
+        },
+        {
+          "clearance_pt": 7.636753236814714,
+          "left": "panel_c_axis0_xtick_5",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_6"
+        },
+        {
+          "clearance_pt": 7.8,
+          "left": "panel_c_axis0_xtick_6",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_7"
+        },
+        {
+          "clearance_pt": 7.55618951588696,
+          "left": "panel_c_axis0_xtick_7",
+          "overlap_pixels": 0,
+          "right": "panel_c_axis0_xtick_8"
+        }
+      ],
+      "required_clearance_pt": 3.0,
+      "status": "pass"
+    },
+    "inkscape_semantic_gid_count": 534,
+    "legend_checks": [
+      {
+        "data_axes_intersections": [],
+        "gid": "panel_e_key",
+        "panel": "e",
+        "status": "pass"
+      },
+      {
+        "data_axes_intersections": [],
+        "gid": "panel_f_key",
+        "panel": "f",
+        "status": "pass"
+      }
+    ],
+    "minimum_font_size_pt": 7.0,
+    "minimum_interpanel_text_clearance_pt": 14.520268197124409,
+    "minimum_outer_text_clearance_pt": 12.959999999999996,
+    "minimum_required_interpanel_clearance_pt": 14.0,
+    "panel_letter_title_clearance_pt": {
+      "a": 8.919999999999995,
+      "b": 8.485000000000014,
+      "c": 9.774999999999999,
+      "d": 8.485000000000014,
+      "e": 8.875,
+      "f": 11.439999999999998
+    },
+    "rules": {
+      "canvas_text_containment": true,
+      "colorbar_heatmap_clearance": true,
+      "interpanel_text_clearance": true,
+      "legend_data_overlap": true,
+      "minimum_font_size": true,
+      "panel_letter_title_clearance": true,
+      "semantic_svg_canvas_containment": true,
+      "text_text_overlap": true
+    },
+    "semantic_svg_canvas_failures": [],
+    "status": "pass"
+  },
+  "human_visual_review": {
+    "checklist": {
+      "bottom_boundary": "pass",
+      "common_color_vision_simulations": "pass",
+      "downscale_1200": "pass",
+      "downscale_1600": "pass",
+      "downscale_2400": "pass",
+      "downscale_480_structure_and_clipping": "pass",
+      "downscale_800": "pass",
+      "grayscale_redundancy": "pass",
+      "left_boundary": "pass",
+      "panel_a_context_labels_bars_and_count_gutters": "pass",
+      "panel_b_letter_title_and_all_endpoint_labels": "pass",
+      "panel_c_class_strip_vector_cells_rotated_labels_and_colorbar": "pass",
+      "panel_d_family_gutter_class_strip_lollipops_and_count_columns": "pass",
+      "panel_e_key_markers_zero_line_values_finite_denominators_and_boundaries": "pass",
+      "panel_f_title_key_whiskers_direct_labels_and_category_labels": "pass",
+      "pdf_poppler_render": "pass",
+      "right_boundary": "pass",
+      "svg_inkscape_render": "pass",
+      "top_boundary": "pass"
+    },
+    "responsive_note": "The two-column composite remains structurally intact and uncropped at 480 px, but 7 pt publication text is not claimed to be comfortably readable at that width. Website integration should provide open-original or zoom behavior unless a separately approved one-column derivative is supplied.",
+    "review_basis": [
+      "Direct 4320 x 4500 publication PNG at native resolution",
+      "2400 x 2500 web PNG at native resolution",
+      "PDF independently rasterized by Poppler at 600 and 300 dpi",
+      "SVG independently rasterized by Inkscape at 4320 x 4500",
+      "Lanczos downscales at 2400, 1600, 1200, 800 and 480 px",
+      "Enlarged native-resolution crops of panels a-f and designated hotspots",
+      "Grayscale, protanopia, deuteranopia and tritanopia simulations",
+      "Five-times-amplified PDF-versus-PNG difference image"
+    ],
+    "reviewed_utc": "2026-08-20T12:55:19Z",
+    "reviewer": "OpenAI Codex primary-agent visual review",
+    "revision_found_during_review": "Panel-f direct labels were moved off their confidence-interval strokes, and panel-e wording was corrected to report finite same-label cosine denominators (1,092 / 1,092 / 215) before this final pass.",
+    "status": "pass"
+  },
+  "mandatory_rules": {
+    "cross_format": true,
+    "geometry": true,
+    "human_visual_review": true,
+    "ocr_or_text_presence": true,
+    "pdf": true,
+    "publication_png": true,
+    "scientific_recomputation": true,
+    "svg": true,
+    "web_png": true
+  },
+  "ocr": {
+    "coverage": 1.0,
+    "expected": [
+      "Perturbation observations by context",
+      "Raw-coordinate variance fractions",
+      "Family distribution across contexts",
+      "Descriptive recurrence score",
+      "Same-label transfer versus controls",
+      "Stricter exclusions attenuate transfer",
+      "Dataset shrinkage",
+      "Recurrence score",
+      "Leave dataset out",
+      "Leave context out"
+    ],
+    "note": "OCR is secondary evidence; PDF text extraction and SVG semantic IDs are authoritative for presence.",
+    "recovered": {
+      "Dataset shrinkage": true,
+      "Descriptive recurrence score": true,
+      "Family distribution across contexts": true,
+      "Leave context out": true,
+      "Leave dataset out": true,
+      "Perturbation observations by context": true,
+      "Raw-coordinate variance fractions": true,
+      "Recurrence score": true,
+      "Same-label transfer versus controls": true,
+      "Stricter exclusions attenuate transfer": true
+    },
+    "status": "pass"
+  },
+  "pdf": {
+    "fonts": [
+      {
+        "embedded": "yes",
+        "encoding": "Identity-H",
+        "name": "EVICAO+DejaVuSans-Bold",
+        "object_id": [
+          18,
+          0
+        ],
+        "subset": "yes",
+        "type": "CID TrueType",
+        "unicode": "yes"
+      },
+      {
+        "embedded": "yes",
+        "encoding": "Identity-H",
+        "name": "BMQQDV+DejaVuSans",
+        "object_id": [
+          25,
+          0
+        ],
+        "subset": "yes",
+        "type": "CID TrueType",
+        "unicode": "yes"
+      }
+    ],
+    "page_size_pt": [
+      518.4,
+      540.0
+    ],
+    "pages": 1,
+    "pdffonts_raw": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nEVICAO+DejaVuSans-Bold               CID TrueType      Identity-H       yes yes yes     18  0\nBMQQDV+DejaVuSans                    CID TrueType      Identity-H       yes yes yes     25  0\n",
+    "status": "pass",
+    "text_presence_expected": [
+      "Perturbation observations by context",
+      "Raw-coordinate variance fractions",
+      "Family distribution across contexts",
+      "Descriptive recurrence score",
+      "Same-label transfer versus controls",
+      "Stricter exclusions attenuate transfer",
+      "Datasets",
+      "Labels",
+      "Recurrence score",
+      "Leave dataset out"
+    ],
+    "text_presence_missing": []
+  },
+  "png": {
+    "publication": {
+      "dpi": [
+        599.9988,
+        599.9988
+      ],
+      "expected_dpi": 600.0,
+      "foreground_pixels_in_safe_band": 0,
+      "icc_profile_bytes": 588,
+      "mode": "RGB",
+      "safe_band_pt": 12.0,
+      "size_px": [
+        4320,
+        4500
+      ],
+      "status": "pass"
+    },
+    "web": {
+      "dpi": [
+        333.32419999999996,
+        333.32419999999996
+      ],
+      "expected_dpi": 333.3333333333333,
+      "foreground_pixels_in_safe_band": null,
+      "icc_profile_bytes": 588,
+      "mode": "RGB",
+      "safe_band_pt": null,
+      "size_px": [
+        2400,
+        2500
+      ],
+      "status": "pass"
+    }
+  },
+  "science": {
+    "analysis_universes": {
+      "META-003": {
+        "contexts": 9,
+        "datasets": 43,
+        "families": 16,
+        "modes": 248,
+        "panels": [
+          "c",
+          "d"
+        ]
+      },
+      "PREDICT-003B": {
+        "contexts": 8,
+        "datasets": 39,
+        "observations": 2720,
+        "panels": [
+          "a",
+          "b",
+          "e",
+          "f"
+        ]
+      }
+    },
+    "bootstrap_iterations": 4000,
+    "comparison": {
+      "atol": 1e-12,
+      "rtol": 0.0
+    },
+    "seed": 1201,
+    "status": "pass",
+    "tables": {
+      "Fig2a_contexts.csv": {
+        "atol": 1e-12,
+        "columns": 5,
+        "frozen_bytes": 356,
+        "frozen_sha256": "811b64ed5b59e569f697cfa1ca76c2ce44423c1a3e2e4b568a6118bf24981334",
+        "max_abs_difference": 0.0,
+        "rows": 8,
+        "rtol": 0.0,
+        "status": "pass"
+      },
+      "Fig2b_variance.csv": {
+        "atol": 1e-12,
+        "columns": 11,
+        "frozen_bytes": 680,
+        "frozen_sha256": "63c745a260a02f020131cd63e88331a759ed0952ac8711206f9d89ddb641bdeb",
+        "max_abs_difference": 0.0,
+        "rows": 3,
+        "rtol": 0.0,
+        "status": "pass"
+      },
+      "Fig2c_context_matrix.csv": {
+        "atol": 1e-12,
+        "columns": 5,
+        "frozen_bytes": 8820,
+        "frozen_sha256": "6822f060d9deccb4728541c285ac900ad9883728a56a0263a6dcf7e0e907c63c",
+        "max_abs_difference": 4.440892098500626e-16,
+        "rows": 144,
+        "rtol": 0.0,
+        "status": "pass"
+      },
+      "Fig2d_recurrence.csv": {
+        "atol": 1e-12,
+        "columns": 10,
+        "frozen_bytes": 1530,
+        "frozen_sha256": "5e7661b0c731d52545bad9bad91de83ead7b4e2f03c9cbc08d51be81cf6948fa",
+        "max_abs_difference": 4.440892098500626e-16,
+        "rows": 16,
+        "rtol": 0.0,
+        "status": "pass"
+      },
+      "Fig2e_controls.csv": {
+        "atol": 1e-12,
+        "columns": 8,
+        "frozen_bytes": 484,
+        "frozen_sha256": "c5c45025e50c8fb7a8c7b93a02fc75da2d2a213d824b5185a99e951d3a2a1d00",
+        "max_abs_difference": 0.0,
+        "rows": 3,
+        "rtol": 0.0,
+        "status": "pass"
+      },
+      "Fig2e_same_label_denominators.csv": {
+        "atol": 1e-12,
+        "columns": 5,
+        "frozen_bytes": 157,
+        "frozen_sha256": "ba5712784b1df0cb6f77c7a3df6b5a87438814817cef0772d393738109b28ba1",
+        "max_abs_difference": 0.0,
+        "rows": 3,
+        "rtol": 0.0,
+        "status": "pass"
+      },
+      "Fig2f_robustness.csv": {
+        "atol": 1e-12,
+        "columns": 8,
+        "frozen_bytes": 1109,
+        "frozen_sha256": "a5b395d1494dabce00596d96c9b70cb9fe963463e6a6fe2166d2d28577ead348",
+        "max_abs_difference": 8.326672684688674e-17,
+        "rows": 9,
+        "rtol": 0.0,
+        "status": "pass"
+      }
+    }
+  },
+  "status": "pass",
+  "svg": {
+    "external_references": [],
+    "forbidden_elements": [],
+    "has_desc": true,
+    "has_title": true,
+    "height": "190.50mm",
+    "id_count": 860,
+    "qa_clipped_text": [],
+    "qa_text_elements": 213,
+    "release_image_elements": 0,
+    "release_text_elements": 0,
+    "status": "pass",
+    "unique_ids": true,
+    "viewBox": [
+      0.0,
+      0.0,
+      518.4,
+      540.0
+    ],
+    "width": "182.88mm"
+  },
+  "visual_assets": {
+    "color_vision_simulations": {
+      "deuteranopia": "work/figure2/revised/qa/CGT_FIGURE_002_deuteranopia.png",
+      "protanopia": "work/figure2/revised/qa/CGT_FIGURE_002_protanopia.png",
+      "tritanopia": "work/figure2/revised/qa/CGT_FIGURE_002_tritanopia.png"
+    },
+    "contact_sheet": "work/figure2/revised/qa/CGT_FIGURE_002_visual_audit_contact_sheet.png",
+    "downscales": {
+      "1200": "work/figure2/revised/qa/CGT_FIGURE_002_downscale_1200px.png",
+      "1600": "work/figure2/revised/qa/CGT_FIGURE_002_downscale_1600px.png",
+      "2400": "work/figure2/revised/qa/CGT_FIGURE_002_downscale_2400px.png",
+      "480": "work/figure2/revised/qa/CGT_FIGURE_002_downscale_480px.png",
+      "800": "work/figure2/revised/qa/CGT_FIGURE_002_downscale_800px.png"
+    },
+    "hotspot_crops": {
+      "panel_b_header_values": "work/figure2/revised/qa/CGT_FIGURE_002_hotspot_panel_b_header_values.png",
+      "panel_c_labels_colorbar": "work/figure2/revised/qa/CGT_FIGURE_002_hotspot_panel_c_labels_colorbar.png",
+      "panel_d_full": "work/figure2/revised/qa/CGT_FIGURE_002_hotspot_panel_d_full.png",
+      "panel_e_key_zero": "work/figure2/revised/qa/CGT_FIGURE_002_hotspot_panel_e_key_zero.png",
+      "panel_f_title_intervals": "work/figure2/revised/qa/CGT_FIGURE_002_hotspot_panel_f_title_intervals.png"
+    },
+    "panel_crops": {
+      "a": "work/figure2/revised/qa/CGT_FIGURE_002_panel_a_crop_600dpi.png",
+      "b": "work/figure2/revised/qa/CGT_FIGURE_002_panel_b_crop_600dpi.png",
+      "c": "work/figure2/revised/qa/CGT_FIGURE_002_panel_c_crop_600dpi.png",
+      "d": "work/figure2/revised/qa/CGT_FIGURE_002_panel_d_crop_600dpi.png",
+      "e": "work/figure2/revised/qa/CGT_FIGURE_002_panel_e_crop_600dpi.png",
+      "f": "work/figure2/revised/qa/CGT_FIGURE_002_panel_f_crop_600dpi.png"
+    }
+  }
+}
