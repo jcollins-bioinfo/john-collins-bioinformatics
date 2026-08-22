@@ -2,7 +2,7 @@
   "schema": {
     "name": "cgt-figure-manifest",
     "version": "1.2.0",
-    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1 and Figure 2 revisions and their downloads.",
+    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1, Figure 2, and Figure 3 revisions and their downloads.",
     "required_figure_fields": [
       "id",
       "run_id",
@@ -38,12 +38,20 @@
       "svg",
       "reproducibility_zip",
       "audit_json"
+    ],
+    "figure_03_release_asset_formats": [
+      "png_web",
+      "png_600dpi",
+      "pdf",
+      "svg",
+      "reproducibility_zip",
+      "audit_json"
     ]
   },
   "report": {
     "title": "CGT canonical figure extraction manifest",
     "project": "Constraint Geometry Theory (CGT)",
-    "manifest_generated_date_utc": "2026-08-20",
+    "manifest_generated_date_utc": "2026-08-21",
     "source_drive_root": {
       "drive_id": "1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU",
       "drive_url": "https://drive.google.com/drive/folders/1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU"
@@ -56,9 +64,9 @@
     "logical_figure_count": 11,
     "main_figure_count": 5,
     "supplementary_figure_count": 6,
-    "active_physical_asset_count": 39,
-    "compatibility_alias_count": 6,
-    "physical_asset_count": 45
+    "active_physical_asset_count": 42,
+    "compatibility_alias_count": 9,
+    "physical_asset_count": 51
   },
   "freeze": {
     "release_id": "CGT_CORE_001",
@@ -99,14 +107,14 @@
     ]
   },
   "audit": {
-    "local_verification_date_utc": "2026-08-20",
+    "local_verification_date_utc": "2026-08-21",
     "integrity": {
-      "expected_physical_assets": 45,
-      "present_physical_assets": 45,
-      "sha256_matches": 45,
-      "byte_size_matches": 45,
-      "active_release_assets": 39,
-      "compatibility_aliases": 6,
+      "expected_physical_assets": 51,
+      "present_physical_assets": 51,
+      "sha256_matches": 51,
+      "byte_size_matches": 51,
+      "active_release_assets": 42,
+      "compatibility_aliases": 9,
       "complete_png_pdf_svg_triplets": 11,
       "result": "pass"
     },
@@ -126,7 +134,7 @@
     "qa_summary": {
       "figure_01": "Audited at design, web-export, and 600-dpi resolution: zero out-of-canvas text objects, text–text overlaps, workflow-box containment violations, protected statistics–legend overlaps, or legend-occluded observations; minimum workflow-text clearance is 2.002 pt and statistics–legend separation is 12.762 pt.",
       "figure_02": "Exact 182.88 × 190.50 mm canvas; 4,320 × 4,500 publication PNG at 600 dpi; 2,400 × 2,500 web PNG; 7.0 pt minimum font; no canvas/container escape, text collision, legend/data collision, clipping, invalid SVG, unembedded PDF font, numerical mismatch, or cross-format failure; complete human visual review passed. The two-column composite is uncropped at 480 px, but small publication text requires an open-original or zoom affordance on narrow screens unless a separately approved mobile derivative is supplied.",
-      "figure_03": "Minimum text size 4.20 pt is below the 5–7 pt target.",
+      "figure_03": "Exact 183 × 204 mm canvas; 4,323 × 4,819 publication PNG at 599.9988 dpi; 2,400 × 2,675 web PNG at 96.012 dpi; 7.0 pt minimum font; pinned ICC profile; path-text SVG; embedded TrueType PDF; zero geometry, collision, external-dependency, numerical, or cross-format failures; 392 byte-identical files across two clean renders; complete hash-anchored human visual review passed. The composite remains uncropped at 480 px, but its fine text is zoom-dependent and is not claimed to be comfortably readable at native narrow-screen size.",
       "figure_04": "Minimum text size 4.50 pt is below target; three clipping diagnostics were recorded.",
       "figure_05": "A text audit exists, but no Nature-compliance report was found."
     },
@@ -140,7 +148,7 @@
     ],
     "caveats": [
       "This manifest records the selected release and its provenance; it does not itself establish peer review, reproducibility outside the captured environment, or causal validity.",
-      "Figures 1 and 2 are checksum-pinned audited replacement releases with their recorded revision scopes. Figures 3–5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
+      "Figures 1, 2, and 3 are checksum-pinned audited replacement releases with their recorded revision scopes. Figures 4–5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
       "The recovery bundle verifies capture integrity but is candidate/unreviewed and explicitly does not establish a CORD result.",
       "CGT topography assets were excluded because the freeze report classifies them as exploratory.",
       "Scientific interpretation must preserve the claim boundaries recorded in the associated legends, methods, source data, notebooks, and claim ledger."
@@ -611,96 +619,236 @@
     {
       "id": "figure-03",
       "run_id": "CGT_FIGURE_003",
-      "logical_asset": "CGT_FIGURE_003_signed_constraint_axes",
+      "logical_asset": "CGT_FIGURE_003_signed_axes_revised",
       "label": "Figure 3",
       "role": "main",
       "order": 3,
-      "title": "Signed dimensions of residual perturbation geometry map to candidate biological axes",
+      "title": "Study-conditioned candidate annotations of context-residualized family-mass directions",
       "evidence_tier": "core",
+      "release_status": "Audited replacement release v1; all automated, cross-format, deterministic, and hash-anchored human-review gates passed.",
+      "revision_scope": "Deterministic six-panel reconstruction with corrected query filtering, denominators, global multiple-testing scope, evidence dependence, study-proxy limitations, compositional non-identifiability, scientific copy, publication typography, accessibility, and cross-format integrity. Frozen upstream scientific inputs were not modified.",
       "dimensions": {
-        "png": {
-          "width_px": 4322,
-          "height_px": 4015,
-          "nominal_dpi": 600
+        "png_web": {
+          "width_px": 2400,
+          "height_px": 2675,
+          "color_mode": "RGB",
+          "embedded_dpi": [
+            96.012,
+            96.012
+          ],
+          "icc_profile_bytes": 6922,
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796"
+        },
+        "png_600dpi": {
+          "width_px": 4323,
+          "height_px": 4819,
+          "color_mode": "RGB",
+          "nominal_dpi": 600,
+          "embedded_dpi": [
+            599.9988,
+            599.9988
+          ],
+          "icc_profile_bytes": 6922,
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796"
         },
         "pdf": {
-          "width_pt": 518.74,
-          "height_pt": 481.89
+          "width_pt": 518.740157,
+          "height_pt": 578.267717,
+          "width_mm": 183,
+          "height_mm": 204,
+          "pages": 1,
+          "font_subtype": "TrueType",
+          "embedded_font": true,
+          "type_3_font_count": 0
         },
         "svg": {
-          "width_pt": 518.740157,
-          "height_pt": 481.889764,
+          "width": "183mm",
+          "height": "204mm",
           "view_box": [
             0,
             0,
             518.740157,
-            481.889764
-          ]
+            578.267717
+          ],
+          "text_mode": "paths",
+          "external_dependency_count": 0,
+          "raster_image_count": 0
         },
         "physical": {
           "width_mm": 183,
-          "height_mm": 170,
-          "basis": "SVG canvas"
+          "height_mm": 204,
+          "basis": "approved PDF and SVG canvas"
         }
       },
       "assets": {
+        "png_web": {
+          "filename": "CGT_FIGURE_003_signed_axes_revised_web.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_web.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_web.png",
+          "mime_type": "image/png",
+          "bytes": 1770635,
+          "sha256": "f7bee8ebf1bcb491c239fd3cf63908521327c6055af24d50e383acdd139d8ad3",
+          "width_px": 2400,
+          "height_px": 2675,
+          "embedded_dpi": [
+            96.012,
+            96.012
+          ],
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796",
+          "purpose": "in-page display and full-resolution web download"
+        },
+        "png_600dpi": {
+          "filename": "CGT_FIGURE_003_signed_axes_revised_600dpi.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_600dpi.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_600dpi.png",
+          "mime_type": "image/png",
+          "bytes": 1871881,
+          "sha256": "30095053cb861bd7be782001fdd7e0fb5f3a988dd3a1d9c204e689b5e0e96398",
+          "width_px": 4323,
+          "height_px": 4819,
+          "nominal_dpi": 600,
+          "embedded_dpi": [
+            599.9988,
+            599.9988
+          ],
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796",
+          "purpose": "publication-resolution PNG download"
+        },
+        "pdf": {
+          "filename": "CGT_FIGURE_003_signed_axes_revised.pdf",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised.pdf",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised.pdf",
+          "mime_type": "application/pdf",
+          "bytes": 1600555,
+          "sha256": "3dab4de28f38762de434eecb6b2a9bf9cde3cd469548231e189abb2627973383",
+          "width_pt": 518.740157,
+          "height_pt": 578.267717,
+          "width_mm": 183,
+          "height_mm": 204,
+          "pages": 1,
+          "purpose": "one-page publication PDF download"
+        },
+        "svg": {
+          "filename": "CGT_FIGURE_003_signed_axes_revised.svg",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised.svg",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised.svg",
+          "mime_type": "image/svg+xml",
+          "bytes": 357204,
+          "sha256": "40634f9fe70e9c002a13a1cc6318d84c96ad602a27f2faa027531b5cea3787a3",
+          "width": "183mm",
+          "height": "204mm",
+          "view_box": [
+            0,
+            0,
+            518.740157,
+            578.267717
+          ],
+          "text_mode": "paths",
+          "purpose": "font-independent vector download and open-original route"
+        },
+        "reproducibility_zip": {
+          "filename": "CGT_FIGURE_003_signed_axes_revised_v1.zip",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_v1.zip",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_v1.zip",
+          "mime_type": "application/zip",
+          "bytes": 72565683,
+          "sha256": "c54503486663c217ddd6348ccef22642255c04112ff936ab615c9e104449987d",
+          "purpose": "complete intact audited Figure 3 release package"
+        },
+        "audit_json": {
+          "filename": "CGT_FIGURE_003_signed_axes_revised_audit.json",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_audit.json",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_audit.json",
+          "mime_type": "application/json",
+          "bytes": 104289,
+          "sha256": "c8ff32a557e9a817d3e71019fd29e5b5001c869c2924ec7f95bfe03f496e6359",
+          "purpose": "final automated audit with hash-anchored human-review gate"
+        }
+      },
+      "compatibility_aliases": {
         "png": {
           "local_path": "/research/cgt/figures/main/figure-03-signed-axes.png",
           "repository_path": "public/research/cgt/figures/main/figure-03-signed-axes.png",
           "mime_type": "image/png",
-          "bytes": 855500,
-          "sha256": "129e69cdae2a9866fcb83073e30e4d48b3c90592931eb6cd8907d315cccc73fa",
-          "drive_id": "1xJ2car3OgucgElBf-MhSDIjZWmZ1ztrG",
-          "drive_url": "https://drive.google.com/file/d/1xJ2car3OgucgElBf-MhSDIjZWmZ1ztrG/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T21:16:28.000Z"
+          "bytes": 1871881,
+          "sha256": "30095053cb861bd7be782001fdd7e0fb5f3a988dd3a1d9c204e689b5e0e96398",
+          "mirrors_asset": "png_600dpi",
+          "active_page_reference": false
         },
         "pdf": {
           "local_path": "/research/cgt/figures/main/figure-03-signed-axes.pdf",
           "repository_path": "public/research/cgt/figures/main/figure-03-signed-axes.pdf",
           "mime_type": "application/pdf",
-          "bytes": 61983,
-          "sha256": "54921909efcb12cf11c2a335078e0346b874eb5796f235ba023efe4da8838499",
-          "drive_id": "1Ww4G0j2VJ-1zUFYgUXtdjI31ph3REUl3",
-          "drive_url": "https://drive.google.com/file/d/1Ww4G0j2VJ-1zUFYgUXtdjI31ph3REUl3/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T21:16:29.000Z"
+          "bytes": 1600555,
+          "sha256": "3dab4de28f38762de434eecb6b2a9bf9cde3cd469548231e189abb2627973383",
+          "mirrors_asset": "pdf",
+          "active_page_reference": false
         },
         "svg": {
           "local_path": "/research/cgt/figures/main/figure-03-signed-axes.svg",
           "repository_path": "public/research/cgt/figures/main/figure-03-signed-axes.svg",
           "mime_type": "image/svg+xml",
-          "bytes": 83140,
-          "sha256": "111747a70948b55ea00e8b2e31f60e42e8f7b3f44363727458e5c6e327905f62",
-          "drive_id": "13QPyA3Q--gP-vNth8Db_Ove6ZBAGzIcx",
-          "drive_url": "https://drive.google.com/file/d/13QPyA3Q--gP-vNth8Db_Ove6ZBAGzIcx/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-23T21:16:30.000Z"
+          "bytes": 357204,
+          "sha256": "40634f9fe70e9c002a13a1cc6318d84c96ad602a27f2faa027531b5cea3787a3",
+          "mirrors_asset": "svg",
+          "active_page_reference": false
         }
       },
       "provenance": {
-        "output_folder": {
-          "drive_id": "18LJU__p-EGzOA8EZXk3pd6mPNofTXxmj",
-          "drive_url": "https://drive.google.com/drive/folders/18LJU__p-EGzOA8EZXk3pd6mPNofTXxmj"
-        },
-        "notebook_archive": {
-          "drive_id": "1ubYo-sDs_8rkjMzte4RX2iYs3t_cHDkz",
-          "drive_url": "https://drive.google.com/file/d/1ubYo-sDs_8rkjMzte4RX2iYs3t_cHDkz/view?usp=drivesdk"
-        },
+        "source_run": "CGT_FIGURE_003",
         "source_notebook": {
           "filename": "CGT-FIGURE-003_signed_dimensions_candidate_axes.ipynb",
+          "bytes": 404016,
           "sha256": "db46164d1d6ea035b50352f358a5d6fe93c39dca967f9cb6b87279538eb81b19",
-          "archive_drive_id": "1ubYo-sDs_8rkjMzte4RX2iYs3t_cHDkz"
+          "status": "canonical frozen original retained in the complete release"
         },
-        "source_data_xlsx": {
-          "drive_id": "1fJtP6kEtHBdIrDpQuvDRiI-6ZSsF6Era",
-          "drive_url": "https://drive.google.com/file/d/1fJtP6kEtHBdIrDpQuvDRiI-6ZSsF6Era/view?usp=drivesdk"
+        "release_package": {
+          "filename": "CGT_FIGURE_003_signed_axes_revised_v1.zip",
+          "bytes": 72565683,
+          "sha256": "c54503486663c217ddd6348ccef22642255c04112ff936ab615c9e104449987d",
+          "validated_date_utc": "2026-08-21",
+          "archive_member_count": 576,
+          "directory_member_count": 0,
+          "regular_file_count": 576,
+          "compressed_member_bytes": 72423425,
+          "uncompressed_member_bytes": 72423425,
+          "expansion_ratio": 1,
+          "archive_overhead_bytes": 142258,
+          "compression_policy": "ZIP stored mode; no DEFLATE stream",
+          "top_level_directory": "CGT_FIGURE_003_signed_axes_revised_v1",
+          "two_independent_builds_byte_identical": true,
+          "integrity_test": "pass",
+          "unsafe_path_count": 0
         },
-        "legend": {
-          "drive_id": "1mWyv1BtUsfFBPPFNL758QFb0t95VQi-z",
-          "drive_url": "https://drive.google.com/file/d/1mWyv1BtUsfFBPPFNL758QFb0t95VQi-z/view?usp=drivesdk"
+        "release_manifest": {
+          "filename": "CGT_FIGURE_003_release_manifest.json",
+          "bytes": 183663,
+          "sha256": "ce03595e96571afb3ea8d58afb2532b40ad3110738ac7c93133fc086ed6f7ef3",
+          "schema_version": "1.0.0",
+          "listed_entries": 575,
+          "self_excluding": true,
+          "exclusion_rule": "The manifest lists every other regular file below the release root and excludes only itself."
         },
-        "methods": {
-          "drive_id": "14zBILuRNTi_rLA5jTiia1W_r8M6lFBiv",
-          "drive_url": "https://drive.google.com/file/d/14zBILuRNTi_rLA5jTiia1W_r8M6lFBiv/view?usp=drivesdk"
+        "approved_copy": {
+          "filename": "documentation/website_copy.md",
+          "bytes": 17774,
+          "sha256": "4b149884b48171ab0aacf280f8fcdd532226d3142e656cc9b17d0dc781fc39d4"
         },
+        "final_audit": {
+          "filename": "audit/CGT_FIGURE_003_signed_axes_revised_audit.json",
+          "bytes": 104289,
+          "sha256": "c8ff32a557e9a817d3e71019fd29e5b5001c869c2924ec7f95bfe03f496e6359",
+          "status": "pass",
+          "hash_anchored_human_review": "pass",
+          "reviewed_hash_count": 11
+        },
+        "renderer_determinism": {
+          "status": "pass",
+          "first_clean_render_file_count": 392,
+          "second_clean_render_file_count": 392,
+          "byte_identical_file_count": 392
+        },
+        "reproduction_boundary": "The included renderer tables reproduce the released assets. The larger frozen upstream runs are provenance-pinned but are not duplicated in the ZIP and must be materialized separately for the scientific verifier.",
         "upstream_runs": [
           "CGT_CONSTRAINT_001B",
           "CGT_CONSTRAINT_002D",
@@ -710,19 +858,61 @@
         ]
       },
       "freeze": {
-        "status": "minor_polish",
+        "status": "scientifically_audited_replacement_release_v1",
+        "release_status": "Audited replacement release v1; all automated, cross-format, deterministic, and hash-anchored human-review gates passed.",
+        "revision_scope": "Deterministic six-panel reconstruction with corrected query filtering, denominators, global multiple-testing scope, evidence dependence, study-proxy limitations, compositional non-identifiability, scientific copy, publication typography, accessibility, and cross-format integrity. Frozen upstream scientific inputs were not modified.",
+        "numerical_inputs": "frozen",
         "release_recommendation": "main_candidate"
       },
       "qa": {
-        "status": "warning",
-        "source_note": "minimum text 4.20 pt fails 5–7 pt target",
-        "local_asset_triplet_complete": true,
-        "local_byte_sizes_match_drive_inventory": true,
-        "local_sha256_matches_recovery_capture": true
+        "status": "pass",
+        "quality_note": "Exact 183 × 204 mm canvas; 4,323 × 4,819 publication PNG at 599.9988 dpi; 2,400 × 2,675 web PNG at 96.012 dpi; pinned embedded ICC profile; path-text SVG; embedded TrueType PDF; 392 files were byte-identical across two clean renders; all automated and hash-anchored human-review gates passed.",
+        "mandatory_rules": {
+          "scientific_reconstruction": true,
+          "geometry": true,
+          "web_png": true,
+          "publication_png": true,
+          "pdf": true,
+          "svg": true,
+          "cross_format": true,
+          "visual_qa": true,
+          "deterministic_duplicate_render": true,
+          "human_visual_review": true
+        },
+        "zero_geometry_or_container_violations": true,
+        "zero_text_collisions": true,
+        "zero_invalid_svg_failures": true,
+        "zero_unembedded_pdf_fonts": true,
+        "zero_type_3_pdf_fonts": true,
+        "zero_cross_format_failures": true,
+        "minimum_text_pt": 7,
+        "human_visual_review": "pass",
+        "renderer_determinism": "pass",
+        "local_release_asset_count": 6,
+        "local_byte_size_matches": 6,
+        "local_sha256_matches": 6,
+        "legacy_aliases_contain_approved_bytes": true,
+        "responsive_note": "The full 2,400-pixel web image, 1,200-pixel view, publication PNG, PDF, and SVG are intended reading surfaces. The audited 480-pixel-wide composite is structurally intact and collision-free, but its fine text is zoom-dependent and is not comfortably readable at native 480-pixel display size. The website must preserve an uncropped overview and provide a keyboard- and touch-accessible way to open or zoom the full-resolution PNG or SVG. Do not claim native 480-pixel legibility, and do not replace the approved composite with an unverified mobile crop.",
+        "open_original_route": "The full figure image is a keyboard- and touch-activated link to the checksum-pinned canonical SVG; it has an accessible name and visible focus and opens without a modal."
+      },
+      "evidence_dependence": {
+        "ora_and_rank": "Dependent summaries that reuse the same coordinates and overlapping gene-set memberships.",
+        "ridge_and_spearman": "Dependent summaries that reuse the same essentiality_strength = −mean DepMap GeneEffect endpoint and overlapping genes.",
+        "panels": "Panels d and e are representative evidence views and panel f is a robustness boundary; none is an independent replication of another panel."
       },
       "caveats": [
-        "Axis labels are candidate biological interpretations, not definitive mechanism assignments.",
-        "Over-representation, rank-based support, predictive coefficients, and essentiality correlations are partly dependent evidence streams and are not causal tests."
+        "A local SVD mode is a dataset-specific latent direction, and residual sign denotes below- or above-context-mean absolute family mass rather than intrinsic negative or positive biology.",
+        "Candidate annotations are manually curated, post hoc shorthands rather than latent-mode identities, measured quantities, mechanisms, or constraint laws.",
+        "Explicit sign filtering removes the invalid F1, F3, and F15 upper views; boundary ties make corrected realized query sizes range from 20 to 362.",
+        "Benjamini–Hochberg adjustment is separate for ORA and rank across all 201,771 corrected view–term tests per method; displayed terms are illustrative, manually selected representatives rather than exhaustive results.",
+        "The pooled background contains 1,229 genes, while high-confidence absolute views use their eligible 255-gene universe for both ORA and rank analysis.",
+        "Matrix values are descriptive maxima; NR is no retained result rather than zero, and within-column shading neither makes unlike metrics commensurate nor defines a combined evidence score.",
+        "ORA and rank are dependent, and RidgeCV and Spearman summaries share the same GeneEffect-derived endpoint and overlapping genes; no displayed evidence channel is an independent replication.",
+        "The 16 closed residual features have matrix rank 12; F15 = 0.19354839 × F3, F6 = −F5, and F4 and F13 are zero, so ridge coefficients are coding- and penalty-dependent descriptive estimates without uncertainty intervals.",
+        "All 41 F14 lower-query genes have the CuiHacohen2023 study proxy, so the cytokine result is study-conditioned rather than a general or transportable F14 biological axis.",
+        "F3 and F15 are scaled copies, not independent discoveries, and 35 of 40 high-confidence query genes have a LaraAstiasoHuntly2023 study proxy.",
+        "The F12 absolute query is 40/40 and the F12 lower query is 30/30 ReplogleWeissman2022 K562; leave-study-out reconstruction, study-matched nulls, independent-study recurrence, a declared contrast basis, and study-block bootstrap uncertainty remain required.",
+        "The figure supports descriptive, study-conditioned pathway coherence in manually curated, associative, pipeline-dependent summaries; it does not identify a validated pathway, general biological program, mechanism, universal axis, causal module, universal constraint, or causal law."
       ]
     },
     {

@@ -29,31 +29,89 @@ function MathExpression({ expression, display = false }: { expression: string; d
   return <span className={styles.figureInlineEquation} dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-function InlineFigureMarkdown({ text }: { text: string }) {
+function InlineFigureMarkdown({
+  text,
+}: {
+  text: string;
+}): ReactNode[] {
+  type Delimiter = {
+    open: string;
+    close: string;
+    render: (value: string, key: number) => ReactNode;
+  };
+
   const tokens: ReactNode[] = [];
-  const delimiters = [
-    { open: "**", close: "**", render: (value: string, key: number) => <strong key={key}>{value}</strong> },
-    { open: "`", close: "`", render: (value: string, key: number) => <code key={key}>{value}</code> },
-    { open: "\\(", close: "\\)", render: (value: string, key: number) => <MathExpression expression={value} key={key} /> },
+
+  const delimiters: Delimiter[] = [
+    {
+      open: "**",
+      close: "**",
+      render: (value, key) => <strong key={key}>{value}</strong>,
+    },
+    {
+      open: "*",
+      close: "*",
+      render: (value, key) => <em key={key}>{value}</em>,
+    },
+    {
+      open: "`",
+      close: "`",
+      render: (value, key) => <code key={key}>{value}</code>,
+    },
+    {
+      open: "\\(",
+      close: "\\)",
+      render: (value, key) => (
+        <MathExpression expression={value} key={key} />
+      ),
+    },
   ];
+
   let cursor = 0;
 
   while (cursor < text.length) {
     const matches = delimiters
-      .map((delimiter) => ({ delimiter, index: text.indexOf(delimiter.open, cursor) }))
-      .filter((match) => match.index >= 0)
-      .sort((left, right) => left.index - right.index);
+      .map((delimiter) => ({
+        delimiter,
+        index: text.indexOf(delimiter.open, cursor),
+      }))
+      .filter(({ index }) => index >= 0)
+      .sort(
+        (left, right) =>
+          left.index - right.index ||
+          right.delimiter.open.length - left.delimiter.open.length,
+      );
+
     const match = matches[0];
 
     if (!match) {
       tokens.push(text.slice(cursor));
       break;
     }
-    if (match.index > cursor) tokens.push(text.slice(cursor, match.index));
+
+    if (match.index > cursor) {
+      tokens.push(text.slice(cursor, match.index));
+    }
+
     const contentStart = match.index + match.delimiter.open.length;
-    const contentEnd = text.indexOf(match.delimiter.close, contentStart);
-    if (contentEnd < 0) throw new Error(`Unclosed figure-caption delimiter: ${match.delimiter.open}`);
-    tokens.push(match.delimiter.render(text.slice(contentStart, contentEnd), tokens.length));
+    const contentEnd = text.indexOf(
+      match.delimiter.close,
+      contentStart,
+    );
+
+    if (contentEnd < 0) {
+      throw new Error(
+        `Unclosed figure-caption delimiter: ${match.delimiter.open}`,
+      );
+    }
+
+    tokens.push(
+      match.delimiter.render(
+        text.slice(contentStart, contentEnd),
+        tokens.length,
+      ),
+    );
+
     cursor = contentEnd + match.delimiter.close.length;
   }
 
@@ -117,6 +175,21 @@ function FigureMarkdown({ markdown, id }: { markdown: string; id?: string }) {
             ))}</tbody>
           </table>
         </div>,
+      );
+      continue;
+    }
+
+    if (/^\d+\.\s/.test(line)) {
+      const items: string[] = [];
+      const listStart = index;
+      while (index < lines.length && /^\d+\.\s/.test(lines[index])) {
+        items.push(lines[index].replace(/^\d+\.\s/, ""));
+        index += 1;
+      }
+      blocks.push(
+        <ol key={`ordered-list-${listStart}`}>
+          {items.map((item) => <li key={item}><InlineFigureMarkdown text={item} /></li>)}
+        </ol>,
       );
       continue;
     }
@@ -225,6 +298,9 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
               </a>
             ))}
           </nav>
+          {figure.responsiveNote
+            ? <p className={styles.figureResponsiveNote}>{figure.responsiveNote}</p>
+            : null}
           <details className={styles.figureDetails} id={`${figure.id}-details`}>
             <summary>Accessible description and provenance</summary>
             <div>
@@ -246,6 +322,7 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
                     <dd className={styles.assetMetadata}>
                       <code>{asset.filename}</code>
                       <span>
+                        {asset.role ? `${asset.role} · ` : ""}
                         {asset.width && asset.height ? `${asset.width.toLocaleString()} × ${asset.height.toLocaleString()} px · ` : ""}
                         {asset.nominalDpi ? `${asset.nominalDpi} dpi · ` : ""}
                         {asset.widthPt && asset.heightPt ? `${asset.widthPt} × ${asset.heightPt} pt · ` : ""}

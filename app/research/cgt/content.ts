@@ -1,9 +1,11 @@
 import figureTwoCopy from "./figure-02-copy.json";
+import figureThreeCopy from "./figure-03-copy.json";
 
 export type FigureRole = "core" | "synthesis" | "supporting" | "supplementary";
 
 export type FigureReleaseAsset = {
   label: string;
+  role?: string;
   linkText: string;
   href: string;
   filename: string;
@@ -41,6 +43,7 @@ export type FigureSpec = {
   upstreamRuns: string[];
   freezeStatus: string;
   qaNote: string;
+  responsiveNote?: string;
   revisionScope?: string;
   releaseAssets?: FigureReleaseAsset[];
 };
@@ -60,6 +63,8 @@ const mainRoot = "/research/cgt/figures/main";
 const supplementRoot = "/research/cgt/figures/supplementary";
 const figureTwoCaption = figureTwoCopy.caption_markdown_lines.join("\n");
 const figureTwoAccessibleDescription = figureTwoCopy.accessible_description_markdown_lines.join("\n");
+const figureThreeCaption = figureThreeCopy.caption_markdown_lines.join("\n");
+const figureThreeAccessibleDescription = figureThreeCopy.accessible_description_markdown_lines.join("\n");
 
 export const mainFigures: FigureSpec[] = [
   {
@@ -245,28 +250,103 @@ export const mainFigures: FigureSpec[] = [
   {
     id: "fig-3",
     label: "Figure 3",
-    title: "Signed dimensions map to candidate biological axes",
+    title: figureThreeCopy.title,
     role: "core",
-    image: `${mainRoot}/figure-03-signed-axes.png`,
-    pdf: `${mainRoot}/figure-03-signed-axes.pdf`,
-    svg: `${mainRoot}/figure-03-signed-axes.svg`,
-    width: 4322,
-    height: 4015,
-    alt: "Six-panel signed-axis annotation figure combining pathway enrichment, predictive weights, essentiality associations, and representative cytokine, chromatin, and translation terms.",
-    accessibleDescription:
-      "Nine curated candidate axes receive varying degrees of support from signed gene-set enrichment and fitness-related associations. Three headline interpretations—cytokine/JAK–STAT, chromatin/epigenetic regulation, and translation/ribosome-associated quality control—are highlighted. These are annotations of latent directions, not proven regulatory modules.",
-    caption: [
-      "a, Signed coordinate tails were evaluated with top-tail over-representation analysis (ORA) and continuous rank enrichment, de-duplicated, consolidated across sibling directions, and manually reviewed for evidence and failure modes.",
-      "b–c, Multi-evidence profiles for three headline and six supporting candidate axes, and the relationship between parent-family predictive weight and essentiality association. Color is normalized within each evidence dimension; printed values remain the quantitative basis.",
-      "d–f, Representative external gene-set enrichments for cytokine/interleukin/JAK–STAT signalling, chromatin and epigenetic regulation, and translation/ribosome-associated quality control. ORA and rank enrichment are related tests on overlapping inputs and are not independent replications.",
-    ],
+    image: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised_web.png`,
+    pdf: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised.pdf`,
+    svg: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised.svg`,
+    width: 2400,
+    height: 2675,
+    alt: figureThreeCopy.alt,
+    accessibleDescription: figureThreeAccessibleDescription,
+    accessibleDescriptionFormat: "markdown",
+    caption: figureThreeCaption,
     sourceRun: "CGT_FIGURE_003",
     sourceNotebook: "CGT-FIGURE-003_signed_dimensions_candidate_axes.ipynb",
     notebookSha256: "db46164d1d6ea035b50352f358a5d6fe93c39dca967f9cb6b87279538eb81b19",
-    imageSha256: "129e69cdae2a9866fcb83073e30e4d48b3c90592931eb6cd8907d315cccc73fa",
+    imageSha256: "f7bee8ebf1bcb491c239fd3cf63908521327c6055af24d50e383acdd139d8ad3",
     upstreamRuns: ["CGT_CONSTRAINT_001B", "CGT_CONSTRAINT_002D", "CGT_CONSTRAINT_002E", "CGT_META_003", "CGT_PREDICT_005"],
-    freezeStatus: "Analysis-frozen; minor publication polish recorded",
-    qaNote: "Minimum embedded text is 4.20 pt; the page provides full-resolution PNG, SVG, and PDF versions.",
+    freezeStatus: "Audited replacement release v1; all automated, cross-format, deterministic, and hash-anchored human-review gates passed.",
+    revisionScope: "Deterministic six-panel reconstruction with corrected query filtering, denominators, global multiple-testing scope, evidence dependence, study-proxy limitations, compositional non-identifiability, scientific copy, publication typography, accessibility, and cross-format integrity. Frozen upstream scientific inputs were not modified.",
+    qaNote: "Exact 183 × 204 mm canvas; 4,323 × 4,819 publication PNG at 599.9988 dpi; 2,400 × 2,675 web PNG at 96.012 dpi; pinned embedded ICC profile; path-text SVG; embedded TrueType PDF; 392 files were byte-identical across two clean renders; all automated and hash-anchored human-review gates passed.",
+    responsiveNote: figureThreeCopy.responsive_presentation_requirement,
+    releaseAssets: [
+      {
+        label: "Web PNG",
+        role: "In-page display and full-resolution web download",
+        linkText: "Download Figure 3 web PNG (2,400 × 2,675)",
+        href: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised_web.png`,
+        filename: "CGT_FIGURE_003_signed_axes_revised_web.png",
+        bytes: 1770635,
+        mimeType: "image/png",
+        sha256: "f7bee8ebf1bcb491c239fd3cf63908521327c6055af24d50e383acdd139d8ad3",
+        width: 2400,
+        height: 2675,
+        nominalDpi: 96.012,
+      },
+      {
+        label: "600-dpi PNG",
+        role: "Publication-resolution PNG download",
+        linkText: "Download Figure 3 600-dpi PNG (4,323 × 4,819)",
+        href: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised_600dpi.png`,
+        filename: "CGT_FIGURE_003_signed_axes_revised_600dpi.png",
+        bytes: 1871881,
+        mimeType: "image/png",
+        sha256: "30095053cb861bd7be782001fdd7e0fb5f3a988dd3a1d9c204e689b5e0e96398",
+        width: 4323,
+        height: 4819,
+        nominalDpi: 599.9988,
+      },
+      {
+        label: "Publication PDF",
+        role: "One-page publication PDF download",
+        linkText: "Download Figure 3 publication PDF",
+        href: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised.pdf`,
+        filename: "CGT_FIGURE_003_signed_axes_revised.pdf",
+        bytes: 1600555,
+        mimeType: "application/pdf",
+        sha256: "3dab4de28f38762de434eecb6b2a9bf9cde3cd469548231e189abb2627973383",
+        widthPt: 518.740157,
+        heightPt: 578.267717,
+        widthMm: 183,
+        heightMm: 204,
+      },
+      {
+        label: "Vector SVG",
+        role: "Font-independent vector download and open-original route",
+        linkText: "Download Figure 3 vector SVG",
+        href: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised.svg`,
+        filename: "CGT_FIGURE_003_signed_axes_revised.svg",
+        bytes: 357204,
+        mimeType: "image/svg+xml",
+        sha256: "40634f9fe70e9c002a13a1cc6318d84c96ad602a27f2faa027531b5cea3787a3",
+        widthPt: 518.740157,
+        heightPt: 578.267717,
+        widthMm: 183,
+        heightMm: 204,
+        viewBox: "0 0 518.740157 578.267717",
+      },
+      {
+        label: "Complete audited release",
+        role: "Complete intact audited Figure 3 release package",
+        linkText: "Download Figure 3 complete audited release (ZIP)",
+        href: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised_v1.zip`,
+        filename: "CGT_FIGURE_003_signed_axes_revised_v1.zip",
+        bytes: 72565683,
+        mimeType: "application/zip",
+        sha256: "c54503486663c217ddd6348ccef22642255c04112ff936ab615c9e104449987d",
+      },
+      {
+        label: "Machine-readable audit",
+        role: "Final automated audit with hash-anchored human-review gate",
+        linkText: "Download Figure 3 machine-readable audit (JSON)",
+        href: `${mainRoot}/CGT_FIGURE_003_signed_axes_revised_audit.json`,
+        filename: "CGT_FIGURE_003_signed_axes_revised_audit.json",
+        bytes: 104289,
+        mimeType: "application/json",
+        sha256: "c8ff32a557e9a817d3e71019fd29e5b5001c869c2924ec7f95bfe03f496e6359",
+      },
+    ],
   },
   {
     id: "fig-4",
