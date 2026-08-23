@@ -1,5 +1,5 @@
 .root { --nav-surface: rgba(242,245,237,.9); position: fixed; z-index: 35; pointer-events: none; opacity: 0; transform: translateX(-10px); transition: opacity 180ms ease, transform 220ms cubic-bezier(.2,.8,.2,1); }
-.root[data-visible="true"] { pointer-events: auto; opacity: 1; transform: none; }
+.root[data-visible="true"] { pointer-events: auto; opacity: 0.95; transform: none; }
 .rail { position: fixed; top: var(--research-sticky-offset, 160px); left: max(18px, calc((100vw - 1320px) / 2 - 250px)); width: 232px; max-height: calc(100vh - var(--research-sticky-offset, 160px) - 24px); overflow: auto; padding: 14px; border: 1px solid rgba(10,23,23,.14); background: #f2f5ed; box-shadow: 0 14px 38px rgba(10,23,23,.09), inset 0 1px rgba(255,255,255,.7); }
 @supports (backdrop-filter: blur(12px)) { .rail { background: var(--nav-surface); backdrop-filter: blur(14px) saturate(115%); } }
 .rail ol, .compact ol { margin: 0; padding: 0; list-style: none; }
