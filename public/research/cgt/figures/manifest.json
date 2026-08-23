@@ -1,8 +1,8 @@
 {
   "schema": {
     "name": "cgt-figure-manifest",
-    "version": "1.2.0",
-    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1, Figure 2, and Figure 3 revisions and their downloads.",
+    "version": "1.3.0",
+    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1, Figure 2, Figure 3, and Figure 4 revisions and their downloads.",
     "required_figure_fields": [
       "id",
       "run_id",
@@ -46,12 +46,24 @@
       "svg",
       "reproducibility_zip",
       "audit_json"
+    ],
+    "figure_04_release_asset_formats": [
+      "png_web",
+      "png_600dpi",
+      "pdf",
+      "svg",
+      "mobile_panel_a",
+      "mobile_panel_b",
+      "mobile_panel_c",
+      "mobile_panel_d",
+      "mobile_panel_e",
+      "reproducibility_zip"
     ]
   },
   "report": {
     "title": "CGT canonical figure extraction manifest",
     "project": "Constraint Geometry Theory (CGT)",
-    "manifest_generated_date_utc": "2026-08-21",
+    "manifest_generated_date_utc": "2026-08-23",
     "source_drive_root": {
       "drive_id": "1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU",
       "drive_url": "https://drive.google.com/drive/folders/1CZqDmkWTqq4mv53f3cZ8gDqUzUo11gcU"
@@ -64,9 +76,9 @@
     "logical_figure_count": 11,
     "main_figure_count": 5,
     "supplementary_figure_count": 6,
-    "active_physical_asset_count": 42,
+    "active_physical_asset_count": 49,
     "compatibility_alias_count": 9,
-    "physical_asset_count": 51
+    "physical_asset_count": 58
   },
   "freeze": {
     "release_id": "CGT_CORE_001",
@@ -107,13 +119,13 @@
     ]
   },
   "audit": {
-    "local_verification_date_utc": "2026-08-21",
+    "local_verification_date_utc": "2026-08-23",
     "integrity": {
-      "expected_physical_assets": 51,
-      "present_physical_assets": 51,
-      "sha256_matches": 51,
-      "byte_size_matches": 51,
-      "active_release_assets": 42,
+      "expected_physical_assets": 58,
+      "present_physical_assets": 58,
+      "sha256_matches": 58,
+      "byte_size_matches": 58,
+      "active_release_assets": 49,
       "compatibility_aliases": 9,
       "complete_png_pdf_svg_triplets": 11,
       "result": "pass"
@@ -135,7 +147,7 @@
       "figure_01": "Audited at design, web-export, and 600-dpi resolution: zero out-of-canvas text objects, text–text overlaps, workflow-box containment violations, protected statistics–legend overlaps, or legend-occluded observations; minimum workflow-text clearance is 2.002 pt and statistics–legend separation is 12.762 pt.",
       "figure_02": "Exact 182.88 × 190.50 mm canvas; 4,320 × 4,500 publication PNG at 600 dpi; 2,400 × 2,500 web PNG; 7.0 pt minimum font; no canvas/container escape, text collision, legend/data collision, clipping, invalid SVG, unembedded PDF font, numerical mismatch, or cross-format failure; complete human visual review passed. The two-column composite is uncropped at 480 px, but small publication text requires an open-original or zoom affordance on narrow screens unless a separately approved mobile derivative is supplied.",
       "figure_03": "Exact 183 × 204 mm canvas; 4,323 × 4,819 publication PNG at 599.9988 dpi; 2,400 × 2,675 web PNG at 96.012 dpi; 7.0 pt minimum font; pinned ICC profile; path-text SVG; embedded TrueType PDF; zero geometry, collision, external-dependency, numerical, or cross-format failures; 392 byte-identical files across two clean renders; complete hash-anchored human visual review passed. The composite remains uncropped at 480 px, but its fine text is zoom-dependent and is not claimed to be comfortably readable at native narrow-screen size.",
-      "figure_04": "Minimum text size 4.50 pt is below target; three clipping diagnostics were recorded.",
+      "figure_04": "Exact 183 × 204 mm canvas; 4,322 × 4,818 publication PNG at 599.9988 dpi; 2,400 × 2,675 web PNG; 6.0 pt minimum font; pinned ICC profile; path-text public SVG with explicit title and description; embedded-font PDF; five responsive panel assets; zero text collisions, container escapes, or panel-boundary violations; all five panel letters exactly once; all eight canonical audit sections passed.",
       "figure_05": "A text audit exists, but no Nature-compliance report was found."
     },
     "exclusions": [
@@ -148,7 +160,7 @@
     ],
     "caveats": [
       "This manifest records the selected release and its provenance; it does not itself establish peer review, reproducibility outside the captured environment, or causal validity.",
-      "Figures 1, 2, and 3 are checksum-pinned audited replacement releases with their recorded revision scopes. Figures 4–5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
+      "Figures 1, 2, 3, and 4 are checksum-pinned audited replacement releases with their recorded revision scopes. Figure 5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
       "The recovery bundle verifies capture integrity but is candidate/unreviewed and explicitly does not establish a CORD result.",
       "CGT topography assets were excluded because the freeze report classifies them as exploratory.",
       "Scientific interpretation must preserve the claim boundaries recorded in the associated legends, methods, source data, notebooks, and claim ledger."
@@ -918,119 +930,375 @@
     {
       "id": "figure-04",
       "run_id": "CGT_FIGURE_004",
-      "logical_asset": "CGT_FIGURE_004_integrated_evidence_atlas_and_model",
+      "logical_asset": "CGT_FIGURE_004_dependency_aware_synthesis_revised",
       "label": "Figure 4",
       "role": "main",
       "order": 4,
-      "title": "Integrated evidence atlas and hierarchical model of CGT",
+      "title": "Dependency-aware synthesis of current CGT analyses and their generalization boundaries",
       "evidence_tier": "synthesis_supporting",
+      "release_status": "Audited replacement release v1; all eight canonical audit sections passed.",
+      "revision_scope": "Deterministic five-panel redesign from frozen revised Figure 1–3 results; corrected dependency labels, raw-metric presentation, generalization boundaries, scientific copy, responsive assets, accessibility, and cross-format integrity. No model, enrichment, residualization, or bootstrap analysis was rerun.",
       "dimensions": {
-        "png": {
+        "png_web": {
+          "width_px": 2400,
+          "height_px": 2675,
+          "color_mode": "RGB",
+          "embedded_dpi": [],
+          "icc_profile_bytes": 6922,
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796"
+        },
+        "png_600dpi": {
           "width_px": 4322,
-          "height_px": 4015,
-          "nominal_dpi": 600
+          "height_px": 4818,
+          "color_mode": "RGB",
+          "nominal_dpi": 600,
+          "embedded_dpi": [
+            599.9988,
+            599.9988
+          ],
+          "icc_profile_bytes": 6922,
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796"
         },
         "pdf": {
           "width_pt": 518.74,
-          "height_pt": 481.89
+          "height_pt": 578.268,
+          "width_mm": 183,
+          "height_mm": 204,
+          "pages": 1,
+          "all_fonts_embedded": true,
+          "type_3_font_count": 0
         },
         "svg": {
-          "width_pt": 518.740157,
-          "height_pt": 481.889764,
+          "width": "518.740157pt",
+          "height": "578.267717pt",
           "view_box": [
             0,
             0,
             518.740157,
-            481.889764
-          ]
+            578.267717
+          ],
+          "text_mode": "paths",
+          "has_title": true,
+          "has_description": true,
+          "external_dependency_count": 0,
+          "raster_image_count": 0
+        },
+        "responsive_panels": {
+          "a": {
+            "width_px": 1600,
+            "height_px": 420,
+            "minimum_display_width_css_px": 800
+          },
+          "b": {
+            "width_px": 1600,
+            "height_px": 593,
+            "minimum_display_width_css_px": 800
+          },
+          "c": {
+            "width_px": 1200,
+            "height_px": 999,
+            "minimum_display_width_css_px": null
+          },
+          "d": {
+            "width_px": 1600,
+            "height_px": 758,
+            "minimum_display_width_css_px": 800
+          },
+          "e": {
+            "width_px": 1600,
+            "height_px": 300,
+            "minimum_display_width_css_px": 800
+          }
         },
         "physical": {
           "width_mm": 183,
-          "height_mm": 170,
-          "basis": "SVG canvas"
+          "height_mm": 204,
+          "basis": "approved PDF and SVG canvas"
         }
       },
       "assets": {
-        "png": {
-          "local_path": "/research/cgt/figures/main/figure-04-evidence-atlas.png",
-          "repository_path": "public/research/cgt/figures/main/figure-04-evidence-atlas.png",
+        "png_web": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png",
           "mime_type": "image/png",
-          "bytes": 1198685,
-          "sha256": "d1d9150df2cb99759e21b1987dfba25f51b48bb867415c027e963f1bc2524fcc",
-          "drive_id": "1cSJUEXMkkR9PgGpqSNV0ZwPyYzXSjMll",
-          "drive_url": "https://drive.google.com/file/d/1cSJUEXMkkR9PgGpqSNV0ZwPyYzXSjMll/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-25T16:59:24.000Z"
+          "bytes": 1743554,
+          "sha256": "89c15cb2751ed1d6513c16d7cd45769605797def3642897ed66b08a91a15d487",
+          "width_px": 2400,
+          "height_px": 2675,
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796",
+          "purpose": "web fallback, panel overview, and full-resolution web download"
+        },
+        "png_600dpi": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png",
+          "mime_type": "image/png",
+          "bytes": 1535331,
+          "sha256": "ca83d2408a0788e9c9ab6bd68ac5877b61f51cf8d30932d76f66734f61c8d756",
+          "width_px": 4322,
+          "height_px": 4818,
+          "nominal_dpi": 600,
+          "embedded_dpi": [
+            599.9988,
+            599.9988
+          ],
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796",
+          "purpose": "publication-resolution PNG download"
         },
         "pdf": {
-          "local_path": "/research/cgt/figures/main/figure-04-evidence-atlas.pdf",
-          "repository_path": "public/research/cgt/figures/main/figure-04-evidence-atlas.pdf",
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf",
           "mime_type": "application/pdf",
-          "bytes": 69708,
-          "sha256": "3acc40e761b544ab59720518798df7e01dc732a7713795dfb2c7e93c77669c37",
-          "drive_id": "1Jw2c2-Rd05jJ_EIH1guQqVhEJ-3CobCe",
-          "drive_url": "https://drive.google.com/file/d/1Jw2c2-Rd05jJ_EIH1guQqVhEJ-3CobCe/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-25T16:59:25.000Z"
+          "bytes": 71123,
+          "sha256": "7cbc094b423899486f335be3ecc3005c5b9d7dedc2a9dbad7b1214d885e16b9c",
+          "width_pt": 518.74,
+          "height_pt": 578.268,
+          "width_mm": 183,
+          "height_mm": 204,
+          "pages": 1,
+          "purpose": "one-page embedded-font publication PDF"
         },
         "svg": {
-          "local_path": "/research/cgt/figures/main/figure-04-evidence-atlas.svg",
-          "repository_path": "public/research/cgt/figures/main/figure-04-evidence-atlas.svg",
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised.svg",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg",
           "mime_type": "image/svg+xml",
-          "bytes": 114155,
-          "sha256": "234c0b37302791bc4c0588b5248f736cc788febe9cc24e7921b74e33f391a8f3",
-          "drive_id": "1KjseyAnaANBU4axiBmPwMx8UgiQzIPyE",
-          "drive_url": "https://drive.google.com/file/d/1KjseyAnaANBU4axiBmPwMx8UgiQzIPyE/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-06-25T16:59:26.000Z"
+          "bytes": 371346,
+          "sha256": "267593219bf1e7ec3d7a89b9c5943c734dad6da78afee96eb047828a2764e0a6",
+          "width": "518.740157pt",
+          "height": "578.267717pt",
+          "view_box": [
+            0,
+            0,
+            518.740157,
+            578.267717
+          ],
+          "text_mode": "paths",
+          "purpose": "font-independent vector download and desktop display source"
+        },
+        "mobile_panel_a": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_a.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_a.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_a.png",
+          "mime_type": "image/png",
+          "bytes": 360085,
+          "sha256": "344176f0b42fedc622b81232c08b2ccb34d30e37b97b81dda9c9776ce514e642",
+          "width_px": 1600,
+          "height_px": 420,
+          "minimum_display_width_css_px": 800,
+          "purpose": "responsive panel a in an accessible horizontal scroller"
+        },
+        "mobile_panel_b": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_b.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_b.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_b.png",
+          "mime_type": "image/png",
+          "bytes": 338925,
+          "sha256": "2cb1887f0a3639dc9ad349b4a42a5e0679773ed445ec0ea506f100297c3610a4",
+          "width_px": 1600,
+          "height_px": 593,
+          "minimum_display_width_css_px": 800,
+          "purpose": "responsive panel b in an accessible horizontal scroller"
+        },
+        "mobile_panel_c": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_c.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_c.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_c.png",
+          "mime_type": "image/png",
+          "bytes": 229738,
+          "sha256": "f59fd2148c8b9e556e457a9606a2ca972dd83c96aecdaa616d193c6d73c1cea7",
+          "width_px": 1200,
+          "height_px": 999,
+          "minimum_display_width_css_px": null,
+          "purpose": "responsive panel c fitted to the available content width"
+        },
+        "mobile_panel_d": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_d.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_d.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_d.png",
+          "mime_type": "image/png",
+          "bytes": 271983,
+          "sha256": "f620f504a1fd0eefa49bd46248028fc016fe5c594760a2fd965b91c909ede46d",
+          "width_px": 1600,
+          "height_px": 758,
+          "minimum_display_width_css_px": 800,
+          "purpose": "responsive panel d in an accessible horizontal scroller"
+        },
+        "mobile_panel_e": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_e.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_e.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_e.png",
+          "mime_type": "image/png",
+          "bytes": 200662,
+          "sha256": "54315306d77350faeab90b17d1d9defb8797553db94bf22e676392857cf627a6",
+          "width_px": 1600,
+          "height_px": 300,
+          "minimum_display_width_css_px": 800,
+          "purpose": "responsive panel e in an accessible horizontal scroller"
+        },
+        "reproducibility_zip": {
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
+          "mime_type": "application/zip",
+          "bytes": 15282792,
+          "sha256": "8b6d475fb04f350707c8c635de40ea3ff9a5dfda66a2edf96b7c2337dbc35128",
+          "purpose": "complete intact audited Figure 4 release package"
         }
       },
       "provenance": {
-        "output_folder": {
-          "drive_id": "1fF7fet5ng6V3WLs--5B98yWtr6-7PPoJ",
-          "drive_url": "https://drive.google.com/drive/folders/1fF7fet5ng6V3WLs--5B98yWtr6-7PPoJ"
+        "source_run": "CGT_FIGURE_004",
+        "source_release": {
+          "release_id": "CGT_FIGURE_004_dependency_aware_synthesis_revised_v1",
+          "filename": "CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
+          "bytes": 15282792,
+          "sha256": "8b6d475fb04f350707c8c635de40ea3ff9a5dfda66a2edf96b7c2337dbc35128",
+          "validated_date_utc": "2026-08-23",
+          "archive_member_count": 43,
+          "directory_member_count": 0,
+          "regular_file_count": 43,
+          "compressed_member_bytes": 15270974,
+          "uncompressed_member_bytes": 16457905,
+          "expansion_ratio": 1.0777246428420348,
+          "archive_overhead_bytes": 11818,
+          "compression_policy": "ZIP deflate with fixed canonical member metadata",
+          "top_level_directory": "CGT_FIGURE_004_dependency_aware_synthesis_revised_v1",
+          "integrity_test": "pass",
+          "unsafe_path_count": 0
         },
-        "notebook_archive": {
-          "drive_id": "1t1GCYDEYrDeVuoifdIQ1t66AQxiEDi2N",
-          "drive_url": "https://drive.google.com/file/d/1t1GCYDEYrDeVuoifdIQ1t66AQxiEDi2N/view?usp=drivesdk"
+        "release_manifest": {
+          "filename": "CGT_FIGURE_004_release_manifest.json",
+          "bytes": 16423,
+          "sha256": "ebc8b2e662e3b60253e32fee3cd3db6336c57e76a74bac888af787518e97ced5",
+          "schema_version": "1.0.0",
+          "listed_entries": 42,
+          "self_excluding": true,
+          "exclusion_rule": "The manifest lists every other regular file below the release root and excludes only itself."
         },
-        "source_notebook": {
+        "upstream_notebook": {
           "filename": "CGT-FIGURE-004_integrated_evidence_atlas_and_constraint_model.ipynb",
           "sha256": "6fe89a92fd3a7127cb5d80e7b60158e748f4ba3a2a48f552dff3c2010f09b704",
-          "archive_drive_id": "1t1GCYDEYrDeVuoifdIQ1t66AQxiEDi2N"
+          "status": "Frozen upstream notebook retained outside the revised release; the audited replacement is rendered from corrected frozen tables."
         },
-        "source_data_xlsx": {
-          "drive_id": "1bkpA8_loUGUUAfhl7uEqfUTzRGkUUPPa",
-          "drive_url": "https://drive.google.com/file/d/1bkpA8_loUGUUAfhl7uEqfUTzRGkUUPPa/view?usp=drivesdk"
+        "renderer": {
+          "filename": "code/render_cgt_figure_004.py",
+          "bytes": 51561,
+          "sha256": "905846d4d52add2574204ee76bf36b78912fffaae9a4f5d31c60fcf3203770e0"
         },
-        "legend": {
-          "drive_id": "1QlUlRnibEnTSd-dpUgWqhJMjOgdO49Gj",
-          "drive_url": "https://drive.google.com/file/d/1QlUlRnibEnTSd-dpUgWqhJMjOgdO49Gj/view?usp=drivesdk"
+        "approved_copy": {
+          "filename": "documentation/website_copy.md",
+          "bytes": 11046,
+          "sha256": "9ca245a2de219fe5bb1eaec9c352fe31d52cd9e9cab02f63d739ae5cf8531aa2",
+          "caption_sha256": "2701ff2ffccbc5a1af0f3c96439193558e24eeffe8e08bc786b953192e5ae45c",
+          "alt_sha256": "88e39460d52d3e3b37b23cd3c08778932bde8633018e0eb61020b1acec372ad2",
+          "accessible_description_sha256": "75f417d390193e73c3dc1566e947bfa61bd587b74410d5933598f1d69b0e4cb4"
         },
-        "methods": {
-          "drive_id": "1FyIn3Hg_4snC0pIZaGXgdFMasYH8CFks",
-          "drive_url": "https://drive.google.com/file/d/1FyIn3Hg_4snC0pIZaGXgdFMasYH8CFks/view?usp=drivesdk"
+        "final_audit": {
+          "filename": "audit/CGT_FIGURE_004_dependency_aware_synthesis_revised_audit.json",
+          "bytes": 10229,
+          "sha256": "5764edefe9c6c8f2e411cc8b7ea7fe3c83f2a17f687864f9fccb9e08c90dc77a",
+          "status": "pass",
+          "section_count": 8,
+          "sections": {
+            "accessibility": "pass",
+            "cross_format": "pass",
+            "geometry": "pass",
+            "pdf": "pass",
+            "png": "pass",
+            "responsive": "pass",
+            "scientific": "pass",
+            "svg": "pass"
+          }
+        },
+        "data_counts": {
+          "candidate_rows": 9,
+          "claim_scope_rows": 5,
+          "fitness_replicates": 26,
+          "residual_boundary_rows": 3
         },
         "upstream_runs": [
+          "CGT_FIGURE_001",
+          "CGT_FIGURE_002",
+          "CGT_FIGURE_003",
           "CGT_META_003",
           "CGT_PREDICT_003B",
-          "CGT_PREDICT_005",
-          "CGT_CONSTRAINT_001B",
-          "CGT_CONSTRAINT_002",
-          "CGT_CONSTRAINT_002E"
-        ]
+          "CGT_PREDICT_005"
+        ],
+        "reproduction_boundary": "The included renderer and frozen corrected tables reproduce the released Figure 4 assets. The release reorganizes earlier results and does not rerun the larger upstream analyses."
       },
       "freeze": {
-        "status": "minor_polish",
-        "release_recommendation": "main_or_supplement"
+        "status": "scientifically_audited_replacement_release_v1",
+        "release_status": "Audited replacement release v1; all eight canonical audit sections passed.",
+        "revision_scope": "Synthesis-only redesign from frozen revised Figure 1–3 results; no new fitted model or causal analysis.",
+        "numerical_inputs": "frozen",
+        "release_recommendation": "main_synthesis"
       },
       "qa": {
-        "status": "warning",
-        "source_note": "minimum text 4.50 pt fails; 3 clipping diagnostic rows",
-        "local_asset_triplet_complete": true,
-        "local_byte_sizes_match_drive_inventory": true,
-        "local_sha256_matches_recovery_capture": true
+        "status": "pass",
+        "quality_note": "Exact 183 × 204 mm canvas; 2,400 × 2,675 web PNG; 4,322 × 4,818 publication PNG at 599.9988 dpi; 6.0 pt minimum font; path-text SVG with explicit title and description; embedded-font PDF; zero text collisions, container escapes, or panel-boundary violations; all five panel letters occur exactly once and all eight canonical audit sections passed.",
+        "mandatory_rules": {
+          "accessibility": true,
+          "cross_format": true,
+          "geometry": true,
+          "pdf": true,
+          "png": true,
+          "responsive": true,
+          "scientific": true,
+          "svg": true
+        },
+        "minimum_text_pt": 6,
+        "zero_text_collisions": true,
+        "zero_container_escapes": true,
+        "zero_panel_boundary_violations": true,
+        "panel_letters_exactly_once": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e"
+        ],
+        "all_intervals_inside_axes": true,
+        "local_release_asset_count": 10,
+        "local_byte_size_matches": 10,
+        "local_sha256_matches": 10,
+        "immutable_assets_bypass_image_optimizer": true,
+        "responsive_presentation": {
+          "breakpoint_max_width_css_px": 1080,
+          "panel_order": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e"
+          ],
+          "horizontally_scrollable_panels": [
+            "a",
+            "b",
+            "d",
+            "e"
+          ],
+          "wide_panel_minimum_width_css_px": 800,
+          "panel_c_fits_available_width": true,
+          "keyboard_focusable_scrollers": true,
+          "touch_pan_without_vertical_scroll_hijack": true,
+          "full_resolution_route": "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg"
+        }
+      },
+      "evidence_dependence": {
+        "ora_and_rank": "Dependent summaries that reuse the same residual coordinates and overlapping gene-set memberships.",
+        "ridge_and_spearman": "Dependent summaries that reuse the same DepMap-derived essentiality-strength endpoint.",
+        "candidate_values": "Panel-b values are descriptive maxima with unlike units; within-column shading does not define a combined evidence score.",
+        "tracks": "Residual-transfer and shared-endpoint fitness tracks have different estimands, scales, denominators, and resampling units and are not pooled."
       },
       "caveats": [
-        "The atlas synthesizes evidence used elsewhere in the project and therefore is not an independent validation dataset.",
-        "The hierarchical constraint model is a supported interpretive hypothesis, not evidence of causal universality."
+        "The figure reorganizes frozen results from revised Figures 1–3 and is not an independent replication, validation experiment, or new fitted model.",
+        "The META-003 family atlas, PREDICT-003B residual-analysis universe, and shared-endpoint 1,229-gene benchmark are distinct and are not interchangeable.",
+        "Residual baselines were estimated from the full PREDICT-003B table before splitting, so transfer estimates are conditional on transductive preprocessing rather than a fully nested inductive pipeline.",
+        "Study identity is approximated by a dataset-name prefix, the META-003 and PREDICT-003B universes lack a row-level inclusion map, and candidate annotations remain post hoc and study-conditioned.",
+        "The residual and fitness tracks have different estimands, scales, denominators, and resampling units and are not quantitatively pooled.",
+        "No external prospective intervention, mechanism experiment, or causal identification design is present; the figure does not establish independent biological replication, context-general transport, universal axes, mechanism, or a causal constraint law."
       ]
     },
     {
