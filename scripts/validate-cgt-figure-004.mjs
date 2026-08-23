@@ -477,11 +477,14 @@ const contentSource = await readFile(path.join(projectRoot, "app", "research", "
 for (const expected of Object.values(assets)) assert.ok(contentSource.includes(expected.filename), `${expected.filename} is referenced in Figure 4 content`);
 assert.doesNotMatch(contentSource, /figure-04-evidence-atlas\.(?:png|pdf|svg)/);
 const pageSource = await readFile(path.join(projectRoot, "app", "research", "cgt", "page.tsx"), "utf8");
+const methodsSource = await readFile(path.join(projectRoot, "app", "research", "cgt", "methods-content.tsx"), "utf8");
+const reportSource = `${pageSource}\n${methodsSource}`;
 assert.match(pageSource, /dateModified: "2026-08-23"/);
 assert.match(pageSource, /webReportDate: "23 August 2026"/);
-assert.match(pageSource, /version: "0\.4\.0"/);
+assert.match(pageSource, /version: "0\.5\.0"/);
 assert.match(pageSource, /analysisFreeze: "15 July 2026"/);
-assert.doesNotMatch(pageSource, /composite fitness-relevance score|one half normalized absolute ridge coefficient/);
+assert.doesNotMatch(reportSource, /composite fitness-relevance score|one half normalized absolute ridge coefficient|fitness relevance\s*=\s*0\.5/i);
+assert.match(methodsSource, /No combined\s+evidence score, fitness-relevance score/);
 assert.doesNotMatch(pageSource, /figure-04-evidence-atlas\.(?:png|pdf|svg)/);
 const sitemapSource = await readFile(path.join(projectRoot, "public", "sitemap.xml"), "utf8");
 assert.match(

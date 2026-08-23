@@ -310,7 +310,7 @@
 .resultNumber,
 .figureTopline,
 .figureLabel,
-.methodsGrid section > span,
+.methodOrdinal,
 .reportingGrid section > h3,
 .reproducibilityNote span,
 .articleFooter p {
@@ -652,14 +652,12 @@
 }
 
 .methodsIntro {
-  margin-bottom: 54px;
+  width: min(880px, calc(100% - 330px));
+  max-width: none;
+  margin: 0 0 54px auto;
   padding: 28px 30px;
   border-left: 4px solid var(--cgt-orange);
   background: var(--paper-deep);
-  width: auto;
-  max-width: none;
-  margin-left: 0px;
-  margin-right: 0px;
 }
 
 .methodsIntro p,
@@ -667,52 +665,62 @@
   margin-bottom: 0;
 }
 
-.methodsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: 54px;
+.methodsRecord {
   border-top: 1px solid var(--ink);
-  border-left: 1px solid var(--ink);
 }
 
-.methodsGrid section {
-  min-height: 430px;
-  padding: 30px;
-  border-right: 1px solid var(--ink);
+.methodRow {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 60px;
+  align-items: start;
+  padding: 48px 0 52px;
   border-bottom: 1px solid var(--ink);
 }
 
-.methodsGrid h3 {
-  margin: 64px 0 22px;
-  font-size: 27px;
-  line-height: 1.16;
+.methodRail {
+  min-width: 0;
+}
+
+.methodOrdinal {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.methodTitle {
+  scroll-margin-top: var(--research-sticky-offset, 216px);
+  margin: 0;
+  font-size: clamp(24px, 2.25vw, 32px);
+  line-height: 1.12;
   letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
-.methodsGrid p {
-  margin: 0 0 17px;
+.methodBody {
+  min-width: 0;
+  max-width: 78ch;
+}
+
+.methodBody p {
+  margin: 0 0 22px;
   color: #46534f;
-  font-size: 14px;
-  line-height: 1.72;
+  font-size: 16px;
+  line-height: 1.78;
 }
 
-.inlineEquation,
-.equation {
+.methodBody p:last-child {
+  margin-bottom: 0;
+}
+
+.inlineEquation {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-.equation {
-  padding: 14px 16px;
-  background: var(--ink);
-  color: var(--acid) !important;
-  font-size: 13px !important;
-  overflow-wrap: anywhere;
-}
-
-.methodsGrid code {
+.methodBody code {
   padding: 1px 4px;
   background: rgba(10, 23, 23, 0.08);
   font-size: 0.92em;
+  overflow-wrap: anywhere;
 }
 
 .reproducibilityNote {
@@ -735,10 +743,12 @@
   color: var(--acid);
 }
 
-.reproducibilityNote strong {
+.reproducibilityNote h3 {
   margin-top: 40px;
-  font: 600 clamp(42px, 5vw, 70px)/1 var(--font-montserrat), sans-serif;
-  letter-spacing: -0.06em;
+  margin-bottom: 0;
+  font: 600 clamp(28px, 3vw, 42px)/1.05 var(--font-montserrat), sans-serif;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
 }
 
 .reproducibilityNote > p {
@@ -1030,6 +1040,11 @@
     width: min(780px, calc(100% - 254px));
   }
 
+  .methodRow {
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 44px;
+  }
+
   .reproducibilityNote {
     grid-template-columns: 0.8fr 1.2fr;
   }
@@ -1127,14 +1142,24 @@
     max-width: 650px;
   }
 
-  .methodsGrid,
   .limitations ol,
   .reportingGrid {
     grid-template-columns: 1fr;
   }
 
-  .methodsGrid section {
-    min-height: auto;
+  .methodRow {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-block: 42px 46px;
+  }
+
+  .methodTitle {
+    scroll-margin-top: var(--research-sticky-offset, 170px);
+    max-width: 680px;
+  }
+
+  .methodOrdinal {
+    margin-bottom: 14px;
   }
 
   .reproducibilityNote {
@@ -1244,12 +1269,22 @@
     gap: 4px;
   }
 
-  .methodsGrid section {
-    padding: 24px;
+  .methodsIntro {
+    padding: 22px 24px;
   }
 
-  .methodsGrid h3 {
-    margin-top: 46px;
+  .methodRow {
+    gap: 20px;
+    padding-block: 34px 38px;
+  }
+
+  .methodBody p {
+    font-size: 15px;
+    line-height: 1.74;
+  }
+
+  .methodTitle {
+    font-size: 25px;
   }
 
   .reproducibilityNote {
@@ -1286,5 +1321,66 @@
 
   .figure {
     break-inside: avoid;
+  }
+
+  .methodsIntro {
+    width: 100%;
+    margin-bottom: 28px;
+  }
+
+  .methodRow {
+    display: block;
+    padding: 24px 0;
+    break-inside: auto;
+  }
+
+  .methodRail {
+    margin-bottom: 14px;
+    break-after: avoid;
+    break-inside: avoid;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  .methodTitle {
+    max-width: none;
+    font-size: 20pt;
+  }
+
+  .methodBody {
+    max-width: none;
+  }
+
+  .methodBody p {
+    font-size: 10.5pt;
+    line-height: 1.55;
+  }
+
+  .methodBody > :first-child {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  .sectionHeader {
+    break-after: avoid;
+    break-inside: avoid;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  .reproducibilityNote {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .figureEquation {
+    padding: 8px;
+    overflow: visible;
+    font-size: 9.5pt;
+  }
+
+  .figureEquation :global(.katex-display) {
+    width: auto;
+    min-width: 0;
   }
 }

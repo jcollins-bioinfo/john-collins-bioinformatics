@@ -6,6 +6,7 @@ import {
   ScientificFigure,
 } from "./publication-components";
 import { mainFigures, references, supplementaryFigures } from "./content";
+import { CgtMethods } from "./methods-content";
 import styles from "./publication.module.css";
 import { defineResearchResultsNavigation } from "../results-navigation";
 
@@ -15,8 +16,8 @@ const description =
 const reportMetadata = {
   analysisFreeze: "15 July 2026",
   dateModified: "2026-08-23",
-  dateModifiedIso: "2026-08-23T15:16:44Z",
-  version: "0.4.0",
+  dateModifiedIso: "2026-08-23T17:51:37Z",
+  version: "0.5.0",
   webReportDate: "23 August 2026",
 } as const;
 
@@ -117,8 +118,8 @@ export default function CgtPage() {
               <h1>{title}</h1>
               <p className={styles.heroLede}>
                 A frozen evidence synthesis across perturbational transcriptomics,
-                CRISPR-derived gene fitness, signed biological annotation, and
-                supporting descriptive TCGA bulk-expression analysis using previously
+                CRISPR-derived gene fitness, context-residualized functional annotation,
+                and supporting descriptive TCGA bulk-expression analysis using previously
                 defined CGT-derived candidate score sets.
               </p>
             </div>
@@ -234,11 +235,12 @@ export default function CgtPage() {
                 the term <em>constraint</em> is interpretive rather than established. The
                 analysis asks three operational questions: whether residual response
                 coordinates recur across datasets; whether gene-level coordinates predict
-                an externally sourced CRISPR fitness endpoint; and whether signed
-                directions admit coherent biological annotation. A fourth supporting
-                analysis asks how previously defined, overlapping CGT-derived candidate
-                score sets vary across cancer types in TCGA bulk expression, with PCA fitted
-                within that same TCGA cohort. None of these tests, alone or together,
+                an externally sourced CRISPR fitness endpoint; and whether
+                context-residualized family-mass directions admit candidate functional
+                annotation. A fourth supporting analysis asks how previously defined,
+                overlapping CGT-derived candidate score sets vary across cancer types in
+                TCGA bulk expression, with PCA fitted within that same TCGA cohort. None
+                of these tests, alone or together,
                 identifies a causal constraint law.
               </p>
             </div>
@@ -437,194 +439,7 @@ export default function CgtPage() {
           </ArticleSection>
 
           <ArticleSection id="methods" index="04 / METHODS" title="Methods">
-            <div className={styles.methodsIntro}>
-              <p>
-                Methods below reconstruct the analysis from the frozen figure legends,
-                panel-method files, source-data workbooks, run ledgers, and canonical
-                metrics. They define what the displayed figures establish. A complete
-                accession-level dataset registry, extracted code package, and executable
-                environment remain required before journal submission.
-              </p>
-            </div>
-            <div className={styles.methodsGrid}>
-              <section>
-                <span>04.1</span>
-                <h3>Analysis sets and coordinate construction</h3>
-                <p>
-                  The recurrence analysis (META-003) contained 248 low-dimensional modes
-                  from 43 perturbational datasets across 9 annotated contexts. Modes were
-                  consolidated into 16 unsupervised families. The transfer and fitness
-                  analyses used a stricter residual-prediction subset with 2,720
-                  observations from 39 datasets and 8 contexts. Counts are reported
-                  separately to avoid implying that every dataset contributed to every
-                  endpoint.
-                </p>
-                <p>
-                  The frozen <a href="/research/cgt/data/cgt-cache-002-dataset-manifest.csv">CGT_CACHE_002 dataset manifest</a>
-                  records candidate filenames, source URLs, checksums, contexts,
-                  inclusion flags, and perturbation/control parsing fields. It is exposed
-                  here as an audit artifact, but it is not a complete publication registry:
-                  publication DOI, accession, licence, and analysis-specific contribution
-                  fields still require harmonization.
-                </p>
-                <p>
-                  CGT family coordinates summarize candidate recurrent covariance in
-                  perturbation-associated expression. Such latent coordinates are
-                  representation-dependent; their sign, scale, and orientation do not by
-                  themselves confer biological identity.<Citation references={["norman2019", "replogle2022"]} />
-                </p>
-              </section>
-              <section>
-                <span>04.2</span>
-                <h3>Residualization and transfer</h3>
-                <p>
-                  Family-coordinate baselines were estimated under context, dataset, and
-                  dataset-shrinkage schemes; residual coordinates were evaluated with
-                  exact perturbation labels. Shrinkage baselines and residuals were not
-                  constrained to be orthogonal, so their variance fractions need not sum
-                  to one. Residuals are not described as nuisance-free: they may retain
-                  unmodeled study effects or remove coordinated biological signal.
-                </p>
-                <p>
-                  Transfer was summarized by cosine similarity between a held-out
-                  residual and the same-label residual-shrink prediction. Label-shuffle
-                  controls preserved residual geometry while breaking perturbation
-                  identity; random-label controls substituted unrelated labels. Strict
-                  regimes left out datasets, excluded same-study proxies, or left out
-                  contexts. Confidence intervals used 4,000 cluster-bootstrap resamples
-                  of held-out datasets or contexts while retaining row weighting.<Citation references={["efron1979"]} />
-                  The leave-context estimand is based on only 8 annotated contexts and is
-                  therefore interpreted as a small-cluster sensitivity analysis.
-                </p>
-              </section>
-              <section>
-                <span>04.3</span>
-                <h3>Gene-fitness benchmark</h3>
-                <p>
-                  The external endpoint was DepMap 26Q1 CRISPR GeneEffect, sign-transformed
-                  so that larger values indicate stronger knockout-associated fitness
-                  loss. Context-residualized family-coordinate means were aggregated by
-                  gene. Five-fold GroupKFold splitting was performed by gene symbol; the
-                  primary regression and classification model was a random forest.<Citation references={["dempster2021", "depmap26q1", "breiman2001"]} />
-                </p>
-                <p>
-                  “Held out” applies to the supervised mapping from measured CGT features
-                  to GeneEffect. The frozen record does not establish that family
-                  construction, residualization, feature selection, or every tuning choice
-                  was recomputed inside each fold. The evaluation is therefore not claimed
-                  as fully end-to-end out-of-sample prediction, and it does not cover genes
-                  without measured perturbation coordinates.
-                </p>
-                <p>
-                  Endpoint labels were shuffled independently 100 times. Fold metrics
-                  were averaged within each shuffle, and one-sided upper-tail Monte Carlo
-                  permutation P values
-                  used <span className={styles.inlineEquation}>p = (b + 1)/(B + 1)</span>,
-                  yielding a minimum possible P of 1/101.<Citation references={["phipson2010"]} />
-                  Standardized multivariable ridge coefficients were displayed for signed
-                  conditional interpretation, not causal attribution.<Citation references={["hoerl1970"]} />
-                </p>
-              </section>
-              <section>
-                <span>04.4</span>
-                <h3>Context-residualized family-mass annotation</h3>
-                <p>
-                  Normalized absolute family mass was residualized against the assigned
-                  context mean. Lower and upper queries targeted 30 genes and
-                  absolute-residual queries targeted 40, with boundary ties retained.
-                  Explicit sign filtering left 53 valid views. One-sided Fisher ORA used
-                  the selected query; the one-sided Mann–Whitney analysis used all eligible
-                  coordinate-derived scores. Both methods tested 3,807 de-duplicated
-                  MSigDB v2026.1.Hs Hallmark, Reactome, Gene Ontology biological process,
-                  cellular component and molecular function, and KEGG sets.<Citation references={["subramanian2005", "tamayo2016", "liberzon2015", "gillespie2022", "go2021", "kanehisa2000"]} />
-                </p>
-                <p>
-                  The pooled universe contained 1,229 genes; high-confidence absolute
-                  views used their 255 eligible genes for both ORA and rank analysis.
-                  Benjamini–Hochberg adjustment was performed separately for each method
-                  over all 201,771 corrected view–term tests. Analytic candidates met the
-                  declared q-value and effect or overlap filters before 0.70-Jaccard
-                  consolidation and manual, post hoc naming and failure-mode review.<Citation references={["benjamini1995"]} />
-                  ORA and rank were dependent summaries, the two fitness summaries shared
-                  one endpoint, and related coordinates such as F3/F15 and F5/F6 were not
-                  treated as independent discoveries.
-                </p>
-              </section>
-              <section>
-                <span>04.5</span>
-                <h3>Integrated evidence atlas</h3>
-                <p>
-                  For each collapsed axis, recurrence was the maximum parent-family
-                  universality index; predictive relevance was the maximum absolute
-                  standardized ridge coefficient; and essentiality relevance was the
-                  maximum absolute high-confidence family-level Spearman association.
-                  Pathway support used the best collapsed annotation −log10(q), with
-                  compatible DepMap coessentiality lift included where available.
-                </p>
-                <p className={styles.equation}>
-                  fitness relevance = 0.5 × norm(|β|) + 0.5 × norm(|ρ|)
-                </p>
-                <p>
-                  This composite determines visual placement only. It is not a fitted
-                  prediction, a calibrated probability, or independent validation.
-                </p>
-              </section>
-              <section>
-                <span>04.6</span>
-                <h3>Descriptive TCGA cancer-type analysis</h3>
-                <p>
-                  Corrected TCGA/Toil expression and cancer type
-                  (<code>detailed_category</code>) were loaded from the Xena-prepared
-                  cohort. Of 9,359 tumor-derived bulk-expression samples entering expression
-                  QC, 57 with median score-gene expression below 2.5 were excluded, leaving
-                  9,302 samples from 9,302 patients across 33 corrected cancer-type labels.
-                  The 15 previously defined candidate score sets used 970 recovered unique
-                  genes; the sets overlap and are not statistically independent or orthogonal.
-                </p>
-                <p>
-                  For each score <em>j</em>, pooled leave-one-axis-out residualization was
-                  fit once across all 9,302 samples. The exact OLS inputs were an intercept,
-                  the z-standardized mean of the other 14 raw scores, and z-standardized
-                  sample-median expression across the retained score genes; the downstream
-                  value was the fitted-model residual. This is pooled leave-one-axis-out
-                  residualization, not leave-one-sample-out validation. PCA was then fitted
-                  after standardizing all 15 pooled residual-score columns within the same
-                  TCGA cohort.
-                </p>
-                <p>
-                  For score <em>j</em>, <span className={styles.inlineEquation}>η²<sub>in,j</sub></span>
-                  is the sample-weighted, in-sample between-cancer-type variance fraction:
-                  the sum across cancer types of group size times squared deviation of the
-                  group mean from the overall mean, divided by the total within-sample sum
-                  of squared deviations from that overall mean. It is a same-cohort
-                  descriptive statistic, not variance causally explained by cancer type or
-                  a cross-validated prediction estimate.
-                </p>
-                <p>
-                  The release documents the transformations applied to the frozen raw-score
-                  matrix but does not document the upstream formula mapping TCGA expression
-                  plus registry membership to those raw scores. The archived notebook hash
-                  is <code>51dee19a0791dfada00fc021649eb19b87789edab728b7afec5be576c25c84f5</code>;
-                  a later larger same-named Drive notebook has unreconciled hash
-                  <code>72d1efabe3dd8c0447817dedae3d6004b47374065eb90f83f9179ad8d525fb81</code>.
-                </p>
-              </section>
-            </div>
-            <aside className={styles.reproducibilityNote}>
-              <div><span>PROVENANCE / FREEZE</span><strong>838 / 838</strong></div>
-              <p>
-                The July 18 recovery audit found all 838 output-manifest files, recorded
-                new SHA-256 digests, and hashed 51 discoverable notebooks without read
-                errors. This verifies the captured artifact snapshot—not the historical
-                execution environment or every run-to-notebook relationship.
-              </p>
-              <ul>
-                <li>Every displayed figure is shipped as 600-dpi PNG, editable SVG, and PDF.</li>
-                <li>Local file hashes and source-notebook hashes are exposed with each figure.</li>
-                <li><a href="/research/cgt/data/cgt-cache-002-dataset-manifest.csv">Download the captured dataset manifest</a></li>
-                <li><a href="/research/cgt/figures/manifest.json">Download the machine-readable figure manifest</a></li>
-              </ul>
-            </aside>
+            <CgtMethods />
           </ArticleSection>
 
           <ArticleSection id="discussion" index="05 / DISCUSSION" title="Discussion">
