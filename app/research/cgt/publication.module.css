@@ -651,6 +651,10 @@
   padding: 28px 30px;
   border-left: 4px solid var(--cgt-orange);
   background: var(--paper-deep);
+  width: auto;
+  max-width: none;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .methodsIntro p,
