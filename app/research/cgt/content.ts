@@ -1,5 +1,7 @@
 import figureTwoCopy from "./figure-02-copy.json";
 import figureThreeCopy from "./figure-03-copy.json";
+import figureFourCopy from "./figure-04-copy.json";
+import type { ResponsiveResearchFigurePanel } from "../responsive-research-figure";
 
 export type FigureRole = "core" | "synthesis" | "supporting" | "supplementary";
 
@@ -44,7 +46,17 @@ export type FigureSpec = {
   freezeStatus: string;
   qaNote: string;
   responsiveNote?: string;
+  responsivePanels?: ResponsiveResearchFigurePanel[];
   revisionScope?: string;
+  sourceRelease?: {
+    id: string;
+    filename: string;
+    bytes: number;
+    sha256: string;
+    manifestFilename: string;
+    manifestBytes: number;
+    manifestSha256: string;
+  };
   releaseAssets?: FigureReleaseAsset[];
 };
 
@@ -65,6 +77,8 @@ const figureTwoCaption = figureTwoCopy.caption_markdown_lines.join("\n");
 const figureTwoAccessibleDescription = figureTwoCopy.accessible_description_markdown_lines.join("\n");
 const figureThreeCaption = figureThreeCopy.caption_markdown_lines.join("\n");
 const figureThreeAccessibleDescription = figureThreeCopy.accessible_description_markdown_lines.join("\n");
+const figureFourCaption = figureFourCopy.caption_markdown_lines.join("\n");
+const figureFourAccessibleDescription = figureFourCopy.accessible_description_markdown_lines.join("\n");
 
 export const mainFigures: FigureSpec[] = [
   {
@@ -351,28 +365,142 @@ export const mainFigures: FigureSpec[] = [
   {
     id: "fig-4",
     label: "Figure 4",
-    title: "Integrated evidence atlas and hierarchical CGT interpretation",
+    title: figureFourCopy.title,
     role: "synthesis",
-    image: `${mainRoot}/figure-04-evidence-atlas.png`,
-    pdf: `${mainRoot}/figure-04-evidence-atlas.pdf`,
-    svg: `${mainRoot}/figure-04-evidence-atlas.svg`,
-    width: 4322,
-    height: 4015,
-    alt: "Five-panel synthesis showing the CGT evidence hierarchy, integrated candidate-axis matrix, atlas, generalization boundary, and hierarchical conceptual interpretation.",
-    accessibleDescription:
-      "This figure combines previously reported recurrence, transfer, fitness prediction, and biological annotation into one evidence hierarchy. It adds no independent validation. Its most important distinction is between supported data-derived observations and the still-hypothetical claim of a universal causal constraint law.",
-    caption: [
-      "a, Evidence hierarchy distinguishing empirical observations, conclusions, speculation, and predictions. b–c, Integrated evidence matrix and atlas for three headline and six supporting candidate axes.",
-      "d, Separate boundary audits for residual transfer and fitness prediction. The tracks use different sample units and quantitative scales and should not be compared as if they were one benchmark.",
-      "e, Hierarchical conceptual interpretation suggested by the evidence: recurrent residual axes are realized with context-dependent weighting and deformation before association with fitness consequences or target liabilities. Context-general causal universality remains hypothetical.",
-    ],
+    image: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png`,
+    pdf: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf`,
+    svg: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg`,
+    width: 2400,
+    height: 2675,
+    alt: figureFourCopy.alt,
+    accessibleDescription: figureFourAccessibleDescription,
+    accessibleDescriptionFormat: "markdown",
+    caption: figureFourCaption,
     sourceRun: "CGT_FIGURE_004",
     sourceNotebook: "CGT-FIGURE-004_integrated_evidence_atlas_and_constraint_model.ipynb",
     notebookSha256: "6fe89a92fd3a7127cb5d80e7b60158e748f4ba3a2a48f552dff3c2010f09b704",
-    imageSha256: "d1d9150df2cb99759e21b1987dfba25f51b48bb867415c027e963f1bc2524fcc",
-    upstreamRuns: ["CGT_META_003", "CGT_PREDICT_003B", "CGT_PREDICT_005", "CGT_CONSTRAINT_001B", "CGT_CONSTRAINT_002", "CGT_CONSTRAINT_002E"],
-    freezeStatus: "Analysis-frozen synthesis; not independent validation",
-    qaNote: "Minimum embedded text is 4.50 pt and the source audit records three clipping diagnostics; full-resolution downloads are provided.",
+    imageSha256: "89c15cb2751ed1d6513c16d7cd45769605797def3642897ed66b08a91a15d487",
+    upstreamRuns: ["CGT_FIGURE_001", "CGT_FIGURE_002", "CGT_FIGURE_003", "CGT_META_003", "CGT_PREDICT_003B", "CGT_PREDICT_005"],
+    freezeStatus: "Audited replacement release v1; analysis-frozen synthesis, not independent validation.",
+    revisionScope: "Deterministic five-panel redesign from frozen revised Figure 1–3 results; corrected dependency labels, raw-metric presentation, generalization boundaries, scientific copy, responsive assets, accessibility, and cross-format integrity. No model, enrichment, residualization, or bootstrap analysis was rerun.",
+    qaNote: "Exact 183 × 204 mm canvas; 2,400 × 2,675 web PNG; 4,322 × 4,818 publication PNG at 599.9988 dpi; path-text SVG with explicit title and description; embedded-font PDF; zero text collisions, container escapes, or panel-boundary violations; all five panel letters occur exactly once and all eight canonical audit sections passed.",
+    responsiveNote: "At 1,080 CSS px and below, the composite is replaced by the supplied panels a–e. Panels a, b, d, and e retain an 800-pixel minimum width inside keyboard- and touch-accessible horizontal scrollers; panel c uses the available content width. The full-resolution composite and every release download remain available.",
+    responsivePanels: [
+      {
+        id: "a",
+        label: "Panel a — Evidence register and permitted claim scope",
+        src: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_a.png`,
+        width: 1600,
+        height: 420,
+        minimumDisplayWidth: 800,
+      },
+      {
+        id: "b",
+        label: "Panel b — Study-conditioned candidate summaries",
+        src: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_b.png`,
+        width: 1600,
+        height: 593,
+        minimumDisplayWidth: 800,
+      },
+      {
+        id: "c",
+        label: "Panel c — Raw-metric atlas",
+        src: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_c.png`,
+        width: 1200,
+        height: 999,
+      },
+      {
+        id: "d",
+        label: "Panel d — Generalization boundaries",
+        src: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_d.png`,
+        width: 1600,
+        height: 758,
+        minimumDisplayWidth: 800,
+      },
+      {
+        id: "e",
+        label: "Panel e — Scoped model and decisive falsifiers",
+        src: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_e.png`,
+        width: 1600,
+        height: 300,
+        minimumDisplayWidth: 800,
+      },
+    ],
+    sourceRelease: {
+      id: "CGT_FIGURE_004_dependency_aware_synthesis_revised_v1",
+      filename: "CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
+      bytes: 15282792,
+      sha256: "8b6d475fb04f350707c8c635de40ea3ff9a5dfda66a2edf96b7c2337dbc35128",
+      manifestFilename: "CGT_FIGURE_004_release_manifest.json",
+      manifestBytes: 16423,
+      manifestSha256: "ebc8b2e662e3b60253e32fee3cd3db6336c57e76a74bac888af787518e97ced5",
+    },
+    releaseAssets: [
+      {
+        label: "Web PNG",
+        role: "Web fallback, panel overview, and full-resolution web download",
+        linkText: "Download Figure 4 web PNG (2,400 × 2,675)",
+        href: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png`,
+        filename: "CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png",
+        bytes: 1743554,
+        mimeType: "image/png",
+        sha256: "89c15cb2751ed1d6513c16d7cd45769605797def3642897ed66b08a91a15d487",
+        width: 2400,
+        height: 2675,
+      },
+      {
+        label: "600-dpi PNG",
+        role: "Publication-resolution PNG download",
+        linkText: "Download Figure 4 600-dpi PNG (4,322 × 4,818)",
+        href: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png`,
+        filename: "CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png",
+        bytes: 1535331,
+        mimeType: "image/png",
+        sha256: "ca83d2408a0788e9c9ab6bd68ac5877b61f51cf8d30932d76f66734f61c8d756",
+        width: 4322,
+        height: 4818,
+        nominalDpi: 599.9988,
+      },
+      {
+        label: "Publication PDF",
+        role: "One-page embedded-font publication PDF",
+        linkText: "Download Figure 4 publication PDF",
+        href: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf`,
+        filename: "CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf",
+        bytes: 71123,
+        mimeType: "application/pdf",
+        sha256: "7cbc094b423899486f335be3ecc3005c5b9d7dedc2a9dbad7b1214d885e16b9c",
+        widthPt: 518.74,
+        heightPt: 578.268,
+        widthMm: 183,
+        heightMm: 204,
+      },
+      {
+        label: "Vector SVG",
+        role: "Font-independent vector download and desktop display source",
+        linkText: "Download Figure 4 vector SVG",
+        href: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg`,
+        filename: "CGT_FIGURE_004_dependency_aware_synthesis_revised.svg",
+        bytes: 371346,
+        mimeType: "image/svg+xml",
+        sha256: "267593219bf1e7ec3d7a89b9c5943c734dad6da78afee96eb047828a2764e0a6",
+        widthPt: 518.740157,
+        heightPt: 578.267717,
+        widthMm: 183,
+        heightMm: 204,
+        viewBox: "0 0 518.740157 578.267717",
+      },
+      {
+        label: "Complete reproducibility package v1",
+        role: "Complete intact audited Figure 4 release package",
+        linkText: "Download Figure 4 complete reproducibility package v1 (ZIP)",
+        href: `${mainRoot}/CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip`,
+        filename: "CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
+        bytes: 15282792,
+        mimeType: "application/zip",
+        sha256: "8b6d475fb04f350707c8c635de40ea3ff9a5dfda66a2edf96b7c2337dbc35128",
+      },
+    ],
   },
   {
     id: "fig-5",

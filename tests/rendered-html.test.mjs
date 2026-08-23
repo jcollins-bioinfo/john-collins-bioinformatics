@@ -190,7 +190,7 @@ test("renders every public HTML route", async () => {
   }
 });
 
-test("serves audited Figure 2 and Figure 3 PDF and ZIP downloads with exact MIME types", async () => {
+test("serves audited Figure 2–4 downloads with exact MIME types and unmodified bodies", async () => {
   const worker = await loadWorker();
   const body = new Uint8Array([0x43, 0x47, 0x54]);
   const figureThreeTransportBodies = new Map([
@@ -221,6 +221,11 @@ test("serves audited Figure 2 and Figure 3 PDF and ZIP downloads with exact MIME
     ["/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised.pdf", "application/pdf"],
     ["/research/cgt/figures/main/CGT_FIGURE_003_signed_axes_revised_v1.zip", "application/zip"],
     ["/research/cgt/figures/main/figure-03-signed-axes.pdf", "application/pdf"],
+    ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf", "application/pdf"],
+    ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg", "image/svg+xml"],
+    ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip", "application/zip"],
   ]);
 
   for (const [route, contentType] of expected) {
@@ -548,9 +553,9 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /Contextual Operator Response Dynamics/i);
   assert.match(html, /has not been peer reviewed/i);
   assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
-  assert.match(html, /<dt>Web report<\/dt><dd>22 August 2026<\/dd>/);
-  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.0<\/dd>/);
-  assert.match(html, /version (?:<!-- -->)?0\.3\.0/i);
+  assert.match(html, /<dt>Web report<\/dt><dd>23 August 2026<\/dd>/);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.1<\/dd>/);
+  assert.match(html, /version (?:<!-- -->)?0\.3\.1/i);
   assert.match(html, /CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web\.png/);
   assert.match(html, /width=["']2400["'][^>]*height=["']2163["']/i);
   assert.match(html, /aria-describedby=["']fig-1-accessible-description["']/i);
@@ -731,12 +736,145 @@ test("renders the audited Figure 3 release with canonical assets, accessible cop
   assert.match(publicationCss, /@media \(max-width:\s*620px\)[\s\S]*?\.figureDownloads\s*\{[^}]*display:\s*grid;/s);
 });
 
-test("ships every canonical CGT figure and the audited Figure 1, Figure 2, and Figure 3 releases", async () => {
+test("renders the audited Figure 4 release with exact copy, five direct downloads, semantic math, and ordered responsive panels", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/research/cgt", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const figureMatch = html.match(/<figure\b[^>]*id=["']fig-4["'][\s\S]*?<\/figure>/i);
+  assert.ok(figureMatch, "Figure 4 should render as a complete figure block");
+  const figureHtml = figureMatch[0];
+  const copy = JSON.parse(await readFile(
+    path.join(projectRoot, "app", "research", "cgt", "figure-04-copy.json"),
+    "utf8",
+  ));
+
+  assert.ok(figureHtml.includes(`<h3>${copy.title}</h3>`));
+  assert.match(figureHtml, /data-responsive-research-figure=["']true["']/i);
+  assert.match(
+    figureHtml,
+    /<source\b[^>]*srcset=["']\/research\/cgt\/figures\/main\/CGT_FIGURE_004_dependency_aware_synthesis_revised\.svg["'][^>]*type=["']image\/svg\+xml["']/i,
+  );
+  const fallbackImage = figureHtml.match(
+    /<img\b[^>]*src=["']\/research\/cgt\/figures\/main\/CGT_FIGURE_004_dependency_aware_synthesis_revised_web\.png["'][^>]*>/i,
+  );
+  assert.ok(fallbackImage, "Figure 4 should use the canonical web PNG as the SVG fallback");
+  assert.match(fallbackImage[0], /width=["']2400["']/i);
+  assert.match(fallbackImage[0], /height=["']2675["']/i);
+  assert.ok(fallbackImage[0].includes(`alt="${copy.alt}"`));
+  assert.match(fallbackImage[0], /aria-describedby=["']fig-4-accessible-description["']/i);
+  assert.match(fallbackImage[0], /aria-details=["']fig-4-details["']/i);
+  assert.doesNotMatch(figureHtml, /\/_vinext\/image|\/_next\/image/);
+
+  const panelIds = [...figureHtml.matchAll(/data-responsive-research-panel=["']([a-e])["']/gi)].map((match) => match[1]);
+  assert.deepEqual(panelIds, ["a", "b", "c", "d", "e"]);
+  for (const [letter, width, height] of [
+    ["a", 1600, 420],
+    ["b", 1600, 593],
+    ["c", 1200, 999],
+    ["d", 1600, 758],
+    ["e", 1600, 300],
+  ]) {
+    assert.match(
+      figureHtml,
+      new RegExp(`<img\\b[^>]*CGT_FIGURE_004_dependency_aware_synthesis_revised_mobile_panel_${letter}\\.png[^>]*width=["']${width}["'][^>]*height=["']${height}["'][^>]*alt=["']["'][^>]*>`, "i"),
+    );
+  }
+  assert.equal((figureHtml.match(/style=["']--research-panel-min-width:800px["']/g) ?? []).length, 4);
+  assert.equal((figureHtml.match(/<div\b[^>]*role=["']region["'][^>]*tabindex=["']0["'][^>]*>/gi) ?? []).length, 4);
+  assert.equal((figureHtml.match(/>Swipe or scroll horizontally<\/p>/g) ?? []).length, 4);
+  assert.match(figureHtml, /Open full-resolution composite/);
+  assert.equal((figureHtml.match(/Open panel at full resolution/g) ?? []).length, 5);
+
+  const downloadsMatch = figureHtml.match(
+    /<nav\b[^>]*aria-label=["']Figure 4 downloads["'][^>]*>[\s\S]*?<\/nav>/i,
+  );
+  assert.ok(downloadsMatch, "Figure 4 should render a labelled download group");
+  const downloadsHtml = downloadsMatch[0];
+  assert.equal((downloadsHtml.match(/<a\b/gi) ?? []).length, 5);
+  for (const [filename, linkText] of [
+    ["CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png", "Download Figure 4 web PNG (2,400 × 2,675)"],
+    ["CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png", "Download Figure 4 600-dpi PNG (4,322 × 4,818)"],
+    ["CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf", "Download Figure 4 publication PDF"],
+    ["CGT_FIGURE_004_dependency_aware_synthesis_revised.svg", "Download Figure 4 vector SVG"],
+    ["CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip", "Download Figure 4 complete reproducibility package v1 (ZIP)"],
+  ]) {
+    assert.ok(downloadsHtml.includes(`href="/research/cgt/figures/main/${filename}"`));
+    assert.ok(downloadsHtml.includes(`download="${filename}"`));
+    assert.ok(downloadsHtml.includes(`>${linkText}</a>`));
+  }
+
+  assert.match(figureHtml, /CGT_FIGURE_004_dependency_aware_synthesis_revised_v1/);
+  assert.match(figureHtml, /SHA-256 (?:<!-- -->)?8b6d475fb04f350707c8c635de40ea3ff9a5dfda66a2edf96b7c2337dbc35128/);
+  assert.match(figureHtml, /CGT_FIGURE_004_release_manifest\.json/);
+  assert.match(figureHtml, /SHA-256 (?:<!-- -->)?ebc8b2e662e3b60253e32fee3cd3db6336c57e76a74bac888af787518e97ced5/);
+  assert.match(figureHtml, /Panel a is a four-column register with five rows/);
+  assert.match(figureHtml, /Panel e is a four-card schematic/);
+  for (const approvedCopy of [
+    /it is not an independent replication, validation experiment, or new fitted model/,
+    /Cell shade is normalized separately within each column and does not define a combined evidence score/,
+    /Groups 4 and 6 are both F10-linked summaries and have exactly the same plotted values/,
+    /Residual baselines were estimated from the full PREDICT-003B table before splitting/,
+    /A <code>STOP<\/code> barrier separates shared-endpoint prediction from a causal-law claim/,
+    /does not establish independent biological replication, context-general transport, universal axes, mechanism, or a causal constraint law/,
+  ]) assert.match(figureHtml, approvedCopy);
+
+  assert.ok((figureHtml.match(/<math\b/g) ?? []).length >= 20, "Figure 4 math should include semantic MathML");
+  for (const expression of [
+    String.raw`\bar{\rho}=0.622315`,
+    String.raw`R_f`,
+    String.raw`-\log_{10}(q)`,
+    String.raw`|\beta|`,
+    String.raw`|\rho|`,
+    String.raw`R_f=2.92019`,
+    String.raw`n=5`,
+    String.raw`n=7`,
+    String.raw`n=4`,
+  ]) assert.ok(figureHtml.includes(`<annotation encoding="application/x-tex">${expression}</annotation>`), expression);
+  for (const codeValue of ["H", "S", "NR", "4/6", "STOP"]) {
+    assert.match(figureHtml, new RegExp(`<code>${codeValue.replace("/", "\\/")}<\\/code>`));
+  }
+  assert.match(figureHtml, /0\.56320 \[0\.36897, 0\.79476; 34 held-out datasets, 1,092 finite rows\]/);
+  assert.match(figureHtml, /0\.03500 \[−0\.03730, 0\.09316; 22 held-out datasets, 507 finite rows\]/);
+  assert.match(figureHtml, /0\.07937 \[0\.04801, 0\.12778; 7 held-out contexts, 496 finite rows\]/);
+  assert.doesNotMatch(
+    figureHtml.replace(/<annotation[\s\S]*?<\/annotation>/g, ""),
+    /\\[()]|\\(?:bar|rho|beta|log)/,
+  );
+  assert.doesNotMatch(figureHtml, /\bAUC\b|composite fitness-relevance score|one half normalized absolute ridge coefficient/);
+  assert.doesNotMatch(figureHtml, /figure-04-evidence-atlas\.(?:png|pdf|svg)/);
+
+  assert.equal(createHash("sha256").update(copy.caption_markdown_lines.join("\n")).digest("hex"), "2701ff2ffccbc5a1af0f3c96439193558e24eeffe8e08bc786b953192e5ae45c");
+  assert.equal(createHash("sha256").update(copy.alt).digest("hex"), "88e39460d52d3e3b37b23cd3c08778932bde8633018e0eb61020b1acec372ad2");
+  assert.equal(createHash("sha256").update(copy.accessible_description_markdown_lines.join("\n")).digest("hex"), "75f417d390193e73c3dc1566e947bfa61bd587b74410d5933598f1d69b0e4cb4");
+
+  const responsiveSource = await readFile(path.join(projectRoot, "app", "research", "responsive-research-figure.tsx"), "utf8");
+  const responsiveCss = await readFile(path.join(projectRoot, "app", "research", "responsive-research-figure.module.css"), "utf8");
+  assert.match(responsiveSource, /export type ResponsiveResearchFigurePanel/);
+  assert.doesNotMatch(responsiveSource, /CGT_FIGURE|fig-4|Figure 4/);
+  assert.match(responsiveSource, /onKeyDown=\{scrollable \? scrollPanelWithKeyboard : undefined\}/);
+  assert.match(responsiveSource, /aria-keyshortcuts=\{scrollable \? "ArrowLeft ArrowRight" : undefined\}/);
+  assert.match(responsiveSource, /behavior: "auto"/);
+  assert.match(responsiveCss, /@media \(max-width: 1080px\)[\s\S]*?\.compositeLink\s*\{[^}]*display: none;[\s\S]*?\.panelSequence\s*\{[^}]*display: block;/s);
+  assert.match(responsiveCss, /\.panelScroller\s*\{[^}]*overflow-x: auto;[^}]*touch-action: pan-x pan-y;/s);
+  assert.match(responsiveCss, /\.panelScroller img\s*\{[^}]*min-width: var\(--research-panel-min-width\);/s);
+  assert.match(responsiveCss, /prefers-reduced-motion: reduce/);
+  assert.match(responsiveCss, /forced-colors: active/);
+  assert.doesNotMatch(responsiveCss, /transform:/);
+});
+
+test("ships every canonical CGT figure and the audited Figure 1–4 releases", async () => {
   const stems = [
     ["main", "figure-01-fitness"],
     ["main", "figure-02-recurrent-geometry"],
     ["main", "figure-03-signed-axes"],
-    ["main", "figure-04-evidence-atlas"],
     ["main", "figure-05-tcga-projection"],
     ["supplementary", "figure-s01-generalization-boundary"],
     ["supplementary", "figure-s02-residual-reliability"],
@@ -757,10 +895,10 @@ test("ships every canonical CGT figure and the audited Figure 1, Figure 2, and F
   assert.equal(manifest.figures.length, 11);
   assert.equal(manifest.report.main_figure_count, 5);
   assert.equal(manifest.report.supplementary_figure_count, 6);
-  assert.equal(manifest.report.active_physical_asset_count, 42);
+  assert.equal(manifest.report.active_physical_asset_count, 49);
   assert.equal(manifest.report.compatibility_alias_count, 9);
-  assert.equal(manifest.report.physical_asset_count, 51);
-  assert.ok(manifest.figures.slice(3).every((figure) =>
+  assert.equal(manifest.report.physical_asset_count, 58);
+  assert.ok(manifest.figures.slice(4).every((figure) =>
     ["png", "pdf", "svg"].every((format) => figure.assets[format]?.sha256),
   ));
 
@@ -1103,7 +1241,7 @@ test("CGT opts into the reusable contextual Results navigation", async () => {
     ["results-fitness-endpoint", "Gene-level coordinates predict an external CRISPR fitness endpoint"],
     ["results-recurrent-coordinates", "Residual response coordinates recur—primarily within related settings"],
     ["results-candidate-annotations", "Study-conditioned candidate annotations of context-residualized family-mass directions"],
-    ["results-evidence-atlas", "The integrated atlas separates observations from theory"],
+    ["results-evidence-atlas", "Dependency-aware synthesis separates current evidence from broader claims"],
     ["results-tumor-cohorts", "Predefined CGT scores vary across bulk tumor cohorts"],
   ];
   assert.match(html, /<nav[^>]+aria-label=["']Results sections["']/i);
@@ -1113,13 +1251,21 @@ test("CGT opts into the reusable contextual Results navigation", async () => {
     assert.match(html, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
   assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
-  assert.match(html, /<dt>Web report<\/dt><dd>22 August 2026<\/dd>/);
-  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.0<\/dd>/);
+  assert.match(html, /<dt>Web report<\/dt><dd>23 August 2026<\/dd>/);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.1<\/dd>/);
 
   const source = await readFile(path.join(projectRoot, "app", "research", "results-navigation.ts"), "utf8");
   assert.match(source, /new Set\(ids\)\.size !== ids\.length/);
   assert.match(source, /urlSafeId\.test\(id\)/);
   assert.match(source, /heading\.top > activationLine/);
+
+  const navigatorSource = await readFile(path.join(projectRoot, "app", "research", "research-results-navigator.tsx"), "utf8");
+  const navigatorCss = await readFile(path.join(projectRoot, "app", "research", "research-results-navigator.module.css"), "utf8");
+  const publicationCss = await readFile(path.join(projectRoot, "app", "research", "cgt", "publication.module.css"), "utf8");
+  assert.match(navigatorSource, /fragmentTarget && region\?\.contains\(fragmentTarget\)/);
+  assert.match(navigatorCss, /@media \(max-width: 1540px\) and \(min-width: 901px\) \{ \.rail \{ left: 2px; width: 28px;/);
+  assert.match(publicationCss, /\.figure\s*\{[^}]*scroll-margin-top: calc\(var\(--research-sticky-offset, 216px\) \+ 16px\);/s);
+  assert.match(publicationCss, /\.resultBlock,\s*\.figure\s*\{[^}]*scroll-margin-top: calc\(var\(--research-sticky-offset, 170px\) \+ 64px\);/s);
 });
 
 test("research pages without Results configuration do not render a tertiary navigator", async () => {

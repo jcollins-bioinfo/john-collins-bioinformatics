@@ -2,6 +2,7 @@ import Image from "next/image";
 import katex from "katex";
 import type { ReactNode } from "react";
 import { ResearchResultsNavigator } from "../research-results-navigator";
+import { ResponsiveResearchFigure } from "../responsive-research-figure";
 import type { ResearchResultsNavigation } from "../results-navigation";
 import type { FigureSpec } from "./content";
 import { referenceIndex, references } from "./content";
@@ -266,25 +267,39 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
         <span>{roleLabel}</span>
       </div>
       <div className={styles.figureFrame}>
-        <a
-          className={styles.figureImageLink}
-          href={figure.svg}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`Open ${figure.label} as a full-resolution SVG in a new tab`}
-        >
-          <Image
-            className={styles.figureImage}
-            src={figure.image}
+        {figure.responsivePanels ? (
+          <ResponsiveResearchFigure
+            figureLabel={figure.label}
+            alt={figure.alt}
+            descriptionId={descriptionId}
+            detailsId={`${figure.id}-details`}
+            vectorSrc={figure.svg}
+            fallbackRasterSrc={figure.image}
             width={figure.width}
             height={figure.height}
-            sizes="(max-width: 720px) calc(100vw - 36px), (max-width: 1400px) calc(100vw - 64px), 1320px"
-            alt={figure.alt}
-            aria-describedby={descriptionId}
-            aria-details={`${figure.id}-details`}
-            unoptimized
+            panels={figure.responsivePanels}
           />
-        </a>
+        ) : (
+          <a
+            className={styles.figureImageLink}
+            href={figure.svg}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Open ${figure.label} as a full-resolution SVG in a new tab`}
+          >
+            <Image
+              className={styles.figureImage}
+              src={figure.image}
+              width={figure.width}
+              height={figure.height}
+              sizes="(max-width: 720px) calc(100vw - 36px), (max-width: 1400px) calc(100vw - 64px), 1320px"
+              alt={figure.alt}
+              aria-describedby={descriptionId}
+              aria-details={`${figure.id}-details`}
+              unoptimized
+            />
+          </a>
+        )}
       </div>
       <figcaption className={styles.figureCaption}>
         <div>
@@ -323,6 +338,26 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
                 <div><dt>Upstream runs</dt><dd>{figure.upstreamRuns.join(" · ")}</dd></div>
                 <div><dt>Freeze status</dt><dd>{figure.freezeStatus}</dd></div>
                 {figure.revisionScope ? <div><dt>Revision scope</dt><dd>{figure.revisionScope}</dd></div> : null}
+                {figure.sourceRelease ? (
+                  <>
+                    <div>
+                      <dt>Source release</dt>
+                      <dd className={styles.assetMetadata}>
+                        <code>{figure.sourceRelease.id}</code>
+                        <span>{figure.sourceRelease.bytes.toLocaleString()} bytes</span>
+                        <code>SHA-256 {figure.sourceRelease.sha256}</code>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Release manifest</dt>
+                      <dd className={styles.assetMetadata}>
+                        <code>{figure.sourceRelease.manifestFilename}</code>
+                        <span>{figure.sourceRelease.manifestBytes.toLocaleString()} bytes · self-excluding inventory</span>
+                        <code>SHA-256 {figure.sourceRelease.manifestSha256}</code>
+                      </dd>
+                    </div>
+                  </>
+                ) : null}
                 <div><dt>Quality note</dt><dd>{figure.qaNote}</dd></div>
                 <div><dt>Display PNG SHA-256</dt><dd><code>{figure.imageSha256}</code></dd></div>
                 <div><dt>Notebook SHA-256</dt><dd><code>{figure.notebookSha256}</code></dd></div>

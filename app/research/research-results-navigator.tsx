@@ -51,9 +51,10 @@ export function ResearchResultsNavigator({ config }: { config: ResearchResultsNa
     document.fonts?.ready.then(schedule);
     schedule();
     const fragmentId = decodeURIComponent(window.location.hash.slice(1));
-    if (config.items.some(({ id }) => id === fragmentId)) {
+    const fragmentTarget = fragmentId ? document.getElementById(fragmentId) : null;
+    if (fragmentTarget && region?.contains(fragmentTarget)) {
       requestAnimationFrame(() => {
-        document.getElementById(fragmentId)?.scrollIntoView();
+        fragmentTarget.scrollIntoView();
         schedule();
       });
     }

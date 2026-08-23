@@ -50,6 +50,26 @@ const RELEASE_ASSET_CONTENT_TYPES = new Map([
     "/research/cgt/figures/main/figure-03-signed-axes.pdf",
     "application/pdf",
   ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_600dpi.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf",
+    "application/pdf",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg",
+    "image/svg+xml",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
+    "application/zip",
+  ],
 ]);
 
 interface AssetFetcher {

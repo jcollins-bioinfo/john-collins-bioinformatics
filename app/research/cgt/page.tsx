@@ -14,10 +14,10 @@ const description =
   "A provenance-tracked CGT project report integrating perturbational transcriptomics, CRISPR fitness screens, context-residualized family-mass annotations, and TCGA tumor-state projections.";
 const reportMetadata = {
   analysisFreeze: "15 July 2026",
-  dateModified: "2026-08-22",
-  dateModifiedIso: "2026-08-22T00:00:00Z",
-  version: "0.3.0",
-  webReportDate: "22 August 2026",
+  dateModified: "2026-08-23",
+  dateModifiedIso: "2026-08-23T00:00:00Z",
+  version: "0.3.1",
+  webReportDate: "23 August 2026",
 } as const;
 
 export const metadata: Metadata = {
@@ -34,10 +34,10 @@ export const metadata: Metadata = {
     authors: ["John Patrick Collins"],
     images: [
       {
-        url: "/research/cgt/figures/main/figure-04-evidence-atlas.png",
-        width: 4322,
-        height: 4015,
-        alt: "Integrated CGT evidence atlas and hierarchical conceptual interpretation",
+        url: "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png",
+        width: 2400,
+        height: 2675,
+        alt: "Dependency-aware synthesis of current CGT analyses and their generalization boundaries",
       },
     ],
   },
@@ -60,7 +60,7 @@ const articleJsonLd = {
   isAccessibleForFree: true,
   inLanguage: "en",
   url: "https://johnpatrickcollins.info/research/cgt",
-  image: "https://johnpatrickcollins.info/research/cgt/figures/main/figure-04-evidence-atlas.png",
+  image: "https://johnpatrickcollins.info/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_web.png",
   about: [
     "perturbational transcriptomics",
     "single-cell genomics",
@@ -96,7 +96,7 @@ export const cgtResultsNavigation = defineResearchResultsNavigation({
     { id: "results-fitness-endpoint", ordinal: "01", label: "Gene-level coordinates predict an external CRISPR fitness endpoint", shortLabel: "CRISPR fitness endpoint" },
     { id: "results-recurrent-coordinates", ordinal: "02", label: "Residual response coordinates recur—primarily within related settings", shortLabel: "Recurrent coordinates" },
     { id: "results-candidate-annotations", ordinal: "03", label: "Study-conditioned candidate annotations of context-residualized family-mass directions", shortLabel: "Candidate annotations" },
-    { id: "results-evidence-atlas", ordinal: "04", label: "The integrated atlas separates observations from theory", shortLabel: "Integrated atlas" },
+    { id: "results-evidence-atlas", ordinal: "04", label: "Dependency-aware synthesis separates current evidence from broader claims", shortLabel: "Dependency-aware synthesis" },
     { id: "results-tumor-cohorts", ordinal: "05", label: "Predefined CGT scores vary across bulk tumor cohorts", shortLabel: "Tumor cohorts" },
   ],
 } as const);
@@ -371,22 +371,22 @@ export default function CgtPage() {
             <div className={styles.resultBlock} id="results-evidence-atlas">
               <p className={styles.resultNumber}>RESULT / 04</p>
               <div className={styles.prose}>
-                <h3>The integrated atlas separates observations from theory</h3>
+                <h3>Dependency-aware synthesis separates current evidence from broader claims</h3>
                 <p>
-                  Figure 4 combines recurrence, transfer, conditional ridge weights,
-                  essentiality associations, pathway support, and optional coessentiality
-                  lift. It is a synthesis of earlier evidence, not another validation
-                  experiment. Its composite fitness-relevance score—one half normalized
-                  absolute ridge coefficient plus one half normalized absolute
-                  essentiality correlation—was used only for visualization.
+                  Figure 4 reorganizes frozen results from revised Figures 1–3; it is not
+                  an independent replication, validation experiment, or new fitted model.
+                  Recurrence, corrected ORA and rank summaries, conditional ridge weights,
+                  high-confidence essentiality correlations, and dominant-study-proxy share
+                  remain separate quantities with unlike units. No combined evidence or
+                  fitness-relevance score is defined.
                 </p>
                 <p>
-                  The evidence hierarchy places recurrent geometry, local same-label
-                  transfer, and supervised-stage held-out-gene prediction among the
-                  best-supported findings within this analysis;
-                  signed pathway coherence at a curated interpretive tier; and a universal
-                  causal constraint law at the hypothesis tier. This separation is the
-                  most scientifically important function of the synthesis.
+                  The synthesis distinguishes descriptive within-run recurrence,
+                  preprocessing-conditional transfer, shared-endpoint prediction, and
+                  post hoc study-conditioned annotation. Harder study-proxy, context, and
+                  grouped holdouts define the current generalization boundary, while a
+                  universal causal law remains untested and is explicitly separated by the
+                  figure&apos;s STOP boundary.
                 </p>
               </div>
               <ScientificFigure figure={mainFigures[3]} />

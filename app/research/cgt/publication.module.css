@@ -356,7 +356,7 @@
 
 .figure {
   margin: 72px 0 0;
-  scroll-margin-top: 110px;
+  scroll-margin-top: calc(var(--research-sticky-offset, 216px) + 16px);
 }
 
 .figureTopline {
@@ -1094,6 +1094,11 @@
   .articleSection {
     scroll-margin-top: 170px;
     padding-block: 90px;
+  }
+
+  .resultBlock,
+  .figure {
+    scroll-margin-top: calc(var(--research-sticky-offset, 170px) + 64px);
   }
 
   .sectionHeader {
