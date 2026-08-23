@@ -190,7 +190,7 @@ test("renders every public HTML route", async () => {
   }
 });
 
-test("serves audited Figure 2–4 downloads with exact MIME types and unmodified bodies", async () => {
+test("serves audited Figure 2–5 downloads with exact MIME types and unmodified bodies", async () => {
   const worker = await loadWorker();
   const body = new Uint8Array([0x43, 0x47, 0x54]);
   const figureThreeTransportBodies = new Map([
@@ -226,6 +226,18 @@ test("serves audited Figure 2–4 downloads with exact MIME types and unmodified
     ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.pdf", "application/pdf"],
     ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised.svg", "image/svg+xml"],
     ["/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip", "application/zip"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.pdf", "application/pdf"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg", "image/svg+xml"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png", "image/png"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_revised_reproducibility_package_v1.zip", "application/zip"],
+    ["/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_audit.json", "application/json"],
   ]);
 
   for (const [route, contentType] of expected) {
@@ -554,8 +566,8 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /has not been peer reviewed/i);
   assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
   assert.match(html, /<dt>Web report<\/dt><dd>23 August 2026<\/dd>/);
-  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.1<\/dd>/);
-  assert.match(html, /version (?:<!-- -->)?0\.3\.1/i);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.4\.0<\/dd>/);
+  assert.match(html, /version (?:<!-- -->)?0\.4\.0/i);
   assert.match(html, /CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web\.png/);
   assert.match(html, /width=["']2400["'][^>]*height=["']2163["']/i);
   assert.match(html, /aria-describedby=["']fig-1-accessible-description["']/i);
@@ -870,7 +882,139 @@ test("renders the audited Figure 4 release with exact copy, five direct download
   assert.doesNotMatch(responsiveCss, /transform:/);
 });
 
-test("ships every canonical CGT figure and the audited Figure 1–4 releases", async () => {
+test("renders the audited Figure 5 release with exact copy, twelve direct downloads, semantic math, and ordered responsive panels", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/research/cgt", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const figureMatch = html.match(/<figure\b[^>]*id=["']fig-5["'][\s\S]*?<\/figure>/i);
+  assert.ok(figureMatch, "Figure 5 should render as a complete figure block");
+  const figureHtml = figureMatch[0];
+  const copy = JSON.parse(await readFile(
+    path.join(projectRoot, "app", "research", "cgt", "figure-05-copy.json"),
+    "utf8",
+  ));
+
+  assert.ok(figureHtml.includes(`<h3>${copy.title}</h3>`));
+  assert.match(figureHtml, /data-responsive-research-figure=["']true["']/i);
+  assert.match(
+    figureHtml,
+    /<source\b[^>]*srcset=["']\/research\/cgt\/figures\/main\/CGT_FIGURE_005_tcga_cancer_type_structure_revised\.svg["'][^>]*type=["']image\/svg\+xml["']/i,
+  );
+  const fallbackImage = figureHtml.match(
+    /<img\b[^>]*src=["']\/research\/cgt\/figures\/main\/CGT_FIGURE_005_tcga_cancer_type_structure_revised_web\.png["'][^>]*>/i,
+  );
+  assert.ok(fallbackImage, "Figure 5 should use the checksum-pinned web PNG as the SVG fallback");
+  assert.match(fallbackImage[0], /width=["']2400["']/i);
+  assert.match(fallbackImage[0], /height=["']3121["']/i);
+  assert.ok(fallbackImage[0].includes(`alt="${copy.alt}"`));
+  assert.match(fallbackImage[0], /aria-describedby=["']fig-5-accessible-description["']/i);
+  assert.match(fallbackImage[0], /aria-details=["']fig-5-details["']/i);
+  assert.doesNotMatch(figureHtml, /\/_vinext\/image|\/_next\/image/);
+
+  const panelIds = [...figureHtml.matchAll(/data-responsive-research-panel=["']([a-f])["']/gi)].map((match) => match[1]);
+  assert.deepEqual(panelIds, ["a", "b", "c", "d", "e", "f"]);
+  for (const [letter, width, height] of [
+    ["a", 1200, 735],
+    ["b", 1800, 557],
+    ["c", 1800, 585],
+    ["d", 2000, 893],
+    ["e", 1400, 904],
+    ["f", 1400, 865],
+  ]) {
+    assert.match(
+      figureHtml,
+      new RegExp(`<img\\b[^>]*CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_${letter}\\.png[^>]*width=["']${width}["'][^>]*height=["']${height}["'][^>]*alt=["']["'][^>]*>`, "i"),
+    );
+  }
+  for (const [minimum, count] of [[620, 1], [640, 1], [680, 2], [820, 1]]) {
+    assert.equal(
+      (figureHtml.match(new RegExp(`style=["']--research-panel-min-width:${minimum}px["']`, "g")) ?? []).length,
+      count,
+    );
+  }
+  assert.equal((figureHtml.match(/aria-keyshortcuts=["']ArrowLeft ArrowRight["']/gi) ?? []).length, 5);
+  assert.equal((figureHtml.match(/>Swipe or scroll horizontally<\/p>/g) ?? []).length, 5);
+  assert.match(figureHtml, /Open full-resolution composite/);
+  assert.equal((figureHtml.match(/Open panel at full resolution/g) ?? []).length, 6);
+
+  const downloadsMatch = figureHtml.match(
+    /<nav\b[^>]*aria-label=["']Figure 5 downloads["'][^>]*>[\s\S]*?<\/nav>/i,
+  );
+  assert.ok(downloadsMatch, "Figure 5 should render a labelled download group");
+  const downloadsHtml = downloadsMatch[0];
+  const expectedDownloads = [
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png", "Download Figure 5 web PNG (2,400 × 3,121)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png", "Download Figure 5 600-dpi PNG (4,322 × 5,622)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised.pdf", "Download Figure 5 publication PDF"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg", "Download Figure 5 vector SVG"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png", "Download Figure 5 responsive panel a (1,200 × 735)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png", "Download Figure 5 responsive panel b (1,800 × 557)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png", "Download Figure 5 responsive panel c (1,800 × 585)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png", "Download Figure 5 responsive panel d (2,000 × 893)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png", "Download Figure 5 responsive panel e (1,400 × 904)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png", "Download Figure 5 responsive panel f (1,400 × 865)"],
+    ["CGT_FIGURE_005_revised_reproducibility_package_v1.zip", "Download Figure 5 complete reproducibility package v1 (ZIP)"],
+    ["CGT_FIGURE_005_tcga_cancer_type_structure_revised_audit.json", "Download Figure 5 machine-readable audit (JSON)"],
+  ];
+  assert.equal((downloadsHtml.match(/<a\b/gi) ?? []).length, expectedDownloads.length);
+  for (const [filename, linkText] of expectedDownloads) {
+    assert.ok(downloadsHtml.includes(`href="/research/cgt/figures/main/${filename}"`));
+    assert.ok(downloadsHtml.includes(`download="${filename}"`));
+    assert.ok(downloadsHtml.includes(`>${linkText}</a>`));
+  }
+
+  assert.match(figureHtml, /CGT_FIGURE_005_REVISED_V1/);
+  assert.match(figureHtml, /SHA-256 (?:<!-- -->)?72e049f26049311ab0cb94ca6430dfbfee781d3fb20d271f3e043da941498d12/);
+  assert.match(figureHtml, /release_manifest\.json/);
+  assert.match(figureHtml, /SHA-256 (?:<!-- -->)?49fa61da60eb6be13465904fbbd7f0b3425d61295704f584087d01f3ca1db91c/);
+  assert.match(figureHtml, /id=["']fig-5-accessible-description["']/i);
+  assert.match(figureHtml, /Panel a reports that 57 of 9,359 input samples failed an expression threshold/);
+  assert.match(figureHtml, /all 33 cancer-type centroids are labelled in collision-free side gutters/);
+  for (const approvedCopy of [
+    /dataset separation, not statistical independence, orthogonality, external validation, or causal identifiability/,
+    /expected properties of the transformations, not evidence of biological independence, successful deconfounding, or out-of-sample validation/,
+    /Samples, rather than cancer types, were equally weighted when fitting PCA/,
+    /Color therefore indicates only relative prominence within one row/,
+    /they do not identify a cancer-type effect or a lineage mechanism/,
+    /Residualization therefore does not make the candidate scores orthogonal or independent/,
+    /does not establish CGT specificity, tumor-cell-intrinsic programs, transportability, mechanisms, or universal constraints/,
+  ]) assert.match(figureHtml, approvedCopy);
+
+  assert.equal((figureHtml.match(/class=["'][^"']*katex-display/g) ?? []).length, 1);
+  assert.match(figureHtml, /<math\b[^>]*display=["']block["']/);
+  assert.ok((figureHtml.match(/<math\b/g) ?? []).length >= 2, "Figure 5 display and inline expressions should include semantic MathML");
+  assert.ok(figureHtml.includes(`<annotation encoding="application/x-tex">${String.raw`\eta^2_{\mathrm{in},j}=
+\frac{\sum_c n_c\left(\bar{s}_{cj}-\bar{s}_j\right)^2}
+{\sum_i\left(s_{ij}-\bar{s}_j\right)^2}.`}</annotation>`));
+  assert.ok(figureHtml.includes(`<annotation encoding="application/x-tex">${String.raw`\eta^2_{\mathrm{in}}`}</annotation>`));
+  assert.doesNotMatch(
+    figureHtml.replace(/<annotation[\s\S]*?<\/annotation>/g, ""),
+    /\\[()[\]]|\\(?:eta|frac|sum|left|right|bar|mathrm)/,
+  );
+  assert.doesNotMatch(figureHtml, /figure-05-tcga-projection\.(?:png|pdf|svg)/);
+
+  assert.equal(createHash("sha256").update(copy.caption_markdown_lines.join("\n")).digest("hex"), "6dfa735f54513f61511f706a1f76cc72943ba889df7869dfb6befad9350b2124");
+  assert.equal(createHash("sha256").update(copy.alt).digest("hex"), "dbb5f5753c69dfb2f52ff4aa3954b38789db63de76033301ab276616b421caf2");
+  assert.equal(createHash("sha256").update(copy.accessible_description_markdown_lines.join("\n")).digest("hex"), "bfbbffc6b06764f4a3a4edc1178e66c8b1380ff1468ec83f260e89faf4393706");
+  assert.ok(figureHtml.includes(copy.responsive_presentation_requirement));
+
+  assert.match(html, /9,359 tumor-derived bulk-expression samples entering expression QC/);
+  assert.match(html, /pooled leave-one-axis-out residualization/);
+  assert.match(html, /not leave-one-sample-out validation/);
+  assert.match(html, /Residual correlations remain as\s+high as 0\.871/);
+  assert.match(html, /does not document the upstream formula mapping TCGA expression/);
+  assert.doesNotMatch(html, /tumor-state projection|TCGA projection|orthogonal projection|independently defined axes|lineage manifestation|leave-one-axis-out global residualization|cancer-type R²/i);
+});
+
+test("ships every canonical CGT figure and the audited Figure 1–5 releases", async () => {
   const stems = [
     ["main", "figure-01-fitness"],
     ["main", "figure-02-recurrent-geometry"],
@@ -895,10 +1039,10 @@ test("ships every canonical CGT figure and the audited Figure 1–4 releases", a
   assert.equal(manifest.figures.length, 11);
   assert.equal(manifest.report.main_figure_count, 5);
   assert.equal(manifest.report.supplementary_figure_count, 6);
-  assert.equal(manifest.report.active_physical_asset_count, 49);
-  assert.equal(manifest.report.compatibility_alias_count, 9);
-  assert.equal(manifest.report.physical_asset_count, 58);
-  assert.ok(manifest.figures.slice(4).every((figure) =>
+  assert.equal(manifest.report.active_physical_asset_count, 58);
+  assert.equal(manifest.report.compatibility_alias_count, 12);
+  assert.equal(manifest.report.physical_asset_count, 70);
+  assert.ok(manifest.figures.slice(5).every((figure) =>
     ["png", "pdf", "svg"].every((format) => figure.assets[format]?.sha256),
   ));
 
@@ -1242,7 +1386,7 @@ test("CGT opts into the reusable contextual Results navigation", async () => {
     ["results-recurrent-coordinates", "Residual response coordinates recur—primarily within related settings"],
     ["results-candidate-annotations", "Study-conditioned candidate annotations of context-residualized family-mass directions"],
     ["results-evidence-atlas", "Dependency-aware synthesis separates current evidence from broader claims"],
-    ["results-tumor-cohorts", "Predefined CGT scores vary across bulk tumor cohorts"],
+    ["results-tumor-cohorts", "Previously defined CGT-derived candidate score sets show descriptive cancer-type-associated variation in TCGA"],
   ];
   assert.match(html, /<nav[^>]+aria-label=["']Results sections["']/i);
   for (const [id, label] of items) {
@@ -1252,7 +1396,7 @@ test("CGT opts into the reusable contextual Results navigation", async () => {
   }
   assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
   assert.match(html, /<dt>Web report<\/dt><dd>23 August 2026<\/dd>/);
-  assert.match(html, /<dt>Version<\/dt><dd>0\.3\.1<\/dd>/);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.4\.0<\/dd>/);
 
   const source = await readFile(path.join(projectRoot, "app", "research", "results-navigation.ts"), "utf8");
   assert.match(source, /new Set\(ids\)\.size !== ids\.length/);

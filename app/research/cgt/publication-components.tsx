@@ -250,7 +250,7 @@ export function ScientificFigure({ figure }: { figure: FigureSpec }) {
   const roleLabel = {
     core: "Core evidence",
     synthesis: "Evidence synthesis",
-    supporting: "Supporting projection",
+    supporting: "Supporting analysis",
     supplementary: "Supplementary evidence",
   }[figure.role];
   const descriptionId = `${figure.id}-accessible-description`;

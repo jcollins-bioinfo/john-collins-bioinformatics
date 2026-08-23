@@ -70,6 +70,54 @@ const RELEASE_ASSET_CONTENT_TYPES = new Map([
     "/research/cgt/figures/main/CGT_FIGURE_004_dependency_aware_synthesis_revised_v1.zip",
     "application/zip",
   ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.pdf",
+    "application/pdf",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg",
+    "image/svg+xml",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png",
+    "image/png",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_revised_reproducibility_package_v1.zip",
+    "application/zip",
+  ],
+  [
+    "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_audit.json",
+    "application/json",
+  ],
 ]);
 
 interface AssetFetcher {

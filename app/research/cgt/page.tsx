@@ -11,12 +11,12 @@ import { defineResearchResultsNavigation } from "../results-navigation";
 
 const title = "Context-conditioned perturbation geometry links recurrent transcriptional responses to gene fitness";
 const description =
-  "A provenance-tracked CGT project report integrating perturbational transcriptomics, CRISPR fitness screens, context-residualized family-mass annotations, and TCGA tumor-state projections.";
+  "A provenance-tracked CGT project report integrating perturbational transcriptomics, CRISPR fitness screens, context-residualized family-mass annotations, and descriptive TCGA bulk-expression analysis using previously defined CGT-derived candidate score sets.";
 const reportMetadata = {
   analysisFreeze: "15 July 2026",
   dateModified: "2026-08-23",
-  dateModifiedIso: "2026-08-23T00:00:00Z",
-  version: "0.3.1",
+  dateModifiedIso: "2026-08-23T15:16:44Z",
+  version: "0.4.0",
   webReportDate: "23 August 2026",
 } as const;
 
@@ -97,7 +97,7 @@ export const cgtResultsNavigation = defineResearchResultsNavigation({
     { id: "results-recurrent-coordinates", ordinal: "02", label: "Residual response coordinates recur—primarily within related settings", shortLabel: "Recurrent coordinates" },
     { id: "results-candidate-annotations", ordinal: "03", label: "Study-conditioned candidate annotations of context-residualized family-mass directions", shortLabel: "Candidate annotations" },
     { id: "results-evidence-atlas", ordinal: "04", label: "Dependency-aware synthesis separates current evidence from broader claims", shortLabel: "Dependency-aware synthesis" },
-    { id: "results-tumor-cohorts", ordinal: "05", label: "Predefined CGT scores vary across bulk tumor cohorts", shortLabel: "Tumor cohorts" },
+    { id: "results-tumor-cohorts", ordinal: "05", label: "Previously defined CGT-derived candidate score sets show descriptive cancer-type-associated variation in TCGA", shortLabel: "TCGA cancer-type analysis" },
   ],
 } as const);
 
@@ -118,7 +118,8 @@ export default function CgtPage() {
               <p className={styles.heroLede}>
                 A frozen evidence synthesis across perturbational transcriptomics,
                 CRISPR-derived gene fitness, signed biological annotation, and
-                supporting tumor-state projection.
+                supporting descriptive TCGA bulk-expression analysis using previously
+                defined CGT-derived candidate score sets.
               </p>
             </div>
             <aside className={styles.statusCard} aria-label="Publication status">
@@ -235,9 +236,10 @@ export default function CgtPage() {
                 coordinates recur across datasets; whether gene-level coordinates predict
                 an externally sourced CRISPR fitness endpoint; and whether signed
                 directions admit coherent biological annotation. A fourth supporting
-                analysis asks whether the independently defined axes can be projected into
-                bulk human tumors. None of these tests, alone or together, identifies a
-                causal constraint law.
+                analysis asks how previously defined, overlapping CGT-derived candidate
+                score sets vary across cancer types in TCGA bulk expression, with PCA fitted
+                within that same TCGA cohort. None of these tests, alone or together,
+                identifies a causal constraint law.
               </p>
             </div>
             <aside className={styles.claimBox}>
@@ -395,28 +397,39 @@ export default function CgtPage() {
             <div className={styles.resultBlock} id="results-tumor-cohorts">
               <p className={styles.resultNumber}>RESULT / 05</p>
               <div className={styles.prose}>
-                <h3>Predefined CGT scores vary across bulk tumor cohorts</h3>
+                <h3>Previously defined CGT-derived candidate score sets show descriptive cancer-type-associated variation in TCGA</h3>
                 <p>
-                  The final supporting analysis projected CGT axes into uniformly
-                  processed TCGA/Toil expression distributed through the UCSC Xena
+                  The candidate score-set definitions were derived from prior perturbational
+                  analyses and therefore precede this TCGA cancer-type analysis; they overlap
+                  substantially and are not statistically independent or orthogonal. Uniformly
+                  processed TCGA/Toil bulk expression was distributed through the UCSC Xena
                   platform.<Citation references={["tcga2013", "vivian2017", "goldman2020"]} />
-                  After sample-level expression QC, 9,302 of 9,359 tumors were retained,
-                  spanning 33 cancer types, 15 scored axes, and 970 retained axis genes.
+                  Of 9,359 tumor-derived bulk-expression samples entering expression QC, 57
+                  with median score-gene expression below 2.5 were excluded. The retained
+                  cohort comprised 9,302 samples from 9,302 patients across 33 corrected
+                  cancer-type labels; 15 score sets used 970 recovered unique genes.
                 </p>
                 <p>
-                  Raw bulk-tumor scores contained a dominant shared component: PC1
-                  explained 83.0% of score variance and mean absolute inter-axis Spearman
-                  correlation was 0.753. Sample centering and leave-one-axis-out global
-                  residualization reduced mean absolute correlation to 0.279 and 0.265;
-                  residualized PC1 explained 32.2%. Cancer-type structure remained visible
-                  in the corrected score space.
+                  PCA was fitted after separately standardizing the 15 columns within each
+                  matrix in this same TCGA cohort. Raw standardized-score PC1 share was
+                  83.0% and mean absolute pairwise Spearman correlation was 0.753. Per-sample
+                  centering and pooled leave-one-axis-out residualization reduced PC1 share
+                  to 33.2% and 32.2%, and mean absolute correlation to 0.279 and 0.265,
+                  respectively. These reductions are expected properties of the transforms,
+                  not validation or proof of deconfounding.
                 </p>
                 <p>
-                  This is a separate descriptive manifestation analysis, not patient validation.
-                  Bulk tumor profiles mix lineage, malignant-cell state, purity, immune
-                  and stromal composition, RNA content, and technical structure. The
-                  residualization procedure may also remove coordinated biology. No
-                  causal or clinical claim follows from the observed cancer-type pattern.<Citation references={["hoadley2018", "aran2015"]} />
+                  The PCA, all 33 cancer-type centroids, and the sample-weighted in-sample
+                  between-cancer-type variance fraction <span className={styles.inlineEquation}>η²<sub>in</sub></span>
+                  are descriptive same-cohort summaries. Residual correlations remain as
+                  high as 0.871. Bulk lineage or tissue, tumor purity, immune and stromal
+                  composition, score-set overlap, RNA content, batch, and other cohort
+                  structure remain alternative explanations.<Citation references={["hoadley2018", "aran2015"]} />
+                </p>
+                <p>
+                  This result does not establish CGT specificity, tumor-cell-intrinsic
+                  programs, patient validation, treatment prediction, transportability,
+                  mechanism, causality, or universal constraints.
                 </p>
               </div>
               <ScientificFigure figure={mainFigures[4]} />
@@ -558,20 +571,42 @@ export default function CgtPage() {
               </section>
               <section>
                 <span>04.6</span>
-                <h3>TCGA projection</h3>
+                <h3>Descriptive TCGA cancer-type analysis</h3>
                 <p>
                   Corrected TCGA/Toil expression and cancer type
                   (<code>detailed_category</code>) were loaded from the Xena-prepared
-                  cohort. Low-expression outliers were removed using the sample-level QC
-                  flag generated in CGT_TCGA_002. For axis <em>j</em>, the raw score was
-                  regressed on an intercept, the mean of all other axes in that sample,
-                  and sample median expression across retained axis genes. Residuals were
-                  used for PCA, the cancer-type heat map, and inter-axis correlations.
+                  cohort. Of 9,359 tumor-derived bulk-expression samples entering expression
+                  QC, 57 with median score-gene expression below 2.5 were excluded, leaving
+                  9,302 samples from 9,302 patients across 33 corrected cancer-type labels.
+                  The 15 previously defined candidate score sets used 970 recovered unique
+                  genes; the sets overlap and are not statistically independent or orthogonal.
                 </p>
                 <p>
-                  Cancer-type R² is the one-way between-group sum-of-squares fraction for
-                  each axis and score matrix. It is descriptive and was not estimated by
-                  cross-validated prediction.
+                  For each score <em>j</em>, pooled leave-one-axis-out residualization was
+                  fit once across all 9,302 samples. The exact OLS inputs were an intercept,
+                  the z-standardized mean of the other 14 raw scores, and z-standardized
+                  sample-median expression across the retained score genes; the downstream
+                  value was the fitted-model residual. This is pooled leave-one-axis-out
+                  residualization, not leave-one-sample-out validation. PCA was then fitted
+                  after standardizing all 15 pooled residual-score columns within the same
+                  TCGA cohort.
+                </p>
+                <p>
+                  For score <em>j</em>, <span className={styles.inlineEquation}>η²<sub>in,j</sub></span>
+                  is the sample-weighted, in-sample between-cancer-type variance fraction:
+                  the sum across cancer types of group size times squared deviation of the
+                  group mean from the overall mean, divided by the total within-sample sum
+                  of squared deviations from that overall mean. It is a same-cohort
+                  descriptive statistic, not variance causally explained by cancer type or
+                  a cross-validated prediction estimate.
+                </p>
+                <p>
+                  The release documents the transformations applied to the frozen raw-score
+                  matrix but does not document the upstream formula mapping TCGA expression
+                  plus registry membership to those raw scores. The archived notebook hash
+                  is <code>51dee19a0791dfada00fc021649eb19b87789edab728b7afec5be576c25c84f5</code>;
+                  a later larger same-named Drive notebook has unreconciled hash
+                  <code>72d1efabe3dd8c0447817dedae3d6004b47374065eb90f83f9179ad8d525fb81</code>.
                 </p>
               </section>
             </div>
@@ -627,9 +662,11 @@ export default function CgtPage() {
                 evidence inputs, and compositional non-identifiability prevent these
                 labels from identifying validated biological programs, universal axes,
                 mechanisms, or causal constraint laws.
-                Likewise, the TCGA projection shows that predefined CGT scores vary across
-                bulk tumor cohorts; it does not show that the axes cause tumor phenotypes,
-                predict treatment response, or operate uniformly within malignant cells.<Citation references={["hoadley2018", "aran2015"]} />
+                Likewise, the descriptive TCGA bulk-expression analysis shows that
+                previously defined, overlapping CGT-derived candidate score sets vary across
+                cancer types in the same cohort; it does not establish CGT specificity,
+                tumor-cell-intrinsic programs, treatment prediction, transportability,
+                mechanism, causality, or universal constraints.<Citation references={["hoadley2018", "aran2015"]} />
               </p>
             </div>
 
@@ -662,7 +699,8 @@ export default function CgtPage() {
               <section>
                 <h3>ETHICS & DATA GOVERNANCE</h3>
                 <p>
-                  No new human participants were recruited. The tumor projection reuses
+                  No new human participants were recruited. The descriptive TCGA
+                  bulk-expression analysis reuses
                   publicly distributed, de-identified TCGA-derived expression and
                   phenotype resources. Dataset-specific terms and licenses remain
                   controlling.

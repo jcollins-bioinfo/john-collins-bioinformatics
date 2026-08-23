@@ -78,13 +78,13 @@ const nonFigureThreeObjectHashes = {
   "fig-1": "93040dc55eba2f972330c270cc0cc2990f8b4537e417d10034f1a2c4aded9ba1",
   "fig-2": "f6aa7544927e8281573910c585585fb3c337e64d6e83ffd1e30f9fa0ee218b1b",
   "fig-4": "de9d87b2e27c518793d200388bbb1d2cd5c364ad8b8847ba315cbafa25e43a17",
-  "fig-5": "43c81ac5a6ed09b772f9efe2d563aa8ad547dd817e05efb44f0bfab89463c266",
+  "fig-5": "728ac853bf04bb5c19048c07c24a3846518a904628a04fc9c312c1ada3917a06",
   "fig-s1": "6701ecaf5cf4b9d13a7c317e8d802aa8d4346d292dd83554f93dbddc193a0950",
   "fig-s2": "f5d035097f48a7cb6d3194640cc28b3d4fe0e77dc0f61187f3aaed1427838fca",
   "fig-s3": "dec1ff88a1254a836288e686ae2fa24fe07c0ea180b201ead382923ca32dc3b3",
   "fig-s4": "924b79abed01c2459681cffc89081c417f3c82606b11d12b0c19fa6b679862f4",
-  "fig-s5": "eb86f532f4911af0f1db4d6c5401081bc8fe21621487a9ab03df27837c59b95f",
-  "fig-s6": "984b0ae016873b2889ccb393a42ab53deec3c6a36ebaa210cf4a25f03cee51df",
+  "fig-s5": "0b72c05dd36ef738a56d072840a83749949d2e6a95496fce49438654cf88c70f",
+  "fig-s6": "1148b8d5c4e37aaffb90e78370e046b08b7d5aec6eaef58cdbb1b2f473edb721",
 };
 
 function sha256(buffer) {
@@ -887,18 +887,18 @@ const figureThree = siteManifest.figures.find((figure) => figure.id === "figure-
 assert.ok(figureThree, "Figure 3 site-manifest entry exists");
 assert.equal(figureThree.title, title);
 assert.deepEqual(siteManifest.schema.figure_03_release_asset_formats, Object.keys(assets));
-assert.equal(siteManifest.report.active_physical_asset_count, 49);
-assert.equal(siteManifest.report.compatibility_alias_count, 9);
-assert.equal(siteManifest.report.physical_asset_count, 58);
-assert.equal(siteManifest.audit.integrity.expected_physical_assets, 58);
-assert.equal(siteManifest.audit.integrity.present_physical_assets, 58);
-assert.equal(siteManifest.audit.integrity.sha256_matches, 58);
-assert.equal(siteManifest.audit.integrity.byte_size_matches, 58);
+assert.equal(siteManifest.report.active_physical_asset_count, 58);
+assert.equal(siteManifest.report.compatibility_alias_count, 12);
+assert.equal(siteManifest.report.physical_asset_count, 70);
+assert.equal(siteManifest.audit.integrity.expected_physical_assets, 70);
+assert.equal(siteManifest.audit.integrity.present_physical_assets, 70);
+assert.equal(siteManifest.audit.integrity.sha256_matches, 70);
+assert.equal(siteManifest.audit.integrity.byte_size_matches, 70);
 assert.equal(siteManifest.audit.integrity.result, "pass");
 assert.equal(
   stableSha256(siteManifest.figures.filter((figure) => figure.id !== "figure-03")),
-  "6fc3547263a3f4d4afea434ad02342df268a5cc346675a14f85bc15c31d88db3",
-  "all non-Figure-3 manifest entries are byte-semantically unchanged",
+  "82a5236ff5fbe4378205a9ffba3d9a46112965a62d459abdec4122ecb4732d27",
+  "all non-Figure-3 manifest entries match the Figure 5 release baseline",
 );
 
 for (const [key, expected] of Object.entries(assets)) {
