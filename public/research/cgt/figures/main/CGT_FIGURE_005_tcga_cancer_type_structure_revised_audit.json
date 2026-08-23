@@ -1,0 +1,172 @@
+{
+  "accessibility": {
+    "ink_on_white_contrast": 16.293495425950333,
+    "muted_on_white_contrast": 5.885157246816317,
+    "non_color_encodings": [
+      "marker shape",
+      "open-versus-filled marker",
+      "direct labels",
+      "numeric score indices"
+    ],
+    "simulation_files": {
+      "deuteranopia": "CGT_FIGURE_005_deuteranopia.png",
+      "grayscale": "CGT_FIGURE_005_grayscale.png",
+      "protanopia": "CGT_FIGURE_005_protanopia.png",
+      "tritanopia": "CGT_FIGURE_005_tritanopia.png"
+    }
+  },
+  "failures": [],
+  "figure_id": "CGT_FIGURE_005",
+  "formats": {
+    "cross_format_mean_absolute_error": {
+      "pdf": 0.018802214413881302,
+      "svg": 0.00728018069639802
+    },
+    "pdf_fonts": [
+      "EVICAO+DejaVuSans-Bold               CID TrueType      Identity-H       yes yes yes     17  0",
+      "BMQQDV+DejaVuSans                    CID TrueType      Identity-H       yes yes yes     24  0",
+      "FHXUQR+DejaVuSans-Bold               CID TrueType      Identity-H       yes yes yes     31  0",
+      "FHMVKQ+DejaVuSans                    CID TrueType      Identity-H       yes yes yes     38  0"
+    ],
+    "pdf_page_pt": [
+      518.7401574803,
+      674.6456692913
+    ],
+    "publication_png": {
+      "CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png": {
+        "has_icc_profile": true,
+        "mode": "RGB",
+        "sha256": "3ebada953dc391e560413c8bc8807cc43cc038c51e0bd6e9f606e80775c7e37b",
+        "size_px": [
+          4322,
+          5622
+        ]
+      },
+      "CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png": {
+        "has_icc_profile": true,
+        "mode": "RGB",
+        "sha256": "6e18d06bdd16b82700dc6b5db3c2221738cd73d7ba7202c5e0cdb4e873324f5a",
+        "size_px": [
+          2400,
+          3121
+        ]
+      }
+    },
+    "responsive_panels": {
+      "a": {
+        "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png",
+        "sha256": "255a966954efd97ef67f9c3e8ddf1fe4b56cd4bd84fd20215f3fccd8a935c961",
+        "size_px": [
+          1200,
+          735
+        ]
+      },
+      "b": {
+        "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png",
+        "sha256": "e05250400e4e4c25c73f3974dcb5166a91eedbfc776f0ce6875f9f683f7b6366",
+        "size_px": [
+          1800,
+          557
+        ]
+      },
+      "c": {
+        "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png",
+        "sha256": "c3fb6af6b1586eb4aaf8961211e793ec5b3e4918eef02163a53b2cae91add93a",
+        "size_px": [
+          1800,
+          585
+        ]
+      },
+      "d": {
+        "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png",
+        "sha256": "013a1d608c70219e77864640252c5d2efef1720533b8b9fa9917d0b03c2a8d97",
+        "size_px": [
+          2000,
+          893
+        ]
+      },
+      "e": {
+        "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png",
+        "sha256": "a67cafc6e01f59ec24718eba08ecf7de129298872829bda0f05a6615df10c47a",
+        "size_px": [
+          1400,
+          904
+        ]
+      },
+      "f": {
+        "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png",
+        "sha256": "749294bc51ce138cd761c775e4c21d19f23a2983e97536a72da1afa7676e5416",
+        "size_px": [
+          1400,
+          865
+        ]
+      }
+    },
+    "svg_dimensions": [
+      "518.740157pt",
+      "674.645669pt"
+    ],
+    "svg_embedded_image_count": 1
+  },
+  "geometry": {
+    "boundary_violation_count": 0,
+    "centroid_label_count": 33,
+    "centroid_viewport_intrusion_count": 0,
+    "container_clearance_failure_count": 0,
+    "minimum_font_size_pt": 6.0,
+    "text_overlap_count": 0
+  },
+  "output_hashes": {
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised.pdf": "1ef34f29cfe72b62394bb8ff85ff1c3f3985596fe1f9ba9e76b23ec08dc199de",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg": "9299db57bedea47657136eed0b6e5998eab8703b1bdb39ec8cb9eeaf57fdc3d8",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png": "3ebada953dc391e560413c8bc8807cc43cc038c51e0bd6e9f606e80775c7e37b",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png": "255a966954efd97ef67f9c3e8ddf1fe4b56cd4bd84fd20215f3fccd8a935c961",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png": "e05250400e4e4c25c73f3974dcb5166a91eedbfc776f0ce6875f9f683f7b6366",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png": "c3fb6af6b1586eb4aaf8961211e793ec5b3e4918eef02163a53b2cae91add93a",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png": "013a1d608c70219e77864640252c5d2efef1720533b8b9fa9917d0b03c2a8d97",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png": "a67cafc6e01f59ec24718eba08ecf7de129298872829bda0f05a6615df10c47a",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png": "749294bc51ce138cd761c775e4c21d19f23a2983e97536a72da1afa7676e5416",
+    "CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png": "6e18d06bdd16b82700dc6b5db3c2221738cd73d7ba7202c5e0cdb4e873324f5a"
+  },
+  "provenance": {
+    "archived_notebook_sha256": "51dee19a0791dfada00fc021649eb19b87789edab728b7afec5be576c25c84f5",
+    "later_drive_inventory_sha256": "72d1efabe3dd8c0447817dedae3d6004b47374065eb90f83f9179ad8d525fb81",
+    "scope": "The revised figure is reproducible from frozen score matrices; the raw score-construction formula is not documented in the package.",
+    "status": "disclosed_unreconciled_notebook_version_mismatch"
+  },
+  "schema_version": "1.0",
+  "scientific": {
+    "all15_max_abs_residual_spearman": 0.8714980965371082,
+    "cancer_types": 33,
+    "fraction_reused": 0.6134020618556701,
+    "genes_reused_in_two_or_more_score_sets": 595,
+    "heatmap_max_abs_row_z": 3.060782019075136,
+    "loo_pca_pc2_share": 0.1425076343751052,
+    "maximum_centroid_delta": 4.440892098500626e-16,
+    "maximum_eta_squared_delta": 1.6653345369377348e-16,
+    "maximum_residual_coefficient_delta": 3.3306690738754696e-16,
+    "maximum_residual_model_r2_delta": 1.1102230246251565e-16,
+    "maximum_residual_reconstruction_delta": 1.9984014443252818e-15,
+    "mean_abs_offdiag_spearman": {
+      "centered": 0.2794281841664304,
+      "loo_global_residual": 0.26541949924810754,
+      "raw": 0.7534773693712723
+    },
+    "named_display_score_sets": 12,
+    "residual_model_r2_range": [
+      0.3135771948767745,
+      0.9863402509235566
+    ],
+    "samples_excluded": 57,
+    "samples_input": 9359,
+    "samples_retained": 9302,
+    "score_sets": 15,
+    "standardized_pca_pc1_share": {
+      "centered": 0.3315326913720985,
+      "loo": 0.32223811866858126,
+      "raw": 0.8303963669221575
+    },
+    "unique_recovered_genes": 970
+  },
+  "status": "pass"
+}

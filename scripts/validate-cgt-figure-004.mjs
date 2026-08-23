@@ -70,7 +70,7 @@ const nonFigureFourObjectHashes = {
   "figure-01": "495b137e01f42caf5aecd42f91fcffa78f3241ad64dd07731158a51a9158ea54",
   "figure-02": "7ec68d07d9659f3f08e9c8a1082a50127b0a9ec684b1a52061efe3b0aa7ee7cc",
   "figure-03": "b2851cc4110dd51a72e8f1adf0e50dd675d7f1f6d41a10c6c1b36775e20830ff",
-  "figure-05": "5e65b21bcaf638d1e5cf01115dfc5bff6323bb1750072919624addd8b6949e26",
+  "figure-05": "d504c92bea6cd920c680cf3327bcb76b35f69e53a0c4e09b5061e027a6e2497d",
   "figure-s01": "50cde84759423136717dd4c1bffad06921f1b01003266d73058fc35a89b8c723",
   "figure-s02": "3308c27bb22ded897a0eadf1cf1cbbf76e41f9073176853973046717ae885b8a",
   "figure-s03": "a655ec0b3ff9e87b514494f7485c2a43b4699b268938dd96adbf2fd02a2ac73d",
@@ -411,14 +411,14 @@ for (const expected of Object.values(assets).filter((asset) => asset.releasePath
 }
 
 const publicManifest = JSON.parse(await readFile(publicManifestPath, "utf8"));
-assert.equal(publicManifest.schema.version, "1.3.0");
+assert.equal(publicManifest.schema.version, "1.4.0");
 assert.deepEqual(publicManifest.schema.figure_04_release_asset_formats, Object.keys(assets));
 assert.equal(publicManifest.report.manifest_generated_date_utc, "2026-08-23");
-assert.equal(publicManifest.report.active_physical_asset_count, 49);
-assert.equal(publicManifest.report.compatibility_alias_count, 9);
-assert.equal(publicManifest.report.physical_asset_count, 58);
+assert.equal(publicManifest.report.active_physical_asset_count, 58);
+assert.equal(publicManifest.report.compatibility_alias_count, 12);
+assert.equal(publicManifest.report.physical_asset_count, 70);
 assert.equal(publicManifest.audit.integrity.result, "pass");
-assert.equal(publicManifest.audit.integrity.sha256_matches, 58);
+assert.equal(publicManifest.audit.integrity.sha256_matches, 70);
 const figureFour = publicManifest.figures.find((figure) => figure.id === "figure-04");
 assert.ok(figureFour);
 assert.equal(figureFour.title, "Dependency-aware synthesis of current CGT analyses and their generalization boundaries");
@@ -479,7 +479,7 @@ assert.doesNotMatch(contentSource, /figure-04-evidence-atlas\.(?:png|pdf|svg)/);
 const pageSource = await readFile(path.join(projectRoot, "app", "research", "cgt", "page.tsx"), "utf8");
 assert.match(pageSource, /dateModified: "2026-08-23"/);
 assert.match(pageSource, /webReportDate: "23 August 2026"/);
-assert.match(pageSource, /version: "0\.3\.1"/);
+assert.match(pageSource, /version: "0\.4\.0"/);
 assert.match(pageSource, /analysisFreeze: "15 July 2026"/);
 assert.doesNotMatch(pageSource, /composite fitness-relevance score|one half normalized absolute ridge coefficient/);
 assert.doesNotMatch(pageSource, /figure-04-evidence-atlas\.(?:png|pdf|svg)/);

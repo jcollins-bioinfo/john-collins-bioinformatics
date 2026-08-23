@@ -511,6 +511,11 @@
   margin: 0;
 }
 
+/* Keep KaTeX's visually hidden MathML inside the component scroller. */
+.figureEquation :global(.katex-mathml) {
+  left: 0;
+}
+
 .figureTableScroll {
   max-width: 100%;
   margin: 18px 0 24px;

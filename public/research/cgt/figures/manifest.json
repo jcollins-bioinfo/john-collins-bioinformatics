@@ -1,8 +1,8 @@
 {
   "schema": {
     "name": "cgt-figure-manifest",
-    "version": "1.3.0",
-    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1, Figure 2, Figure 3, and Figure 4 revisions and their downloads.",
+    "version": "1.4.0",
+    "description": "Machine-readable manifest for the checksum-pinned CGT website figure release, including the audited Figure 1, Figure 2, Figure 3, Figure 4, and Figure 5 revisions and their downloads.",
     "required_figure_fields": [
       "id",
       "run_id",
@@ -58,6 +58,20 @@
       "mobile_panel_d",
       "mobile_panel_e",
       "reproducibility_zip"
+    ],
+    "figure_05_release_asset_formats": [
+      "png_web",
+      "png_600dpi",
+      "pdf",
+      "svg",
+      "mobile_panel_a",
+      "mobile_panel_b",
+      "mobile_panel_c",
+      "mobile_panel_d",
+      "mobile_panel_e",
+      "mobile_panel_f",
+      "reproducibility_zip",
+      "audit_json"
     ]
   },
   "report": {
@@ -76,9 +90,9 @@
     "logical_figure_count": 11,
     "main_figure_count": 5,
     "supplementary_figure_count": 6,
-    "active_physical_asset_count": 49,
-    "compatibility_alias_count": 9,
-    "physical_asset_count": 58
+    "active_physical_asset_count": 58,
+    "compatibility_alias_count": 12,
+    "physical_asset_count": 70
   },
   "freeze": {
     "release_id": "CGT_CORE_001",
@@ -121,12 +135,12 @@
   "audit": {
     "local_verification_date_utc": "2026-08-23",
     "integrity": {
-      "expected_physical_assets": 58,
-      "present_physical_assets": 58,
-      "sha256_matches": 58,
-      "byte_size_matches": 58,
-      "active_release_assets": 49,
-      "compatibility_aliases": 9,
+      "expected_physical_assets": 70,
+      "present_physical_assets": 70,
+      "sha256_matches": 70,
+      "byte_size_matches": 70,
+      "active_release_assets": 58,
+      "compatibility_aliases": 12,
       "complete_png_pdf_svg_triplets": 11,
       "result": "pass"
     },
@@ -148,7 +162,7 @@
       "figure_02": "Exact 182.88 × 190.50 mm canvas; 4,320 × 4,500 publication PNG at 600 dpi; 2,400 × 2,500 web PNG; 7.0 pt minimum font; no canvas/container escape, text collision, legend/data collision, clipping, invalid SVG, unembedded PDF font, numerical mismatch, or cross-format failure; complete human visual review passed. The two-column composite is uncropped at 480 px, but small publication text requires an open-original or zoom affordance on narrow screens unless a separately approved mobile derivative is supplied.",
       "figure_03": "Exact 183 × 204 mm canvas; 4,323 × 4,819 publication PNG at 599.9988 dpi; 2,400 × 2,675 web PNG at 96.012 dpi; 7.0 pt minimum font; pinned ICC profile; path-text SVG; embedded TrueType PDF; zero geometry, collision, external-dependency, numerical, or cross-format failures; 392 byte-identical files across two clean renders; complete hash-anchored human visual review passed. The composite remains uncropped at 480 px, but its fine text is zoom-dependent and is not claimed to be comfortably readable at native narrow-screen size.",
       "figure_04": "Exact 183 × 204 mm canvas; 4,322 × 4,818 publication PNG at 599.9988 dpi; 2,400 × 2,675 web PNG; 6.0 pt minimum font; pinned ICC profile; path-text public SVG with explicit title and description; embedded-font PDF; five responsive panel assets; zero text collisions, container escapes, or panel-boundary violations; all five panel letters exactly once; all eight canonical audit sections passed.",
-      "figure_05": "A text audit exists, but no Nature-compliance report was found."
+      "figure_05": "Exact 183 × 238 mm canvas; 4,322 × 5,622 RGB publication PNG at nominal 600 dpi; 2,400 × 3,121 RGB web PNG; pinned ICC profile; one-page embedded-TrueType PDF without Type 3 fonts; accessible path-text SVG with one raster tumor-cloud layer and vector heatmaps/color scales; six responsive panel assets; 6.0 pt minimum font; zero geometry violations; all 33 centroid labels present; clean audit status; 13 of 13 determinism comparisons byte-identical."
     },
     "exclusions": [
       {
@@ -160,7 +174,7 @@
     ],
     "caveats": [
       "This manifest records the selected release and its provenance; it does not itself establish peer review, reproducibility outside the captured environment, or causal validity.",
-      "Figures 1, 2, 3, and 4 are checksum-pinned audited replacement releases with their recorded revision scopes. Figure 5 and the supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
+      "Figures 1, 2, 3, 4, and 5 are checksum-pinned audited replacement releases with their recorded revision scopes. The supplements retain their prior freeze states and publisher-specific issues documented in qa_summary and per-figure QA.",
       "The recovery bundle verifies capture integrity but is candidate/unreviewed and explicitly does not establish a CORD result.",
       "CGT topography assets were excluded because the freeze report classifies them as exploratory.",
       "Scientific interpretation must preserve the claim boundaries recorded in the associated legends, methods, source data, notebooks, and claim ledger."
@@ -1304,114 +1318,470 @@
     {
       "id": "figure-05",
       "run_id": "CGT_FIGURE_005",
-      "logical_asset": "CGT_FIGURE_005_TCGA_orthogonal_projection",
+      "logical_asset": "CGT_FIGURE_005_tcga_cancer_type_structure_revised",
       "label": "Figure 5",
       "role": "main",
       "order": 5,
-      "title": "TCGA tumors projected into independently defined CGT axis space",
+      "title": "Figure 5 | Cancer-type-associated variation in TCGA bulk expression across previously defined CGT candidate score sets.",
       "evidence_tier": "supporting",
+      "release_status": "Audited replacement release v1; scientific, geometry, format, accessibility, provenance, and determinism checks passed.",
+      "revision_scope": "Descriptive same-cohort TCGA bulk-expression revision from frozen post-QC score matrices; corrected score-set dependence, pooled residualization, PCA, in-sample variance-fraction, provenance, scientific copy, responsive presentation, accessibility, and cross-format records. The upstream raw-score construction formula remains undocumented, and the later same-named Drive notebook hash remains unreconciled.",
       "dimensions": {
-        "png": {
-          "width_px": 4476,
-          "height_px": 4054,
-          "nominal_dpi": 600
+        "png_web": {
+          "width_px": 2400,
+          "height_px": 3121,
+          "color_mode": "RGB",
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796"
+        },
+        "png_600dpi": {
+          "width_px": 4322,
+          "height_px": 5622,
+          "nominal_dpi": 600,
+          "embedded_dpi": [
+            599.9988,
+            599.9988
+          ],
+          "color_mode": "RGB",
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796"
         },
         "pdf": {
-          "width_pt": 537.028,
-          "height_pt": 486.534
+          "width_pt": 518.740157,
+          "height_pt": 674.645669,
+          "width_mm": 183,
+          "height_mm": 238,
+          "pages": 1,
+          "font_subtype": "CID TrueType",
+          "embedded_font": true,
+          "type_3_font_count": 0
         },
         "svg": {
-          "width_pt": 537.043872,
-          "height_pt": 486.530965,
+          "width_pt": 518.740157,
+          "height_pt": 674.645669,
           "view_box": [
             0,
             0,
-            537.043872,
-            486.530965
-          ]
+            518.740157,
+            674.645669
+          ],
+          "text_mode": "paths",
+          "accessible_title_and_description": true,
+          "external_dependency_count": 0,
+          "raster_image_count": 1,
+          "raster_layer_purpose": "9,302-point tumor cloud",
+          "heatmaps_vector": true,
+          "color_scales_vector": true
+        },
+        "mobile_panels": {
+          "a": {
+            "width_px": 1200,
+            "height_px": 735,
+            "minimum_display_width_css_px": null
+          },
+          "b": {
+            "width_px": 1800,
+            "height_px": 557,
+            "minimum_display_width_css_px": 640
+          },
+          "c": {
+            "width_px": 1800,
+            "height_px": 585,
+            "minimum_display_width_css_px": 680
+          },
+          "d": {
+            "width_px": 2000,
+            "height_px": 893,
+            "minimum_display_width_css_px": 820
+          },
+          "e": {
+            "width_px": 1400,
+            "height_px": 904,
+            "minimum_display_width_css_px": 620
+          },
+          "f": {
+            "width_px": 1400,
+            "height_px": 865,
+            "minimum_display_width_css_px": 680
+          }
         },
         "physical": {
-          "width_mm": 189.457,
-          "height_mm": 171.637,
-          "basis": "SVG canvas"
+          "width_mm": 183,
+          "height_mm": 238,
+          "basis": "approved PDF and SVG canvas"
         }
       },
       "assets": {
+        "png_web": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_web.png",
+          "mime_type": "image/png",
+          "bytes": 1632051,
+          "sha256": "6e18d06bdd16b82700dc6b5db3c2221738cd73d7ba7202c5e0cdb4e873324f5a",
+          "width_px": 2400,
+          "height_px": 3121,
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796",
+          "purpose": "desktop composite, web fallback, and full-resolution web download"
+        },
+        "png_600dpi": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_600dpi.png",
+          "mime_type": "image/png",
+          "bytes": 1868956,
+          "sha256": "3ebada953dc391e560413c8bc8807cc43cc038c51e0bd6e9f606e80775c7e37b",
+          "width_px": 4322,
+          "height_px": 5622,
+          "nominal_dpi": 600,
+          "embedded_dpi": [
+            599.9988,
+            599.9988
+          ],
+          "icc_profile_sha256": "2a92d4bae450b76d8b0aa42193df974d75f62738ecebf74f01c5e75b12a95796",
+          "purpose": "publication-resolution RGB PNG download"
+        },
+        "pdf": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised.pdf",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.pdf",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.pdf",
+          "mime_type": "application/pdf",
+          "bytes": 395816,
+          "sha256": "1ef34f29cfe72b62394bb8ff85ff1c3f3985596fe1f9ba9e76b23ec08dc199de",
+          "width_pt": 518.740157,
+          "height_pt": 674.645669,
+          "width_mm": 183,
+          "height_mm": 238,
+          "pages": 1,
+          "type_3_font_count": 0,
+          "purpose": "one-page embedded-TrueType publication PDF"
+        },
+        "svg": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg",
+          "mime_type": "image/svg+xml",
+          "bytes": 1037566,
+          "sha256": "9299db57bedea47657136eed0b6e5998eab8703b1bdb39ec8cb9eeaf57fdc3d8",
+          "width": "518.740157pt",
+          "height": "674.645669pt",
+          "view_box": [
+            0,
+            0,
+            518.740157,
+            674.645669
+          ],
+          "text_mode": "paths",
+          "accessible_title_and_description": true,
+          "raster_image_count": 1,
+          "purpose": "accessible font-independent vector download and desktop display source"
+        },
+        "mobile_panel_a": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_a.png",
+          "mime_type": "image/png",
+          "bytes": 148435,
+          "sha256": "255a966954efd97ef67f9c3e8ddf1fe4b56cd4bd84fd20215f3fccd8a935c961",
+          "width_px": 1200,
+          "height_px": 735,
+          "minimum_display_width_css_px": null,
+          "purpose": "responsive panel a fitted to the available content width"
+        },
+        "mobile_panel_b": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_b.png",
+          "mime_type": "image/png",
+          "bytes": 179072,
+          "sha256": "e05250400e4e4c25c73f3974dcb5166a91eedbfc776f0ce6875f9f683f7b6366",
+          "width_px": 1800,
+          "height_px": 557,
+          "minimum_display_width_css_px": 640,
+          "purpose": "responsive panel b in an accessible horizontal scroller"
+        },
+        "mobile_panel_c": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_c.png",
+          "mime_type": "image/png",
+          "bytes": 466714,
+          "sha256": "c3fb6af6b1586eb4aaf8961211e793ec5b3e4918eef02163a53b2cae91add93a",
+          "width_px": 1800,
+          "height_px": 585,
+          "minimum_display_width_css_px": 680,
+          "purpose": "responsive panel c in an accessible horizontal scroller"
+        },
+        "mobile_panel_d": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_d.png",
+          "mime_type": "image/png",
+          "bytes": 300945,
+          "sha256": "013a1d608c70219e77864640252c5d2efef1720533b8b9fa9917d0b03c2a8d97",
+          "width_px": 2000,
+          "height_px": 893,
+          "minimum_display_width_css_px": 820,
+          "purpose": "responsive panel d in an accessible horizontal scroller"
+        },
+        "mobile_panel_e": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_e.png",
+          "mime_type": "image/png",
+          "bytes": 328198,
+          "sha256": "a67cafc6e01f59ec24718eba08ecf7de129298872829bda0f05a6615df10c47a",
+          "width_px": 1400,
+          "height_px": 904,
+          "minimum_display_width_css_px": 620,
+          "purpose": "responsive panel e in an accessible horizontal scroller"
+        },
+        "mobile_panel_f": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_mobile_panel_f.png",
+          "mime_type": "image/png",
+          "bytes": 178089,
+          "sha256": "749294bc51ce138cd761c775e4c21d19f23a2983e97536a72da1afa7676e5416",
+          "width_px": 1400,
+          "height_px": 865,
+          "minimum_display_width_css_px": 680,
+          "purpose": "responsive panel f in an accessible horizontal scroller"
+        },
+        "reproducibility_zip": {
+          "filename": "CGT_FIGURE_005_revised_reproducibility_package_v1.zip",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_revised_reproducibility_package_v1.zip",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_revised_reproducibility_package_v1.zip",
+          "mime_type": "application/zip",
+          "bytes": 10859631,
+          "sha256": "72e049f26049311ab0cb94ca6430dfbfee781d3fb20d271f3e043da941498d12",
+          "purpose": "complete intact audited Figure 5 release package"
+        },
+        "audit_json": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_audit.json",
+          "local_path": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_audit.json",
+          "repository_path": "public/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised_audit.json",
+          "mime_type": "application/json",
+          "bytes": 6838,
+          "sha256": "4c300ea83a0870450a367d0dc0daa1080f752d97f4dee271751dcbd054e404f1",
+          "purpose": "final scientific, geometry, format, accessibility, and provenance audit"
+        }
+      },
+      "compatibility_aliases": {
         "png": {
+          "filename": "figure-05-tcga-projection.png",
           "local_path": "/research/cgt/figures/main/figure-05-tcga-projection.png",
           "repository_path": "public/research/cgt/figures/main/figure-05-tcga-projection.png",
           "mime_type": "image/png",
           "bytes": 1504853,
           "sha256": "d3db92b253699c50a8e1adcab5ea64866c9a8172b933eeb34bbe009e90a957cb",
-          "drive_id": "1m9UAU03fkNoCU0BcZrZ6CbpN2l4SHrsv",
-          "drive_url": "https://drive.google.com/file/d/1m9UAU03fkNoCU0BcZrZ6CbpN2l4SHrsv/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-07-09T18:52:51.000Z"
+          "compatibility_status": "inactive_legacy_artifact",
+          "active_page_reference": false,
+          "superseded_by": "png_web"
         },
         "pdf": {
+          "filename": "figure-05-tcga-projection.pdf",
           "local_path": "/research/cgt/figures/main/figure-05-tcga-projection.pdf",
           "repository_path": "public/research/cgt/figures/main/figure-05-tcga-projection.pdf",
           "mime_type": "application/pdf",
           "bytes": 325309,
           "sha256": "27a3cb88c9ed0dbfa604402d62ea3d8d4b6e6d0cdf76a30cd80bd4879de1d5d6",
-          "drive_id": "1vRUlTqaFvw3ryWDUCYPMz5p2GcVYJTTb",
-          "drive_url": "https://drive.google.com/file/d/1vRUlTqaFvw3ryWDUCYPMz5p2GcVYJTTb/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-07-09T18:53:38.556Z"
+          "compatibility_status": "inactive_legacy_artifact",
+          "active_page_reference": false,
+          "superseded_by": "pdf"
         },
         "svg": {
+          "filename": "figure-05-tcga-projection.svg",
           "local_path": "/research/cgt/figures/main/figure-05-tcga-projection.svg",
           "repository_path": "public/research/cgt/figures/main/figure-05-tcga-projection.svg",
           "mime_type": "image/svg+xml",
           "bytes": 641537,
           "sha256": "71a358416fa91b70fd439f324120cd99e18c872e231ed0a4d800234c4155497e",
-          "drive_id": "1gx1hYHciRYefzryWFbSBa4QjUBS5szeO",
-          "drive_url": "https://drive.google.com/file/d/1gx1hYHciRYefzryWFbSBa4QjUBS5szeO/view?usp=drivesdk",
-          "drive_modified_time_utc": "2026-07-09T18:52:56.000Z"
+          "compatibility_status": "inactive_legacy_artifact",
+          "active_page_reference": false,
+          "superseded_by": "svg"
         }
       },
       "provenance": {
-        "output_folder": {
-          "drive_id": "1Sgu4d84VX_XVzxSmG0tnyPy7l8N2rgYx",
-          "drive_url": "https://drive.google.com/drive/folders/1Sgu4d84VX_XVzxSmG0tnyPy7l8N2rgYx"
+        "source_run": "CGT_FIGURE_005",
+        "source_release": {
+          "release_id": "CGT_FIGURE_005_REVISED_V1",
+          "filename": "CGT_FIGURE_005_revised_reproducibility_package_v1.zip",
+          "bytes": 10859631,
+          "sha256": "72e049f26049311ab0cb94ca6430dfbfee781d3fb20d271f3e043da941498d12",
+          "validated_date_utc": "2026-08-23",
+          "archive_member_count": 52,
+          "directory_member_count": 0,
+          "regular_file_count": 52,
+          "compressed_member_bytes": 10845619,
+          "uncompressed_member_bytes": 15754120,
+          "expansion_ratio": 1.4525791473958287,
+          "archive_overhead_bytes": 14012,
+          "compression_policy": "ZIP deflate; canonical task-supplied archive retained intact",
+          "top_level_directory": "CGT_FIGURE_005_revised_reproducibility_package_v1",
+          "integrity_test": "pass",
+          "crc_members_verified": 52,
+          "unsafe_path_count": 0,
+          "duplicate_member_count": 0,
+          "special_or_executable_member_count": 0
         },
-        "notebook_archive": {
-          "drive_id": "1z7NsiCMZEMydaWypqW_VZBwP3e7ltafl",
-          "drive_url": "https://drive.google.com/file/d/1z7NsiCMZEMydaWypqW_VZBwP3e7ltafl/view?usp=drivesdk"
+        "release_manifest": {
+          "filename": "release_manifest.json",
+          "bytes": 11620,
+          "sha256": "49fa61da60eb6be13465904fbbd7f0b3425d61295704f584087d01f3ca1db91c",
+          "schema_version": "1.0",
+          "listed_entries": 50,
+          "self_excluding": true,
+          "excluded_entries": [
+            "release_manifest.json",
+            "SHA256SUMS.txt"
+          ],
+          "exact_coverage": true
         },
-        "source_notebook": {
+        "checksum_file": {
+          "filename": "SHA256SUMS.txt",
+          "verified_lines": 51,
+          "exact_coverage": true,
+          "exclusion_rule": "Lists every regular file below the release root except itself, including release_manifest.json."
+        },
+        "upstream_notebook": {
           "filename": "CGT-FIGURE-005_TCGA_orthogonal_projection.ipynb",
-          "sha256": "72d1efabe3dd8c0447817dedae3d6004b47374065eb90f83f9179ad8d525fb81",
-          "archive_drive_id": "1z7NsiCMZEMydaWypqW_VZBwP3e7ltafl"
+          "archived_notebook_sha256": "51dee19a0791dfada00fc021649eb19b87789edab728b7afec5be576c25c84f5",
+          "later_drive_inventory_sha256": "72d1efabe3dd8c0447817dedae3d6004b47374065eb90f83f9179ad8d525fb81",
+          "hashes_reconciled": false,
+          "status": "disclosed_unreconciled_notebook_version_mismatch"
         },
-        "source_data_xlsx": {
-          "drive_id": "1UWt01LZYc3QkDpFhWLO9DGBrEl0yQocO",
-          "drive_url": "https://drive.google.com/file/d/1UWt01LZYc3QkDpFhWLO9DGBrEl0yQocO/view?usp=drivesdk"
+        "approved_copy": {
+          "filename": "website_copy.md",
+          "bytes": 9189,
+          "sha256": "87552cc7fcea10ced8245dfbc9ed0669a68279c31ce1a4ef6f2a8c4778403a19",
+          "title_sha256": "dcc71c72c56bb28b117c3aeb2b045004ecdb9373087a314f20b933df4f3bde32",
+          "caption_sha256": "6dfa735f54513f61511f706a1f76cc72943ba889df7869dfb6befad9350b2124",
+          "alt_sha256": "dbb5f5753c69dfb2f52ff4aa3954b38789db63de76033301ab276616b421caf2",
+          "accessible_description_sha256": "bfbbffc6b06764f4a3a4edc1178e66c8b1380ff1468ec83f260e89faf4393706"
         },
-        "legend": {
-          "drive_id": "18SQRsXtjIudfwe4orhNuoWg6Ls00ClOO",
-          "drive_url": "https://drive.google.com/file/d/18SQRsXtjIudfwe4orhNuoWg6Ls00ClOO/view?usp=drivesdk"
+        "renderer": {
+          "filename": "render_cgt_figure_005.py",
+          "bytes": 39671,
+          "sha256": "6045e5e6f2d3a77bda4956d7bd0e67c162dd3550704baa6672c1c1f3c5cd1ce7"
         },
-        "methods": {
-          "drive_id": "1bPTVHGfCsnvoptn5BSy32o-jgzXwHT52",
-          "drive_url": "https://drive.google.com/file/d/1bPTVHGfCsnvoptn5BSy32o-jgzXwHT52/view?usp=drivesdk"
+        "final_audit": {
+          "filename": "CGT_FIGURE_005_tcga_cancer_type_structure_revised_audit.json",
+          "bytes": 6838,
+          "sha256": "4c300ea83a0870450a367d0dc0daa1080f752d97f4dee271751dcbd054e404f1",
+          "status": "pass",
+          "failure_count": 0,
+          "scientific": "pass",
+          "geometry": "pass",
+          "formats": "pass",
+          "accessibility": "pass",
+          "provenance": "disclosed_unreconciled_notebook_version_mismatch"
+        },
+        "determinism": {
+          "filename": "qa/CGT_FIGURE_005_determinism_report.json",
+          "bytes": 3551,
+          "sha256": "7ed86398c3bb3e5363ebaba437e0cbc7f43da2ca0c114ecf8b6cf0d4fa4a40d6",
+          "status": "pass",
+          "comparison_count": 13,
+          "byte_identical_comparison_count": 13
+        },
+        "data_counts": {
+          "samples_input": 9359,
+          "samples_excluded": 57,
+          "samples_retained": 9302,
+          "patients_retained": 9302,
+          "corrected_cancer_types": 33,
+          "candidate_score_sets": 15,
+          "recovered_unique_genes": 970,
+          "reused_genes": 595
         },
         "upstream_runs": [
           "CGT_TCGA_002"
-        ]
+        ],
+        "raw_score_construction_formula_documented": false,
+        "reproduction_boundary": "The revised figure is reproducible from the frozen raw and pooled residual score matrices and audited tables in the release. The upstream formula mapping TCGA expression plus registry membership to the frozen raw scores is not documented, and the later same-named Drive notebook hash is not reconciled."
       },
       "freeze": {
-        "status": "minor_polish",
-        "release_recommendation": "supplement_or_compact_main_panel"
+        "status": "scientifically_audited_replacement_release_v1",
+        "release_status": "Audited Figure 5 replacement from frozen post-QC score inputs.",
+        "revision_scope": "Descriptive same-cohort TCGA bulk-expression revision; no new scientific analysis universe was created.",
+        "numerical_inputs": "frozen_post_qc_score_matrices",
+        "analysis_freeze_date": "2026-07-15",
+        "release_recommendation": "main_supporting"
       },
       "qa": {
-        "status": "warning",
-        "source_note": "no Nature-compliance report; text audit exists",
-        "local_asset_triplet_complete": true,
-        "local_byte_sizes_match_drive_inventory": true,
-        "local_sha256_matches_recovery_capture": true
+        "status": "pass",
+        "quality_note": "Exact 183 × 238 mm canvas; 2,400 × 3,121 web PNG; 4,322 × 5,622 RGB publication PNG at nominal 600 dpi; accessible path-text SVG with one raster tumor-cloud layer and vector heatmaps/color scales; one-page embedded-TrueType PDF without Type 3 fonts; 6.0 pt minimum font; zero geometry violations; all 33 centroid labels present; clean audit status; 13 of 13 determinism comparisons byte-identical.",
+        "mandatory_rules": {
+          "accessibility": true,
+          "cross_format": true,
+          "geometry": true,
+          "pdf": true,
+          "png": true,
+          "responsive": true,
+          "scientific": true,
+          "svg": true
+        },
+        "minimum_text_pt": 6,
+        "boundary_violation_count": 0,
+        "text_overlap_count": 0,
+        "container_clearance_failure_count": 0,
+        "centroid_label_count": 33,
+        "centroid_viewport_intrusion_count": 0,
+        "all_33_centroid_labels_present": true,
+        "heatmaps_vector": true,
+        "color_scales_vector": true,
+        "raster_tumor_cloud_layer_count": 1,
+        "clean_audit_status": true,
+        "determinism_comparisons": "13/13 byte-identical",
+        "local_release_asset_count": 12,
+        "local_byte_size_matches": 12,
+        "local_sha256_matches": 12,
+        "legacy_compatibility_alias_count": 3,
+        "legacy_aliases_active_page_references": false,
+        "immutable_assets_bypass_image_optimizer": true,
+        "raw_score_construction_formula_documented": false,
+        "notebook_hashes_reconciled": false,
+        "responsive_presentation": {
+          "breakpoint_max_width_css_px": 1080,
+          "panel_order": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f"
+          ],
+          "fit_to_container_panels": [
+            "a"
+          ],
+          "horizontally_scrollable_panels": [
+            "b",
+            "c",
+            "d",
+            "e",
+            "f"
+          ],
+          "minimum_display_width_css_px": {
+            "a": null,
+            "b": 640,
+            "c": 680,
+            "d": 820,
+            "e": 620,
+            "f": 680
+          },
+          "panel_images_empty_alt": true,
+          "keyboard_focusable_scrollers": true,
+          "touch_pan_without_vertical_scroll_hijack": true,
+          "component_level_overflow_only": true,
+          "full_resolution_route": "/research/cgt/figures/main/CGT_FIGURE_005_tcga_cancer_type_structure_revised.svg"
+        }
       },
       "caveats": [
-        "Bulk-tumor projections can reflect lineage, purity, stromal composition, and microenvironmental signal in addition to tumor-intrinsic state.",
-        "Residualization can remove biologically meaningful variation; the projection is orthogonal support rather than causal validation."
+        "The candidate score-set definitions precede the TCGA cancer-type analysis, but the sets overlap and are not statistically independent or orthogonal.",
+        "Expression QC, residualization, standardization, PCA, centroid construction, ordering, and evaluation are all performed within the same TCGA cohort; the centroids and sample-weighted in-sample variance fractions are descriptive, not held-out predictions or causal effects.",
+        "Pooled leave-one-axis-out residualization is fit once across all 9,302 samples and is not leave-one-sample-out validation; its reduction of PC1 share and mean absolute score correlation is an expected transform property, not proof of deconfounding.",
+        "Bulk lineage or tissue, tumor purity, immune and stromal composition, score-set overlap, RNA content, batch, and other cohort structure remain alternative explanations, and residual correlations remain as high as 0.871.",
+        "The upstream raw-score construction formula is not documented in the package, and the archived notebook hash 51dee19a0791dfada00fc021649eb19b87789edab728b7afec5be576c25c84f5 is not reconciled with the later same-named Drive hash 72d1efabe3dd8c0447817dedae3d6004b47374065eb90f83f9179ad8d525fb81.",
+        "The figure does not establish CGT specificity, tumor-cell-intrinsic programs, patient validation, treatment prediction, transportability, mechanism, causality, or universal constraints."
       ]
     },
     {
