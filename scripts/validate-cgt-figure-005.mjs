@@ -493,18 +493,20 @@ assert.deepEqual(
 );
 
 const pageSource = await readFile(path.join(projectRoot, "app", "research", "cgt", "page.tsx"), "utf8");
+const methodsSource = await readFile(path.join(projectRoot, "app", "research", "cgt", "methods-content.tsx"), "utf8");
+const reportSource = `${pageSource}\n${methodsSource}`;
 assert.match(pageSource, /analysisFreeze: "15 July 2026"/);
 assert.match(pageSource, /dateModified: "2026-08-23"/);
 assert.match(pageSource, /dateModifiedIso: "2026-08-23T\d{2}:\d{2}:\d{2}Z"/);
 assert.match(pageSource, /webReportDate: "23 August 2026"/);
-assert.match(pageSource, /version: "0\.4\.0"/);
+assert.match(pageSource, /version: "0\.5\.0"/);
 assert.match(pageSource, /modifiedTime: reportMetadata\.dateModifiedIso/);
 assert.match(pageSource, /dateModified: reportMetadata\.dateModified/);
 assert.match(pageSource, /version: reportMetadata\.version/);
 assert.match(pageSource, /<dt>Web report<\/dt><dd>\{reportMetadata\.webReportDate\}<\/dd>/);
 assert.match(pageSource, /<dt>Version<\/dt><dd>\{reportMetadata\.version\}<\/dd>/);
 assert.match(pageSource, /version \{reportMetadata\.version\}/);
-assert.doesNotMatch(pageSource, /tumor-state projection|TCGA projection|orthogonal projection|independently defined axes|lineage manifestation|leave-one-axis-out global residualization|cancer-type R²/i);
+assert.doesNotMatch(reportSource, /tumor-state projection|TCGA projection|orthogonal projection|independently defined axes|lineage manifestation|leave-one-axis-out global residualization|cancer-type R²/i);
 for (const required of [
   "9,359 tumor-derived bulk-expression samples entering expression QC",
   "pooled leave-one-axis-out residualization",
@@ -512,8 +514,8 @@ for (const required of [
   "expected properties of the transforms",
   "does not establish CGT specificity",
   "does not document the upstream formula mapping TCGA expression",
-]) assert.ok(pageSource.includes(required), `page includes ${required}`);
-assert.match(pageSource, /Residual correlations remain as\s+high as 0\.871/);
+]) assert.ok(reportSource.includes(required), `report source includes ${required}`);
+assert.match(reportSource, /Residual correlations remain as\s+high as 0\.871/);
 
 const sitemapSource = await readFile(path.join(projectRoot, "public", "sitemap.xml"), "utf8");
 assert.match(sitemapSource, /<loc>https:\/\/johnpatrickcollins\.info\/research\/cgt<\/loc><lastmod>2026-08-23<\/lastmod>/);

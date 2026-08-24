@@ -8,7 +8,7 @@ import type { FigureSpec } from "./content";
 import { referenceIndex, references } from "./content";
 import styles from "./publication.module.css";
 
-function MathExpression({ expression, display = false }: { expression: string; display?: boolean }) {
+export function MathExpression({ expression, display = false }: { expression: string; display?: boolean }) {
   const html = katex.renderToString(expression, {
     displayMode: display,
     output: "htmlAndMathml",

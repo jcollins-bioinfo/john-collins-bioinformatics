@@ -566,8 +566,8 @@ test("renders the complete CGT scientific report", async () => {
   assert.match(html, /has not been peer reviewed/i);
   assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
   assert.match(html, /<dt>Web report<\/dt><dd>23 August 2026<\/dd>/);
-  assert.match(html, /<dt>Version<\/dt><dd>0\.4\.0<\/dd>/);
-  assert.match(html, /version (?:<!-- -->)?0\.4\.0/i);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.5\.0<\/dd>/);
+  assert.match(html, /version (?:<!-- -->)?0\.5\.0/i);
   assert.match(html, /CGT_FIGURE_001_residual_geometry_predicts_fitness_revised_web\.png/);
   assert.match(html, /width=["']2400["'][^>]*height=["']2163["']/i);
   assert.match(html, /aria-describedby=["']fig-1-accessible-description["']/i);
@@ -629,6 +629,116 @@ test("renders the complete CGT scientific report", async () => {
   );
   assert.match(publicationCss, /\.contents\s*{[^}]*position:\s*sticky;[^}]*top:\s*88px;[^}]*z-index:\s*40;/s);
   assert.match(publicationCss, /\.contents\s*{[^}]*top:\s*76px;/s);
+});
+
+test("renders the publication-level CGT Methods record with semantic math and calibrated claim boundaries", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/research/cgt", {
+      headers: { accept: "text/html" },
+    }),
+    env,
+    ctx,
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const methodsMatch = /<section\b[^>]*\bid=["']methods["'][^>]*>/i.exec(html);
+  assert.ok(methodsMatch, "the Methods article section should render");
+  const discussionOffset = html.slice(methodsMatch.index).search(
+    /<section\b[^>]*\bid=["']discussion["'][^>]*>/i,
+  );
+  assert.ok(discussionOffset > 0, "the Discussion section should follow Methods");
+  const methodsHtml = html.slice(methodsMatch.index, methodsMatch.index + discussionOffset);
+
+  const headings = [
+    ["methods-analysis-universes", "Analysis universes, source hierarchy, and observational units"],
+    ["methods-family-mass-recurrence", "Local SVD modes, family-mass coordinates, and recurrence summaries"],
+    ["methods-transfer-controls-uncertainty", "Residual baselines, transfer estimands, controls, and uncertainty"],
+    ["methods-gene-fitness-benchmark", "External gene-fitness benchmark"],
+    ["methods-functional-annotation", "Candidate functional annotation and curation"],
+    ["methods-dependency-aware-synthesis", "Dependency-aware synthesis"],
+    ["methods-tcga-structure", "TCGA bulk-expression scoring and descriptive cancer-type structure"],
+    ["methods-statistical-provenance", "Statistical reporting, provenance, and reproducibility"],
+  ];
+  let precedingIndex = -1;
+  for (const [id, heading] of headings) {
+    const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const headingPattern = new RegExp(
+      `<h3(?=[^>]*\\bid=["']${id}["'])[^>]*>${escapedHeading}<\\/h3>`,
+    );
+    const occurrences = methodsHtml.match(new RegExp(`>${escapedHeading}<`, "g")) ?? [];
+    assert.equal(occurrences.length, 1, `${heading} should render exactly once`);
+    assert.match(methodsHtml, headingPattern, `${heading} should use its stable heading ID`);
+    const currentIndex = methodsHtml.indexOf(`id="${id}"`);
+    assert.ok(currentIndex > precedingIndex, `${heading} should appear in methodological order`);
+    precedingIndex = currentIndex;
+  }
+  assert.equal(
+    headings.filter(([id]) => methodsHtml.includes(`aria-labelledby="${id}"`)).length,
+    8,
+    "Methods should contain eight labelled semantic method rows",
+  );
+
+  for (const expression of [
+    String.raw`A_{if}=\frac`,
+    String.raw`R_{if}=A_{if}-\overline`,
+    String.raw`R_f^{\mathrm{rec}}=z`,
+    String.raw`b_i^{\mathrm{shrink}}=0.75`,
+    String.raw`\widehat r_i=\frac{n}{n+2}`,
+    String.raw`p_{\mathrm{perm}}=\frac{b+1}{B+1}`,
+    String.raw`s_{ij}=\beta_{0j}`,
+    String.raw`\eta^2_{\mathrm{in},j}=\frac`,
+  ]) {
+    assert.ok(
+      methodsHtml.includes(`<annotation encoding="application/x-tex">${expression}`),
+      `Methods should expose semantic TeX for ${expression}`,
+    );
+  }
+  assert.ok(
+    (methodsHtml.match(/<math\b/g) ?? []).length >= 30,
+    "display and inline equations should include semantic MathML",
+  );
+  const visibleMethodsHtml = methodsHtml.replace(/<annotation[\s\S]*?<\/annotation>/g, "");
+  assert.doesNotMatch(visibleMethodsHtml, /\\[()[\]]/);
+  assert.doesNotMatch(
+    visibleMethodsHtml,
+    /\\(?:mathbb|mathrm|sum|log|frac|widehat|overline|eta|beta|varepsilon|lvert|rvert|leq|geq|times)/,
+  );
+
+  for (const phrase of [
+    "transductive preprocessing",
+    "dataset-name-prefix proxy",
+    "201,771",
+    "rank 12",
+    "No combined evidence score",
+    "pooled leave-one-axis-out",
+    "in-sample",
+    "does not document the upstream formula mapping TCGA expression",
+    "prevents independent raw-score reconstruction",
+    "Historical recovery snapshot",
+    "b9082d525c9f6aa58bf3cffa9ce56abf8e5f9bf2cf121c018a07497470fd1825",
+    "6d50bf02c73a06cf1433b890c1e81731d717f21e2fcd3160dcf8eac3f3fd3137",
+  ]) assert.ok(methodsHtml.includes(phrase), `Methods should include ${phrase}`);
+
+  assert.doesNotMatch(methodsHtml, /fitness relevance\s*=\s*0\.5/i);
+  assert.doesNotMatch(
+    methodsHtml,
+    /orthogonal projection|tumor-state projection|independently defined axes|lineage manifestation/i,
+  );
+  assert.doesNotMatch(
+    html,
+    /<template[^>]+data-dgst=|There was an error while hydrating|Minified React error|Application error/i,
+  );
+  assert.doesNotMatch(html, /0\.4\.0/);
+
+  const citationTargets = new Set(
+    [...methodsHtml.matchAll(/href=["']#(ref-[^"']+)["']/g)].map((match) => match[1]),
+  );
+  assert.ok(citationTargets.size >= 10, "Methods should cite the governing literature inline");
+  for (const target of citationTargets) {
+    assert.match(html, new RegExp(`id=["']${target}["']`), `${target} should resolve`);
+  }
 });
 
 test("renders the audited Figure 3 release with canonical assets, accessible copy, and responsive open-original access", async () => {
@@ -731,7 +841,7 @@ test("renders the audited Figure 3 release with canonical assets, accessible cop
   assert.match(html, /Explicit sign filtering removed the invalid F1, F3, and F15 upper views from 56[\s\S]*?leaving 53 corrected valid views/);
   assert.match(html, /all 201,771 corrected view(?:–|&ndash;)term tests per method/);
   assert.match(html, /Study-proxy concentration and a closed, rank-deficient family coding[\s\S]*?causal constraint laws/);
-  assert.match(html, /Context-residualized family-mass annotation/);
+  assert.match(html, /Candidate functional annotation and curation/);
   assert.doesNotMatch(html, /Signed directions support candidate biological interpretations/);
   assert.doesNotMatch(html, /Positive and negative coordinate tails defined direction-specific gene sets/);
   assert.doesNotMatch(html, /compatible CORUM-like resources when available/);
@@ -1396,7 +1506,7 @@ test("CGT opts into the reusable contextual Results navigation", async () => {
   }
   assert.match(html, /<dt>Analysis freeze<\/dt><dd>15 July 2026<\/dd>/);
   assert.match(html, /<dt>Web report<\/dt><dd>23 August 2026<\/dd>/);
-  assert.match(html, /<dt>Version<\/dt><dd>0\.4\.0<\/dd>/);
+  assert.match(html, /<dt>Version<\/dt><dd>0\.5\.0<\/dd>/);
 
   const source = await readFile(path.join(projectRoot, "app", "research", "results-navigation.ts"), "utf8");
   assert.match(source, /new Set\(ids\)\.size !== ids\.length/);
