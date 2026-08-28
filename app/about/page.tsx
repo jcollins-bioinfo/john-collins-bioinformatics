@@ -69,15 +69,11 @@ export default function AboutPage() {
         </div>
         <p className="page-lede">
           {animatedCharacters(aboutLedePrefix, 0)}
-          <span className="mercury-name-container fade-in-char">
-            <span
-              className="nano-mercury-char fade-in-char"
-              style={{
-                animationDelay: "-16.6066s",
-                top: "-2px",
-                "--char-index": 4,
-              } as CharacterStyle}
-            >
+          <span
+            className="mercury-name-container fade-in-char"
+            style={{ "--char-index": 4 } as CharacterStyle}
+          >
+            <span className="nano-mercury-char" data-text={aboutName}>
               {aboutName}
             </span>
           </span>

@@ -71,25 +71,26 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
   100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 @keyframes microMercuryFlow {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 100% 100%; }
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 @keyframes nanoIridescence {
-  0% { filter: hue-rotate(0deg) contrast(1.1) saturate(1.2); }
-  100% { filter: hue-rotate(360deg) contrast(1.1) saturate(1.2); }
+  0%, 100% { filter: hue-rotate(-3deg) contrast(1.08) saturate(.92); }
+  50% { filter: hue-rotate(8deg) contrast(1.14) saturate(1.06); }
 }
 @keyframes filamentBreeze {
-  0%, 100% { text-shadow: rgba(104, 140, 85, 0.23) 0 -1px 0; }
-  50% { text-shadow: rgba(255, 255, 255, 0.8) 0.2px -0.1px 0.5px, rgba(200, 220, 255, 0.4) 0.6px -0.3px 0, rgba(192, 213, 61, 0.52) 1.2px -0.6px 0; }
+  0%, 100% { text-shadow: 0 .02em .04em rgba(10, 23, 23, .28), 0 0 .12em rgba(100, 221, 196, .1); }
+  50% { text-shadow: 0 .02em .035em rgba(10, 23, 23, .2), 0 0 .18em rgba(199, 243, 107, .2); }
 }
-@keyframes granularSparkle {
-  0%, 99.2%, 100% { filter: brightness(1) contrast(1) blur(0); }
-  99.6% { filter: brightness(3.5) contrast(2) blur(0.05px); }
+@keyframes mercuryGlint {
+  0%, 62% { background-position: 140% 0; opacity: 0; }
+  68% { opacity: .52; }
+  80% { background-position: -140% 0; opacity: .24; }
+  84%, 100% { background-position: -140% 0; opacity: 0; }
 }
-.mercury-name-container { display: inline-block; white-space: nowrap; margin-right: 0.3em; }
-.nano-mercury-char { position: relative; display: inline-block; vertical-align: middle; white-space: pre; color: rgba(120, 255, 123, 0.26) !important; font-weight: 800 !important; background-image: repeating-linear-gradient(45deg, rgb(85, 85, 85) 5px, rgb(136, 136, 136) 4.4px, rgb(221, 221, 221) 5.8px, rgb(255, 255, 255) 10px, rgb(153, 153, 153) 19.4px, rgb(85, 85, 85) 19.8px); background-size: 2px 2px; background-clip: text !important; animation: microMercuryFlow 3s linear 0s infinite normal none running, nanoIridescence 15s linear 0s infinite normal none running, filamentBreeze 8s ease-in-out 0s infinite normal none running, granularSparkle 12s step-end 0s infinite normal none running; }
-.nano-mercury-char.fade-in-char { animation-duration: 1.8s, 3s, 15s, 8s, 12s; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1), linear, linear, ease-in-out, step-end; animation-iteration-count: 1, infinite, infinite, infinite, infinite; animation-direction: normal, normal, normal, normal, normal; animation-fill-mode: forwards, none, none, none, none; animation-play-state: running, running, running, running, running; animation-name: luxEntrance, microMercuryFlow, nanoIridescence, filamentBreeze, granularSparkle; animation-timeline: auto; animation-range: normal; animation-delay: calc(800ms + (var(--char-index) * 12ms)), 0s, 0s, 0s, 0s; }
-.nano-mercury-char.fade-in-char { opacity: 0; transform: translateY(-100px) scale(0.95); animation: luxEntrance 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal forwards running, microMercuryFlow 3s linear 0s infinite normal none running, nanoIridescence 15s linear 0s infinite normal none running, filamentBreeze 8s ease-in-out 0s infinite normal none running, granularSparkle 12s step-end 0s infinite normal none running; }
+.mercury-name-container { display: inline-block; white-space: nowrap; margin-right: .3em; }
+.nano-mercury-char { position: relative; top: -.04em; display: inline-block; vertical-align: baseline; white-space: pre; color: transparent !important; -webkit-text-fill-color: transparent; font-weight: 800 !important; letter-spacing: .008em; background-image: linear-gradient(112deg, #14231f 0%, #58706a 18%, #edf3ee 34%, #7d938d 44%, #b8dc75 54%, #f7faf6 62%, #49615b 76%, #14231f 100%); background-size: 240% 100%; -webkit-background-clip: text; background-clip: text !important; animation: microMercuryFlow 8s cubic-bezier(.45, 0, .55, 1) infinite alternate, nanoIridescence 16s ease-in-out infinite, filamentBreeze 10s ease-in-out infinite; }
+.nano-mercury-char::after { content: attr(data-text); position: absolute; inset: 0; color: transparent; -webkit-text-fill-color: transparent; background: linear-gradient(105deg, transparent 36%, rgba(255, 255, 255, .9) 48%, rgba(199, 243, 107, .5) 52%, transparent 64%) 140% 0 / 260% 100% no-repeat; -webkit-background-clip: text; background-clip: text; opacity: 0; pointer-events: none; animation: mercuryGlint 10s cubic-bezier(.4, 0, .2, 1) 1.6s infinite; }
 .section-index { margin: 12px 0 0; color: #42736a; font: 500 11px/1 var(--font-oswald), sans-serif; letter-spacing: .13em; text-transform: uppercase; }
 .about-story, .cgt-intro, .music-intro, .research-method { display: grid; grid-template-columns: .55fr 1.45fr; gap: 80px; }
 .longform-copy { max-width: 890px; }
@@ -528,7 +529,8 @@ article.modern-hover-card:hover h3, .research-card-link:focus-visible > article.
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
 }
 @media (prefers-reduced-motion:reduce) {
-  .fade-in-char, .nano-mercury-char.fade-in-char { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+  .fade-in-char, .nano-mercury-char { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+  .nano-mercury-char::after { animation: none !important; opacity: 0 !important; }
   .heteroscedastic-field__canvas, .heteroscedastic-field__fallback-line, .heteroscedastic-field__source { animation: none; transition: none; }
   .piano-video-frame, .piano-slide-content { animation: none; }
   .piano-video-facade img, .piano-play, .piano-carousel-arrow { transition: none; }
