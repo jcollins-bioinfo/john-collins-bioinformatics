@@ -126,6 +126,45 @@ test("renders the mercury name with seamless intra-glyph bio-matrix motion", asy
   assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*\.nano-mercury-char::after\s*\{[^}]*animation:\s*none !important/s);
 });
 
+test("reuses the exact bio-matrix animation for the footer identity on every page", async () => {
+  const worker = await loadWorker();
+  const routes = [
+    "/",
+    "/about",
+    "/bioinformatics",
+    "/research",
+    "/research/cgt",
+    "/projects",
+    "/writing",
+    "/music",
+    "/now",
+    "/cv",
+    "/contact",
+    "/publications",
+  ];
+  const footerIdentity =
+    /<a(?=[^>]*class=["']footer-identity["'])(?=[^>]*href=["']\/["'])[^>]*>\s*<span(?=[^>]*class=["']nano-mercury-char["'])(?=[^>]*data-text=["']John Patrick Collins["'])[^>]*>\s*John Patrick Collins\s*<\/span>\s*<\/a>/i;
+
+  for (const route of routes) {
+    const response = await worker.fetch(
+      new Request(`http://localhost${route}`, { headers: { accept: "text/html" } }),
+      env,
+      ctx,
+    );
+    const html = await response.text();
+    assert.match(html, footerIdentity, `${route} should render the animated footer identity`);
+  }
+
+  const component = await readFile(
+    path.join(projectRoot, "app", "components", "site-chrome.tsx"),
+    "utf8",
+  );
+  assert.match(
+    component,
+    /className="footer-identity"[\s\S]*className="nano-mercury-char" data-text="John Patrick Collins"/,
+  );
+});
+
 test("renders the source-faithful DNA identity with phase-projected helix motion", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
