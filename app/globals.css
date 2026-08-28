@@ -71,8 +71,8 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
   100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 @keyframes microMercuryFlow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+  0% { background-position: 42% 50%; }
+  100% { background-position: 58% 50%; }
 }
 @keyframes nanoIridescence {
   0%, 100% { filter: hue-rotate(-3deg) contrast(1.08) saturate(.92); }
@@ -82,15 +82,13 @@ h1, h2, h3, .identity, .footer-identity { font-family: var(--font-montserrat), "
   0%, 100% { text-shadow: 0 .02em .04em rgba(10, 23, 23, .28), 0 0 .12em rgba(100, 221, 196, .1); }
   50% { text-shadow: 0 .02em .035em rgba(10, 23, 23, .2), 0 0 .18em rgba(199, 243, 107, .2); }
 }
-@keyframes mercuryGlint {
-  0%, 62% { background-position: 140% 0; opacity: 0; }
-  68% { opacity: .52; }
-  80% { background-position: -140% 0; opacity: .24; }
-  84%, 100% { background-position: -140% 0; opacity: 0; }
+@keyframes bioMatrixDrift {
+  from { background-position: 0 0, 0 0, 0 0; }
+  to { background-position: 0 48px, -24px 24px, 0 24px; }
 }
 .mercury-name-container { display: inline-block; white-space: nowrap; margin-right: .3em; }
-.nano-mercury-char { position: relative; top: -.04em; display: inline-block; vertical-align: baseline; white-space: pre; color: transparent !important; -webkit-text-fill-color: transparent; font-weight: 800 !important; letter-spacing: .008em; background-image: linear-gradient(112deg, #14231f 0%, #58706a 18%, #edf3ee 34%, #7d938d 44%, #b8dc75 54%, #f7faf6 62%, #49615b 76%, #14231f 100%); background-size: 240% 100%; -webkit-background-clip: text; background-clip: text !important; animation: microMercuryFlow 8s cubic-bezier(.45, 0, .55, 1) infinite alternate, nanoIridescence 16s ease-in-out infinite, filamentBreeze 10s ease-in-out infinite; }
-.nano-mercury-char::after { content: attr(data-text); position: absolute; inset: 0; color: transparent; -webkit-text-fill-color: transparent; background: linear-gradient(105deg, transparent 36%, rgba(255, 255, 255, .9) 48%, rgba(199, 243, 107, .5) 52%, transparent 64%) 140% 0 / 260% 100% no-repeat; -webkit-background-clip: text; background-clip: text; opacity: 0; pointer-events: none; animation: mercuryGlint 10s cubic-bezier(.4, 0, .2, 1) 1.6s infinite; }
+.nano-mercury-char { position: relative; top: -.04em; display: inline-block; vertical-align: baseline; white-space: pre; color: #36514b !important; -webkit-text-fill-color: transparent; font-weight: 800 !important; letter-spacing: .008em; background-image: linear-gradient(112deg, #14231f 0%, #58706a 18%, #edf3ee 34%, #7d938d 44%, #b8dc75 54%, #f7faf6 62%, #49615b 76%, #14231f 100%); background-size: 240% 100%; -webkit-background-clip: text; background-clip: text !important; animation: microMercuryFlow 18s cubic-bezier(.45, 0, .55, 1) infinite alternate, nanoIridescence 20s ease-in-out infinite, filamentBreeze 14s ease-in-out infinite; }
+.nano-mercury-char::after { content: attr(data-text); position: absolute; inset: 0; color: transparent; -webkit-text-fill-color: transparent; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0%200%2048%2024'%3E%3Ctext x='1' y='8' fill='%2364ddc4' fill-opacity='.92' font-family='monospace' font-size='5' font-weight='600' letter-spacing='.7'%3EA%3AT%2001%3C/text%3E%3Ctext x='9' y='19' fill='%23c7f36b' fill-opacity='.76' font-family='monospace' font-size='5' font-weight='600' letter-spacing='.7'%3EC%3AG%2010%3C/text%3E%3Cpath d='M43%202v4M45%203v7' stroke='%23edf3ee' stroke-opacity='.35' stroke-width='.5'/%3E%3C/svg%3E"), radial-gradient(circle at center, rgba(199, 243, 107, .72) 0 .6px, transparent .85px), repeating-linear-gradient(0deg, transparent 0 5px, rgba(237, 243, 238, .16) 5px 6px, transparent 6px 12px); background-size: 48px 24px, 12px 12px, 100% 12px; background-position: 0 0, 0 0, 0 0; -webkit-background-clip: text; background-clip: text; opacity: .38; pointer-events: none; animation: bioMatrixDrift 24s linear infinite; }
 .section-index { margin: 12px 0 0; color: #42736a; font: 500 11px/1 var(--font-oswald), sans-serif; letter-spacing: .13em; text-transform: uppercase; }
 .about-story, .cgt-intro, .music-intro, .research-method { display: grid; grid-template-columns: .55fr 1.45fr; gap: 80px; }
 .longform-copy { max-width: 890px; }
@@ -530,7 +528,7 @@ article.modern-hover-card:hover h3, .research-card-link:focus-visible > article.
 }
 @media (prefers-reduced-motion:reduce) {
   .fade-in-char, .nano-mercury-char { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
-  .nano-mercury-char::after { animation: none !important; opacity: 0 !important; }
+  .nano-mercury-char::after { animation: none !important; opacity: .28 !important; }
   .heteroscedastic-field__canvas, .heteroscedastic-field__fallback-line, .heteroscedastic-field__source { animation: none; transition: none; }
   .piano-video-frame, .piano-slide-content { animation: none; }
   .piano-video-facade img, .piano-play, .piano-carousel-arrow { transition: none; }
