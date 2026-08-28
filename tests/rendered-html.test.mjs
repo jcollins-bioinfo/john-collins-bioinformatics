@@ -105,7 +105,7 @@ test("only animates the domain strip when its content overflows", async () => {
   assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*domain-strip\[data-overflowing="true"\][^{]*\.marquee-content\s*{[^}]*animation:\s*none/s);
 });
 
-test("renders the mercury name without shared delays or conflicting filter animations", async () => {
+test("renders the mercury name with seamless intra-glyph bio-matrix motion", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
     new Request("http://localhost/about", { headers: { accept: "text/html" } }),
@@ -120,8 +120,9 @@ test("renders the mercury name without shared delays or conflicting filter anima
 
   const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
   assert.match(css, /\.nano-mercury-char\s*\{[^}]*animation:[^}]*microMercuryFlow[^}]*nanoIridescence[^}]*filamentBreeze/s);
-  assert.match(css, /\.nano-mercury-char::after\s*\{[^}]*animation:\s*mercuryGlint/s);
-  assert.doesNotMatch(css, /granularSparkle|step-end|brightness\(3\.5\)/);
+  assert.match(css, /@keyframes bioMatrixDrift\s*\{[^}]*background-position:\s*0 0, 0 0, 0 0;[^}]*\}/s);
+  assert.match(css, /\.nano-mercury-char::after\s*\{[^}]*A%3AT%2001[^}]*C%3AG%2010[^}]*animation:\s*bioMatrixDrift 24s linear infinite/s);
+  assert.doesNotMatch(css, /granularSparkle|mercuryGlint|step-end|brightness\(3\.5\)|140% 0|-140% 0/);
   assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*\.nano-mercury-char::after\s*\{[^}]*animation:\s*none !important/s);
 });
 
