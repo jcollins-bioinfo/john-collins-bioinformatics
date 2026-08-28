@@ -126,6 +126,45 @@ test("renders the mercury name with seamless intra-glyph bio-matrix motion", asy
   assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*\.nano-mercury-char::after\s*\{[^}]*animation:\s*none !important/s);
 });
 
+test("reuses the exact bio-matrix animation for the footer identity on every page", async () => {
+  const worker = await loadWorker();
+  const routes = [
+    "/",
+    "/about",
+    "/bioinformatics",
+    "/research",
+    "/research/cgt",
+    "/projects",
+    "/writing",
+    "/music",
+    "/now",
+    "/cv",
+    "/contact",
+    "/publications",
+  ];
+  const footerIdentity =
+    /<a(?=[^>]*class=["']footer-identity["'])(?=[^>]*href=["']\/["'])[^>]*>\s*<span(?=[^>]*class=["']nano-mercury-char["'])(?=[^>]*data-text=["']John Patrick Collins["'])[^>]*>\s*John Patrick Collins\s*<\/span>\s*<\/a>/i;
+
+  for (const route of routes) {
+    const response = await worker.fetch(
+      new Request(`http://localhost${route}`, { headers: { accept: "text/html" } }),
+      env,
+      ctx,
+    );
+    const html = await response.text();
+    assert.match(html, footerIdentity, `${route} should render the animated footer identity`);
+  }
+
+  const component = await readFile(
+    path.join(projectRoot, "app", "components", "site-chrome.tsx"),
+    "utf8",
+  );
+  assert.match(
+    component,
+    /className="footer-identity"[\s\S]*className="nano-mercury-char" data-text="John Patrick Collins"/,
+  );
+});
+
 test("renders the source-faithful DNA identity with phase-projected helix motion", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
@@ -410,10 +449,12 @@ test("integrates the existing Cloudflare Turnstile widget on the contact page", 
   assert.match(html, /data-size=["']flexible["']/);
 });
 
-test("renders the About lede as one accessible 225-step animation", async () => {
+test("renders the About lede as one accessible continuous animation", async () => {
   const worker = await loadWorker();
   const expectedLede =
-    "I’m John Patrick Collins: a bioinformatics data scientist and software engineer, an independent researcher, and a composer and pianist. My work is united by an interest in how complex systems are structured, regulated, interpreted, and changed.";
+    "I’m John Patrick Collins: a bioinformatics data scientist and software engineer. I also conduct independent research and work as a composer and pianist. Across these areas, I focus on understanding complex systems and building clear, reliable ways to analyze them.";
+  const expectedAnimationSteps =
+    Array.from(expectedLede.replace("John Patrick Collins", "")).length + 1;
   const response = await worker.fetch(
     new Request("http://localhost/about", { headers: { accept: "text/html" } }),
     env,
@@ -437,10 +478,13 @@ test("renders the About lede as one accessible 225-step animation", async () => 
     /class="mercury-name-container fade-in-char" style="--char-index:4"><span class="nano-mercury-char" data-text="John Patrick Collins">John Patrick Collins<\/span><\/span>/,
   );
   assert.match(ledeHtml, /style="--char-index:5"[^>]*>:<\/span>/);
-  assert.match(ledeHtml, /style="--char-index:224"[^>]*>\.<\/span><\/span>$/);
+  assert.match(
+    ledeHtml,
+    new RegExp(`style="--char-index:${expectedAnimationSteps - 1}"[^>]*>\\.<\\/span><\\/span>$`),
+  );
 
   const indices = [...ledeHtml.matchAll(/--char-index:(\d+)/g)].map((match) => Number(match[1]));
-  assert.deepEqual(indices, Array.from({ length: 225 }, (_, index) => index));
+  assert.deepEqual(indices, Array.from({ length: expectedAnimationSteps }, (_, index) => index));
   assert.equal((ledeHtml.match(/--char-index:4(?:\D|$)/g) ?? []).length, 1);
   assert.doesNotMatch(ledeHtml, /John<\/span>|>J<\/span><span/);
 
@@ -451,14 +495,17 @@ test("renders the About lede as one accessible 225-step animation", async () => 
       ctx,
     );
     const unrelatedHtml = await unrelatedResponse.text();
-    assert.doesNotMatch(unrelatedHtml, /fade-in-char|mercury-name-container|nano-mercury-char/);
+    assert.doesNotMatch(unrelatedHtml, /fade-in-char|mercury-name-container/);
   }
 
-  for (const element of ["header", "footer"]) {
-    const chromeMatch = html.match(new RegExp(`<${element}\\b[\\s\\S]*?<\\/${element}>`));
-    assert.ok(chromeMatch?.[0].includes("John Patrick Collins"), `${element} should retain its identity text`);
-    assert.doesNotMatch(chromeMatch[0], /fade-in-char|mercury-name-container|nano-mercury-char/);
-  }
+  const headerMatch = html.match(/<header\b[\s\S]*?<\/header>/);
+  assert.ok(headerMatch?.[0].includes("John Patrick Collins"), "header should retain its identity text");
+  assert.doesNotMatch(headerMatch[0], /fade-in-char|mercury-name-container|nano-mercury-char/);
+
+  const footerMatch = html.match(/<footer\b[\s\S]*?<\/footer>/);
+  assert.ok(footerMatch?.[0].includes("John Patrick Collins"), "footer should retain its identity text");
+  assert.match(footerMatch[0], /nano-mercury-char/);
+  assert.doesNotMatch(footerMatch[0], /fade-in-char|mercury-name-container/);
 });
 
 test("renders the accessible full-bleed heteroscedastic field with a safe animation lifecycle", async () => {

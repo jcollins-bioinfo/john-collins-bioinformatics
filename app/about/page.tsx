@@ -4,19 +4,19 @@ import { HeteroscedasticField } from "../components/heteroscedastic-field";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About John Patrick Collins—scientist, software engineer, independent researcher, composer, pianist, and writer.",
+  description: "About John Patrick Collins, a bioinformatics data scientist, software engineer, independent researcher, composer, and pianist.",
 };
 
 const principles = [
-  ["01", "Make complexity legible", "I am drawn to systems whose surface complexity conceals a smaller set of governing relationships."],
-  ["02", "Build what can be tested", "Theories become useful when they yield explicit assumptions, reproducible artifacts, and clear failure conditions."],
-  ["03", "Keep disciplines in conversation", "Biology, software, mathematics, cognition, and music often reveal different aspects of the same structural questions."],
+  ["01", "Explain complex work clearly", "I aim to make technical systems, assumptions, and results understandable without oversimplifying them."],
+  ["02", "Make the work testable", "Useful research and software should state their assumptions, produce reproducible outputs, and make failure conditions visible."],
+  ["03", "Use the disciplines the problem requires", "I draw on biology, software, mathematics, and other fields when a problem benefits from more than one perspective."],
 ];
 
 const aboutLedePrefix = "I’m ";
 const aboutName = "John Patrick Collins";
 const aboutLedeSuffix =
-  ": a bioinformatics data scientist and software engineer, an independent researcher, and a composer and pianist. My work is united by an interest in how complex systems are structured, regulated, interpreted, and changed.";
+  ": a bioinformatics data scientist and software engineer. I also conduct independent research and work as a composer and pianist. Across these areas, I focus on understanding complex systems and building clear, reliable ways to analyze them.";
 
 type CharacterStyle = CSSProperties & { "--char-index": number };
 
@@ -65,7 +65,7 @@ export default function AboutPage() {
       <section className="page-hero shell">
         <div>
           <p className="eyebrow"><span /> About</p>
-          <h1>One person.<br /><em>Several practices.</em></h1>
+          <h1>About<br /><em>me.</em></h1>
         </div>
         <p className="page-lede">
           {animatedCharacters(aboutLedePrefix, 0)}
@@ -84,19 +84,19 @@ export default function AboutPage() {
       <HeteroscedasticField />
 
       <section className="shell page-section about-story">
-        <p className="section-index">01 / ORIENTATION</p>
+        <p className="section-index">01 / BACKGROUND</p>
         <div className="longform-copy">
-          <h2>I work between questions and systems.</h2>
+          <h2>My work spans science, software, research, and music.</h2>
           <p>
-            Professionally, I have spent more than a decade across biotechnology R&amp;D,
-            translational genomics, scientific software, data platforms, and research operations.
-            The recurring task is to turn difficult biological questions into dependable analytical systems.
+            I have spent more than a decade working in biotechnology R&amp;D, translational genomics,
+            scientific software, data platforms, and research operations. I translate biological
+            questions into analytical workflows and software that researchers can use and trust.
           </p>
           <p>
-            Independently, I am developing Constraint Geometry Theory, a viability-first research
-            program concerned with regulation, disturbance, dynamics, and the states complex systems
-            can sustain. In music, I work through piano, composition, arrangement, and questions of
-            expectation and form. Writing is where these strands are made explicit and examined together.
+            My independent research includes Constraint Geometry Theory, a framework for studying
+            regulation, disturbance, dynamics, and the viable states of complex systems. I also
+            compose, arrange, and perform music for piano. Writing helps me document these projects
+            and explain the ideas behind them.
           </p>
         </div>
       </section>
@@ -104,8 +104,8 @@ export default function AboutPage() {
       <section className="soft-section">
         <div className="shell page-section">
           <div className="split-heading">
-            <p className="eyebrow"><span /> Working principles</p>
-            <h2>Rigor without narrowing the field of view.</h2>
+            <p className="eyebrow"><span /> How I work</p>
+            <h2>Clear methods, testable claims, and reliable results.</h2>
           </div>
           <div className="principle-grid">
             {principles.map(([number, title, body]) => (
@@ -118,7 +118,7 @@ export default function AboutPage() {
       </section>
 
       <section className="shell page-section compact-cta">
-        <h2>Follow the work by practice.</h2>
+        <h2>Explore my work.</h2>
         <div>
           <a href="/bioinformatics">Bioinformatics <span>↗</span></a>
           <a href="/research">Research <span>↗</span></a>

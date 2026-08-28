@@ -67,7 +67,11 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="shell site-footer-grid">
         <div>
-          <Link className="footer-identity" href="/">John Patrick Collins</Link>
+          <Link className="footer-identity" href="/">
+            <span className="nano-mercury-char" data-text="John Patrick Collins">
+              John Patrick Collins
+            </span>
+          </Link>
         </div>
         <div>
           <p className="footer-label">Explore</p>
