@@ -433,7 +433,7 @@ test("renders the About lede as one accessible 225-step animation", async () => 
   assert.match(ledeHtml, /class="fade-in-char" style="--char-index:0"[^>]*>I<\/span>/);
   assert.match(
     ledeHtml,
-    /class="mercury-name-container fade-in-char"><span class="nano-mercury-char fade-in-char" style="animation-delay:-16\.6066s;top:-2px;--char-index:4">John Patrick Collins<\/span><\/span>/,
+    /class="mercury-name-container fade-in-char" style="--char-index:4"><span class="nano-mercury-char" data-text="John Patrick Collins">John Patrick Collins<\/span><\/span>/,
   );
   assert.match(ledeHtml, /style="--char-index:5"[^>]*>:<\/span>/);
   assert.match(ledeHtml, /style="--char-index:224"[^>]*>\.<\/span><\/span>$/);
