@@ -105,6 +105,26 @@ test("only animates the domain strip when its content overflows", async () => {
   assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*domain-strip\[data-overflowing="true"\][^{]*\.marquee-content\s*{[^}]*animation:\s*none/s);
 });
 
+test("renders the mercury name without shared delays or conflicting filter animations", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("http://localhost/about", { headers: { accept: "text/html" } }),
+    env,
+    ctx,
+  );
+  const html = await response.text();
+  assert.match(html, /class=["']mercury-name-container fade-in-char["']/i);
+  assert.match(html, /class=["']nano-mercury-char["'][^>]*data-text=["']John Patrick Collins["']/i);
+  assert.doesNotMatch(html, /nano-mercury-char fade-in-char/i);
+  assert.doesNotMatch(html, /-16\.6066s|animation-delay:\s*-/i);
+
+  const css = await readFile(path.join(projectRoot, "app", "globals.css"), "utf8");
+  assert.match(css, /\.nano-mercury-char\s*\{[^}]*animation:[^}]*microMercuryFlow[^}]*nanoIridescence[^}]*filamentBreeze/s);
+  assert.match(css, /\.nano-mercury-char::after\s*\{[^}]*animation:\s*mercuryGlint/s);
+  assert.doesNotMatch(css, /granularSparkle|step-end|brightness\(3\.5\)/);
+  assert.match(css, /prefers-reduced-motion:[^)]+\)[\s\S]*\.nano-mercury-char::after\s*\{[^}]*animation:\s*none !important/s);
+});
+
 test("renders the source-faithful DNA identity with phase-projected helix motion", async () => {
   const worker = await loadWorker();
   const response = await worker.fetch(
