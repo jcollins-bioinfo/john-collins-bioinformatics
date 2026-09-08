@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "status": "approved_domain_reproduced",
+  "canonical_execution_ready": false,
+  "reference_base_identity_verified": false,
+  "inputs": {
+    "gtf": {
+      "filename": "gencode.v50.basic.annotation.gtf.gz",
+      "bytes": 79970394,
+      "sha256": "5b9ad9aa71f6ab5d55123c51f74723644a895bc0cbaa9cee8fbc11bb9dec0bf7"
+    },
+    "fai": {
+      "filename": "GCA_000001405.15_GRCh38_no_alt_analysis_set.fasta.gz.fai",
+      "bytes": 7804,
+      "sha256": "502a1b8fb73ccd53285c28a0f12df90c818b4fe3de1e862ef47c593ef1a0a4b4"
+    },
+    "confidence": {
+      "filename": "HG001_GRCh38_1_22_v4.2.1_benchmark.bed",
+      "bytes": 15479939,
+      "sha256": "dc3485e60447a3e863c34dfc063c3710ea5ed5efae50855c5197ba62538263b9"
+    }
+  },
+  "outputs": {
+    "R_call": {
+      "intervals": 189747,
+      "bases": 77896078,
+      "sha256": "521a5c1140953bb516f36d28486767f49284a071a851331ce8d14f320d7ff728",
+      "bytes": 4535438
+    },
+    "R_eval_full": {
+      "intervals": 203986,
+      "bases": 33567783,
+      "sha256": "9c270a2c46c2e83ae0d35e5ceaa75e4b77918924bf7443d4fffe467cd9b950d4",
+      "bytes": 4874080
+    },
+    "R_eval_holdout": {
+      "intervals": 11715,
+      "bases": 1905809,
+      "sha256": "7730c4303e03fef74d2c22193102845e369e04ac81fabb7f41fae1374be65d00",
+      "bytes": 279158
+    }
+  },
+  "method": "GENCODE v50 Basic; both protein_coding biotypes; CDS plus stop_codon; BED half-open; fixed pad100 calling; autosomal confidence evaluation",
+  "implementation_sha256": "2e93753cea9583cd4612b7fe09d5d4fccd0fd2cba46439e5c11d2674391adf80",
+  "verification_mode": "existing authenticated local inputs; in-memory only; no BED files written"
+}

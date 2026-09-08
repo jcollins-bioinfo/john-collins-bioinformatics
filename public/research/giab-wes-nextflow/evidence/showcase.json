@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "pipeline": {
+    "repository": "https://github.com/jcollins-bioinfo/giab-wes-nextflow",
+    "sha": "667d6e7b4637269667445e9c00bc04ab209d4a4c",
+    "version": "0.5.0-dev.1"
+  },
+  "evidence_manifest_sha256": "ee7bdd8f4ea2a9562d9ba27dc9d7ce942f24cb5fb38cef9f4b4ead691e352386",
+  "canonical": {
+    "status": "unavailable",
+    "result": null,
+    "metrics": null,
+    "resources": null,
+    "coverage": null,
+    "manifest_sha256": null,
+    "reason": "No reviewed canonical execution bundle has been imported."
+  },
+  "synthetic": {
+    "status": "synthetically_verified",
+    "run_url": "https://github.com/jcollins-bioinfo/giab-wes-nextflow/actions/runs/34270789172",
+    "installed_package": {
+      "files": 52,
+      "package_inventory_sha256": "6f1788a9effbc02ac9050000383651a6615789d3cf9e6ece0c280a7eba5ea780",
+      "repository_sha": "8ebe43dc3641f2d2203027fe52242216c3264205",
+      "version": "0.5.0-dev.1"
+    },
+    "scope": "Invented M5 representations and accepted M4 native SNV interface; actual Linux Docker tools, Nextflow independent/both equivalence and resume. No canonical accuracy/cost or native-caller indel accuracy.",
+    "artifact": {
+      "bytes": 133764,
+      "id": 10073949261,
+      "integration_proof_bytes": 109510,
+      "integration_proof_sha256": "4ee67e7562f841304daf2031efe70289d6677aa8a6cf3ea152bea7b07ffc5fd4",
+      "sha256": "ad2c2dfe333e7b749c9e47ec255c13853a16f0337b328f1a6cb5c180e2c82e89",
+      "url": "https://github.com/jcollins-bioinfo/giab-wes-nextflow/actions/runs/34270789172/artifacts/10073949261",
+      "verified_inventoried_files": 122,
+      "zip_members": 123
+    },
+    "metrics": {
+      "deepvariant": {
+        "INDEL": {
+          "f1": 1,
+          "fn": 0,
+          "fp": 0,
+          "missing_reasons": {},
+          "precision": 1,
+          "recall": 1,
+          "tp_query": 1,
+          "tp_truth": 1
+        },
+        "OTHER": {
+          "f1": null,
+          "fn": 0,
+          "fp": 0,
+          "missing_reasons": {
+            "f1": "undefined_precision_or_recall",
+            "precision": "zero_query_denominator",
+            "recall": "zero_truth_denominator"
+          },
+          "precision": null,
+          "recall": null,
+          "tp_query": 0,
+          "tp_truth": 0
+        },
+        "SNP": {
+          "f1": 0.6666666666666666,
+          "fn": 2,
+          "fp": 2,
+          "missing_reasons": {},
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "tp_query": 4,
+          "tp_truth": 4
+        }
+      },
+      "gatk": {
+        "INDEL": {
+          "f1": 1,
+          "fn": 0,
+          "fp": 0,
+          "missing_reasons": {},
+          "precision": 1,
+          "recall": 1,
+          "tp_query": 1,
+          "tp_truth": 1
+        },
+        "OTHER": {
+          "f1": null,
+          "fn": 0,
+          "fp": 0,
+          "missing_reasons": {
+            "f1": "undefined_precision_or_recall",
+            "precision": "zero_query_denominator",
+            "recall": "zero_truth_denominator"
+          },
+          "precision": null,
+          "recall": null,
+          "tp_query": 0,
+          "tp_truth": 0
+        },
+        "SNP": {
+          "f1": 0.6666666666666666,
+          "fn": 2,
+          "fp": 2,
+          "missing_reasons": {},
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "tp_query": 4,
+          "tp_truth": 4
+        }
+      }
+    },
+    "nextflow_modes": {
+      "both": {
+        "statuses": {
+          "CACHED": 4,
+          "COMPLETED": 0
+        },
+        "task_count": 4
+      },
+      "deepvariant": {
+        "statuses": {
+          "CACHED": 0,
+          "COMPLETED": 2
+        },
+        "task_count": 2
+      },
+      "gatk": {
+        "statuses": {
+          "CACHED": 0,
+          "COMPLETED": 2
+        },
+        "task_count": 2
+      },
+      "resume": {
+        "statuses": {
+          "CACHED": 4,
+          "COMPLETED": 0
+        },
+        "task_count": 4
+      }
+    },
+    "historical_failure": {
+      "preserved": true,
+      "record": "docs/orchestration/evidence/m5-ci-attempt-1.json",
+      "run_id": 34266895406,
+      "status": "failed"
+    },
+    "qualification": {
+      "actual_m4_interface": "Both accepted native caller outputs normalize and benchmark as two SNP TP, zero FP/FN; no native-caller indel qualification.",
+      "bcftools": "1.24",
+      "cache": "Independent runs executed2 tasks each; both and resume reused4 tasks each; normalized bytes, metric semantics and task identities compared.",
+      "resource_cost": "Actual retained traces parsed with explicit units and cache attribution; no canonical caller-cost estimate.",
+      "rtg": "3.13",
+      "split_representations": "Strict original SNP4TP/2FP/2FN and INDEL1TP/0FP/0FN passed with explicit --ref-overlap, without genotype relaxation."
+    }
+  },
+  "domains": {
+    "schema_version": "1.0.0",
+    "status": "approved_domain_reproduced",
+    "canonical_execution_ready": false,
+    "reference_base_identity_verified": false,
+    "inputs": {
+      "gtf": {
+        "filename": "gencode.v50.basic.annotation.gtf.gz",
+        "bytes": 79970394,
+        "sha256": "5b9ad9aa71f6ab5d55123c51f74723644a895bc0cbaa9cee8fbc11bb9dec0bf7"
+      },
+      "fai": {
+        "filename": "GCA_000001405.15_GRCh38_no_alt_analysis_set.fasta.gz.fai",
+        "bytes": 7804,
+        "sha256": "502a1b8fb73ccd53285c28a0f12df90c818b4fe3de1e862ef47c593ef1a0a4b4"
+      },
+      "confidence": {
+        "filename": "HG001_GRCh38_1_22_v4.2.1_benchmark.bed",
+        "bytes": 15479939,
+        "sha256": "dc3485e60447a3e863c34dfc063c3710ea5ed5efae50855c5197ba62538263b9"
+      }
+    },
+    "outputs": {
+      "R_call": {
+        "intervals": 189747,
+        "bases": 77896078,
+        "sha256": "521a5c1140953bb516f36d28486767f49284a071a851331ce8d14f320d7ff728",
+        "bytes": 4535438
+      },
+      "R_eval_full": {
+        "intervals": 203986,
+        "bases": 33567783,
+        "sha256": "9c270a2c46c2e83ae0d35e5ceaa75e4b77918924bf7443d4fffe467cd9b950d4",
+        "bytes": 4874080
+      },
+      "R_eval_holdout": {
+        "intervals": 11715,
+        "bases": 1905809,
+        "sha256": "7730c4303e03fef74d2c22193102845e369e04ac81fabb7f41fae1374be65d00",
+        "bytes": 279158
+      }
+    },
+    "method": "GENCODE v50 Basic; both protein_coding biotypes; CDS plus stop_codon; BED half-open; fixed pad100 calling; autosomal confidence evaluation",
+    "implementation_sha256": "2e93753cea9583cd4612b7fe09d5d4fccd0fd2cba46439e5c11d2674391adf80",
+    "verification_mode": "existing authenticated local inputs; in-memory only; no BED files written"
+  }
+}

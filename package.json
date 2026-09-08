@@ -7,10 +7,10 @@
   },
   "scripts": {
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
-    "build": "vinext build && npm run prepare:cgt-figure-003-transport && npm run validate:cgt-figure-004 && npm run validate:cgt-figure-005 && npm run validate:artifact",
+    "build": "npm run validate:giab && vinext build && npm run prepare:cgt-figure-003-transport && npm run validate:cgt-figure-004 && npm run validate:cgt-figure-005 && npm run validate:artifact",
     "deploy:cloudflare": "npm run build && wrangler deploy",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
-    "test": "npm run validate:cgt-figure-002 && npm run validate:cgt-figure-003 && npm run validate:cgt-figure-004 && npm run validate:cgt-figure-005 && npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "node --test tests/giab-evidence.test.mjs && npm run validate:cgt-figure-002 && npm run validate:cgt-figure-003 && npm run validate:cgt-figure-004 && npm run validate:cgt-figure-005 && npm run build && node --test tests/rendered-html.test.mjs tests/giab-rendered.test.mjs",
     "validate:artifact": "node scripts/validate-artifact.mjs",
     "validate:cgt-figure-002": "node scripts/validate-cgt-figure-002.mjs",
     "validate:cgt-figure-003": "node scripts/validate-cgt-figure-003.mjs",
@@ -19,7 +19,9 @@
     "prepare:cgt-figure-003-transport": "node scripts/prepare-cgt-figure-003-transport.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "typecheck": "tsc --noEmit",
-    "preview:cloudflare": "npm run build && wrangler dev"
+    "preview:cloudflare": "npm run build && wrangler dev",
+    "validate:giab": "node scripts/giab-evidence.mjs --check",
+    "import:giab": "node scripts/giab-evidence.mjs --import"
   },
   "dependencies": {
     "katex": "^0.16.22",
@@ -46,5 +48,5 @@
     "wrangler": "4.92.0"
   },
   "type": "module",
-  "displayName": "John Patrick Collins — Personal Site"
+  "displayName": "John Patrick Collins \u2014 Personal Site"
 }

@@ -10,6 +10,7 @@ const axes = [
   ["B", "Causal gene regulation", "Moving beyond correlations toward perturbation-informed, mechanistically interpretable models of regulatory systems.", "/bioinformatics#research"],
   ["C", "Aging and resilience", "Studying state transitions, loss of regulation, recovery, and causal hypotheses of biological aging."],
   ["D", "AI for biology", "Representation learning and predictive systems that remain connected to mechanism, intervention, and experimental test."],
+  ["E", "GIAB HG001 caller comparison", "Verified synthetic integration, fixed coding-domain methods and an explicit record of pending canonical results.", "/research/giab-wes-nextflow"],
 ];
 
 export default function ResearchPage() {

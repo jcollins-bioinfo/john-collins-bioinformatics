@@ -1,0 +1,531 @@
+{
+  "actual_tool_metrics": {
+    "deepvariant": {
+      "INDEL": {
+        "f1": 1.0,
+        "fn": 0,
+        "fp": 0,
+        "missing_reasons": {},
+        "precision": 1.0,
+        "recall": 1.0,
+        "tp_query": 1,
+        "tp_truth": 1
+      },
+      "OTHER": {
+        "f1": null,
+        "fn": 0,
+        "fp": 0,
+        "missing_reasons": {
+          "f1": "undefined_precision_or_recall",
+          "precision": "zero_query_denominator",
+          "recall": "zero_truth_denominator"
+        },
+        "precision": null,
+        "recall": null,
+        "tp_query": 0,
+        "tp_truth": 0
+      },
+      "SNP": {
+        "f1": 0.6666666666666666,
+        "fn": 2,
+        "fp": 2,
+        "missing_reasons": {},
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "tp_query": 4,
+        "tp_truth": 4
+      }
+    },
+    "gatk": {
+      "INDEL": {
+        "f1": 1.0,
+        "fn": 0,
+        "fp": 0,
+        "missing_reasons": {},
+        "precision": 1.0,
+        "recall": 1.0,
+        "tp_query": 1,
+        "tp_truth": 1
+      },
+      "OTHER": {
+        "f1": null,
+        "fn": 0,
+        "fp": 0,
+        "missing_reasons": {
+          "f1": "undefined_precision_or_recall",
+          "precision": "zero_query_denominator",
+          "recall": "zero_truth_denominator"
+        },
+        "precision": null,
+        "recall": null,
+        "tp_query": 0,
+        "tp_truth": 0
+      },
+      "SNP": {
+        "f1": 0.6666666666666666,
+        "fn": 2,
+        "fp": 2,
+        "missing_reasons": {},
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "tp_query": 4,
+        "tp_truth": 4
+      }
+    }
+  },
+  "artifact": {
+    "bytes": 133764,
+    "id": 10073949261,
+    "integration_proof_bytes": 109510,
+    "integration_proof_sha256": "4ee67e7562f841304daf2031efe70289d6677aa8a6cf3ea152bea7b07ffc5fd4",
+    "sha256": "ad2c2dfe333e7b749c9e47ec255c13853a16f0337b328f1a6cb5c180e2c82e89",
+    "url": "https://github.com/jcollins-bioinfo/giab-wes-nextflow/actions/runs/34270789172/artifacts/10073949261",
+    "verified_inventoried_files": 122,
+    "zip_members": 123
+  },
+  "canonical": false,
+  "canonical_metrics": null,
+  "coding_domain_reproduction": {
+    "record": "docs/orchestration/evidence/coding-domain-reproduced.json",
+    "scope": "Locally reproduced approved input-derived domain coordinates; no canonical biological execution.",
+    "sha256": "9b0b1f4dc526c84e12571b96ce2e814251c05d94c25b9ed4e68c140cbb342b1c"
+  },
+  "comparative_cost": null,
+  "empty_domain_missingness": true,
+  "historical_failure": {
+    "preserved": true,
+    "record": "docs/orchestration/evidence/m5-ci-attempt-1.json",
+    "run_id": 34266895406,
+    "status": "failed"
+  },
+  "installed_package": {
+    "files": 52,
+    "package_inventory_sha256": "6f1788a9effbc02ac9050000383651a6615789d3cf9e6ece0c280a7eba5ea780",
+    "repository_sha": "8ebe43dc3641f2d2203027fe52242216c3264205",
+    "version": "0.5.0-dev.1"
+  },
+  "m4_interface_accepted": true,
+  "main_ci_job_conclusions": [
+    {
+      "conclusion": "success",
+      "id": 102216605711,
+      "name": "m3-docker",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 102216605897,
+      "name": "m4-docker",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 102216605932,
+      "name": "python (3.12)",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 102216606085,
+      "name": "nextflow",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 102216606107,
+      "name": "python (3.13)",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "id": 102218857837,
+      "name": "required",
+      "status": "completed"
+    }
+  ],
+  "main_ci_run_id": 34272289311,
+  "main_sha": "4553d907c950a9948156f5117836c7ad92865d0b",
+  "milestone": "M5",
+  "nextflow_modes": {
+    "both": {
+      "statuses": {
+        "CACHED": 4,
+        "COMPLETED": 0
+      },
+      "task_count": 4
+    },
+    "deepvariant": {
+      "statuses": {
+        "CACHED": 0,
+        "COMPLETED": 2
+      },
+      "task_count": 2
+    },
+    "gatk": {
+      "statuses": {
+        "CACHED": 0,
+        "COMPLETED": 2
+      },
+      "task_count": 2
+    },
+    "resume": {
+      "statuses": {
+        "CACHED": 4,
+        "COMPLETED": 0
+      },
+      "task_count": 4
+    }
+  },
+  "normalization_repeat_bytes_identical": true,
+  "normalization_staging_isolated": true,
+  "observed_at": "2026-09-08T20:25:53.428449+00:00",
+  "pr_head_sha": "09cef654cf569d933658cadca9b78689b6f2b7c8",
+  "qualification_envelope": {
+    "actual_m4_interface": "Both accepted native caller outputs normalize and benchmark as two SNP TP, zero FP/FN; no native-caller indel qualification.",
+    "bcftools": "1.24",
+    "cache": "Independent runs executed2 tasks each; both and resume reused4 tasks each; normalized bytes, metric semantics and task identities compared.",
+    "resource_cost": "Actual retained traces parsed with explicit units and cache attribution; no canonical caller-cost estimate.",
+    "rtg": "3.13",
+    "split_representations": "Strict original SNP4TP/2FP/2FN and INDEL1TP/0FP/0FN passed with explicit --ref-overlap, without genotype relaxation."
+  },
+  "resource_parser_sha256": "4e9eef1ac11af0d4c64b022c471483c50078853e7e5a83539809ca3c2caab2f6",
+  "resource_trace_validation": {
+    "nextflow/both.trace.tsv": {
+      "groups": {
+        "cached_prior_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 63766528
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 2074333184
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": null,
+            "unit": "cpu_hours",
+            "value": 0.0005426880555555555
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "one or more task observations unavailable",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 13.205
+          },
+          "summed_task_realtime_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 12.881
+          },
+          "task_attempt_count": 4
+        },
+        "executed_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "summed_task_realtime_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "task_attempt_count": 0
+        },
+        "status_counts": {
+          "ABORTED": 0,
+          "CACHED": 4,
+          "COMPLETED": 0,
+          "FAILED": 0
+        },
+        "task_attempt_count": 4
+      },
+      "statuses": {
+        "CACHED": 4
+      },
+      "tasks": 4
+    },
+    "nextflow/deepvariant.trace.tsv": {
+      "groups": {
+        "cached_prior_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "summed_task_realtime_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "task_attempt_count": 0
+        },
+        "executed_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 63668224
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 2074333184
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": null,
+            "unit": "cpu_hours",
+            "value": 0.0002715041666666667
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "one or more task observations unavailable",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 6.61
+          },
+          "summed_task_realtime_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 6.455
+          },
+          "task_attempt_count": 2
+        },
+        "status_counts": {
+          "ABORTED": 0,
+          "CACHED": 0,
+          "COMPLETED": 2,
+          "FAILED": 0
+        },
+        "task_attempt_count": 2
+      },
+      "statuses": {
+        "COMPLETED": 2
+      },
+      "tasks": 2
+    },
+    "nextflow/gatk.trace.tsv": {
+      "groups": {
+        "cached_prior_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "summed_task_realtime_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "task_attempt_count": 0
+        },
+        "executed_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 63766528
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 2074333184
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": null,
+            "unit": "cpu_hours",
+            "value": 0.00027118388888888885
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "one or more task observations unavailable",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 6.595000000000001
+          },
+          "summed_task_realtime_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 6.426
+          },
+          "task_attempt_count": 2
+        },
+        "status_counts": {
+          "ABORTED": 0,
+          "CACHED": 0,
+          "COMPLETED": 2,
+          "FAILED": 0
+        },
+        "task_attempt_count": 2
+      },
+      "statuses": {
+        "COMPLETED": 2
+      },
+      "tasks": 2
+    },
+    "nextflow/resume.trace.tsv": {
+      "groups": {
+        "cached_prior_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 63766528
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": null,
+            "unit": "bytes",
+            "value": 2074333184
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": null,
+            "unit": "cpu_hours",
+            "value": 0.0005426880555555555
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "one or more task observations unavailable",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 13.205
+          },
+          "summed_task_realtime_seconds": {
+            "reason": null,
+            "unit": "seconds",
+            "value": 12.881
+          },
+          "task_attempt_count": 4
+        },
+        "executed_attempts": {
+          "max_task_peak_rss_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "max_task_peak_vmem_bytes": {
+            "reason": "no tasks",
+            "unit": "bytes",
+            "value": null
+          },
+          "summed_cpu_hours_estimated": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_cpu_hours_measured": {
+            "reason": "no tasks",
+            "unit": "cpu_hours",
+            "value": null
+          },
+          "summed_task_duration_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "summed_task_realtime_seconds": {
+            "reason": "no tasks",
+            "unit": "seconds",
+            "value": null
+          },
+          "task_attempt_count": 0
+        },
+        "status_counts": {
+          "ABORTED": 0,
+          "CACHED": 4,
+          "COMPLETED": 0,
+          "FAILED": 0
+        },
+        "task_attempt_count": 4
+      },
+      "statuses": {
+        "CACHED": 4
+      },
+      "tasks": 4
+    }
+  },
+  "run_url": "https://github.com/jcollins-bioinfo/giab-wes-nextflow/actions/runs/34270789172",
+  "schema_version": "1.0.0",
+  "scope": "Invented M5 representations and accepted M4 native SNV interface; actual Linux Docker tools, Nextflow independent/both equivalence and resume. No canonical accuracy/cost or native-caller indel accuracy.",
+  "status": "synthetically_verified",
+  "synthetic": true,
+  "test_merge_parents": [
+    "f29ed262b886ba4afe18cf9cc6455edcf13df808",
+    "09cef654cf569d933658cadca9b78689b6f2b7c8"
+  ],
+  "tested_merge_sha": "8ebe43dc3641f2d2203027fe52242216c3264205",
+  "validated_benchmark_records": 7,
+  "validated_normalization_records": 8,
+  "verified_equal_tree": "b5f4d0da03c1a951b0ee5180ad8df0158c38e734"
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/jcollins-bioinfo/giab-wes-nextflow",
+  "repository_sha": "667d6e7b4637269667445e9c00bc04ab209d4a4c",
+  "package_version": "0.5.0-dev.1",
+  "sources": {
+    "m5.json": {
+      "path": "docs/orchestration/evidence/m5-verified-34270789172.json",
+      "sha256": "cfda401c9504600d71f264452ad6b2f9cf858a6696a7636b6e22453283dd3533",
+      "bytes": 15144
+    },
+    "domains.json": {
+      "path": "docs/orchestration/evidence/coding-domain-reproduced.json",
+      "sha256": "9b0b1f4dc526c84e12571b96ce2e814251c05d94c25b9ed4e68c140cbb342b1c",
+      "bytes": 1681
+    },
+    "package-version.txt": {
+      "path": "src/giab_wes_nextflow/__init__.py",
+      "sha256": "26a1534255c116752ad045a25b693e8af47e96126d0a5521658545b277d5b9f6",
+      "bytes": 68
+    }
+  },
+  "canonical_manifest_sha256": null
+}
