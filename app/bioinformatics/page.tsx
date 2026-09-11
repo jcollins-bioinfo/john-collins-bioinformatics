@@ -17,11 +17,12 @@ const projects = [
   },
   {
     index: "02",
-    label: "Selected industry systems",
-    title: "Reproducible NGS workflows",
-    description: "Production-oriented analysis systems spanning cfDNA, single-cell RNA sequencing, immune-repertoire analysis, and sequence-to-variant workflows—with emphasis on traceability, fault isolation, and scientifically defensible outputs.",
-    tags: ["BWA", "Samtools / Bcftools", "GATK", "Workflow engineering"],
-    href: "/projects",
+    label: "Independent project / NGS workflow engineering",
+    title: "Reproducible NGS workflows: GIAB HG001 WES",
+    description: "An independent Nextflow project for reproducible whole-exome variant analysis, designed to compare GATK HaplotypeCaller and DeepVariant WES using Genome in a Bottle HG001 data. Explore the workflow architecture, provenance, validation evidence, and benchmarking methodology.",
+    tags: ["Nextflow", "GATK HaplotypeCaller", "DeepVariant", "GIAB benchmarking"],
+    href: "/research/giab-wes-nextflow",
+    linkLabel: "Explore the GIAB WES project",
   },
   {
     index: "03",
@@ -95,7 +96,7 @@ export default function BioinformaticsPage() {
               <div className="project-copy">
                 <p className="project-label">{project.label}</p><h3>{project.title}</h3><p>{project.description}</p>
                 <ul className="tag-list" aria-label={`${project.title} topics`}>{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
-                <a className="inline-link" href={project.href}>Read more <span>↗</span></a>
+                <a className="inline-link" href={project.href}>{project.linkLabel ?? "Read more"} <span>↗</span></a>
               </div>
               <div className={`project-glyph glyph-${index + 1}`} aria-hidden="true"><BrandMark /></div>
             </article>
