@@ -2,10 +2,10 @@
   "schema_version": 1,
   "pipeline": {
     "repository": "https://github.com/jcollins-bioinfo/giab-wes-nextflow",
-    "sha": "667d6e7b4637269667445e9c00bc04ab209d4a4c",
+    "sha": "61a70205d0f51f263fd7b839344b74fb27010d52",
     "version": "0.5.0-dev.1"
   },
-  "evidence_manifest_sha256": "ee7bdd8f4ea2a9562d9ba27dc9d7ce942f24cb5fb38cef9f4b4ead691e352386",
+  "evidence_manifest_sha256": "986cc50223e5f54e2415a6dcfacb2e753e5508b57bcd50e24c9e9472761a2f17",
   "canonical": {
     "status": "unavailable",
     "result": null,
