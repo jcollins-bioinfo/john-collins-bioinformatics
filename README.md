@@ -105,7 +105,12 @@ The importer reads exact Git objects at the pinned commit, validates source
 bytes and metric arithmetic, and writes deterministic public JSON. Every build
 checks the exact inventory, source digests, version and derived snapshot. It
 never downloads biological data or infers canonical results from synthetic
-metrics. Updating the pin is an explicit reviewed source change. A returned
+metrics. The imported managed qualification summary records accepted nonhuman
+execution and reference/known-sites assets as observed on 2026-09-15. The
+pipeline source binding and the source/package identities of that historical
+run are retained separately. Managed cache qualification and HG001 acceptance
+remain false in this reviewed snapshot; it does not report live cloud state.
+Updating the pin is an explicit reviewed source change. A returned
 canonical bundle must first pass the pipeline's `load_canonical_bundle` with an
 externally reviewed manifest SHA; canonical import/rendering is not yet
 qualified in this website consumer. Current canonical fields stay null.
@@ -113,7 +118,8 @@ qualified in this website consumer. Current canonical fields stay null.
 This change does not deploy the website or an Explorer, publish a release, or
 modify any CGT publication artifact.
 
-GIAB validation adds five fail-closed data tests and three rendered/source
+GIAB validation covers source corruption, exact public inventory, scientific
+relabeling, managed task/image lineage and asset gates, plus rendered/source
 checks. Current visual browser, responsive and accessibility qualification is
 pending. The comprehensive site run retains two pre-existing failures in
 `tests/rendered-html.test.mjs`: unchanged global CSS uses an 18-second
