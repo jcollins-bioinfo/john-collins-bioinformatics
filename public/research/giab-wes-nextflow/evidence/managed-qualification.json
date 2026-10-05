@@ -1,0 +1,227 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "managed_qualification_milestone_summary",
+  "observed_date": "2026-09-15",
+  "purpose": "Selected verified milestone observations; not a canonical HG001 results bundle.",
+  "reference_index": {
+    "asset_id": "2f3953dc038cee09b738bf56ebed9d9b14231ac69afeb5f6842e63121cdafa68",
+    "completion_marker_sha256": "84201fab120fe15542c337adf037fcef77a97b94c53c6ff8f1dd06e1c518c9bd",
+    "completion_marker_written_last": true,
+    "current_versions_verified": true,
+    "historical_whole_payload_hash_proofs_validated": true,
+    "publication_complete": true,
+    "reference_id": "dd2f841f2ce1d9c3073b406c459ba2e00cdf7d7581d089daa502206131279f91",
+    "registry_sha256": "b8943613448c88711e27afb1c517f541f6e439576b4197e56df507e9c7d3cef3",
+    "contigs": 195,
+    "payload_files": 9,
+    "payload_bytes": 8569186249,
+    "aligner": "BWA 0.7.17-r1188",
+    "construction_algorithm": "bwtsw"
+  },
+  "known_sites": {
+    "asset_id": "44e73cf0e1293964272cfe1f18b2d99d6d3e0f74046fad5f5aad8edc67500832",
+    "completion_marker_sha256": "637cfb722fe440feb304ae0a53e95dca90727415fc961984f809cc8b5b027ad0",
+    "completion_marker_written_last": true,
+    "current_versions_verified": true,
+    "historical_whole_payload_hash_proofs_validated": true,
+    "publication_complete": true,
+    "reference_id": "dd2f841f2ce1d9c3073b406c459ba2e00cdf7d7581d089daa502206131279f91",
+    "registry_sha256": "a88eae49ec4bea809d126d93bd82aaef2d9820cf5388b478aea350c244db85e0",
+    "payload_files": 6,
+    "payload_bytes": 1527360036,
+    "independent_Broad_sources": 3,
+    "benchmark_truth_used": false,
+    "retained_REF_and_index_readback_verified": true
+  },
+  "full_dag_qualification": {
+    "scope": "frozen invented nonhuman fixture",
+    "canonical": false,
+    "engine": "Nextflow 26.04.0",
+    "parser": "v2",
+    "repository_sha": "38f30ed40cd58877a874a8136cbb79a6cb006557",
+    "workflow_package_sha256": "34e4997cefc18d147b8054c8732bbe8fb5ba3a44cfb20340ddd3e2e57deaf8d3",
+    "completed_tasks": 28,
+    "distinct_processes": 21,
+    "provider_image_joins": 28,
+    "native_observation_joins": 23,
+    "original_quality_records_verified": 528,
+    "domain": {
+      "evaluated_bases": 20000,
+      "id": "nonhuman_cloud_dag",
+      "interval_count": 2,
+      "sha256": "1f75fcee1b0fc9591a45be5f1d310330ddc6cd5b1aa3b6a1ff3c40549ed90afa"
+    },
+    "provider_elapsed_minutes": 22.4438468337059,
+    "dynamic_storage_peak_gib": 1,
+    "returned_objects_rehashed": 198,
+    "returned_bytes_rehashed": 2750509,
+    "normalization_benchmark_qualified": true,
+    "full_nonhuman_dag_qualified": true,
+    "managed_cache_qualified": false,
+    "independent_validation_receipt_sha256": "88d91777bc34367114e73f0e5c3f5f202dfae10526433deacb83e476396c51bf",
+    "collector_evidence_sha256": "2d0fcaa57467cb1becdb2cf0b2552bceb97379339228a796ed0e53e6172dc7ca",
+    "tasks": [
+      {
+        "process": "QUALIFICATION_ACCEPT",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "CLOUD_COLLECT",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "CLOUD_VCFEVAL",
+        "status": "COMPLETED",
+        "image_digest": "sha256:b53115f1646258c5bd7af1e884fd06f1eab70ebb4ebc1161fff1e5529e200790"
+      },
+      {
+        "process": "CLOUD_COMPRESS",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "CLOUD_INCLUDE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "CLOUD_VCFEVAL",
+        "status": "COMPLETED",
+        "image_digest": "sha256:b53115f1646258c5bd7af1e884fd06f1eab70ebb4ebc1161fff1e5529e200790"
+      },
+      {
+        "process": "CLOUD_NORMALIZE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "CLOUD_COMPRESS",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "CLOUD_INCLUDE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "CLOUD_NORMALIZE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "CLOUD_DEEPVARIANT_CALL",
+        "status": "COMPLETED",
+        "image_digest": "sha256:962e5a83b1d76aae6990625d47102785f791603f2138aa1fa9aa4fb6a2eecbe6"
+      },
+      {
+        "process": "CLOUD_GATK_CALL",
+        "status": "COMPLETED",
+        "image_digest": "sha256:7da5cf586e1c463f0c72908f9ac7dec8c29e37912c82d6e7b3c250f27fcb3891"
+      },
+      {
+        "process": "CLOUD_BAM_GATE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "CLOUD_BAM_OBSERVATIONS",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a130447589651ed09252aa95a5e4f4132942cdb54d835d81a04a9a930d656561"
+      },
+      {
+        "process": "CLOUD_COMPRESS",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "CLOUD_BQSR",
+        "status": "COMPLETED",
+        "image_digest": "sha256:7da5cf586e1c463f0c72908f9ac7dec8c29e37912c82d6e7b3c250f27fcb3891"
+      },
+      {
+        "process": "CLOUD_INCLUDE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "CLOUD_MARK_DUPLICATES",
+        "status": "COMPLETED",
+        "image_digest": "sha256:7da5cf586e1c463f0c72908f9ac7dec8c29e37912c82d6e7b3c250f27fcb3891"
+      },
+      {
+        "process": "CLOUD_NORMALIZE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "CLOUD_SORT",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a130447589651ed09252aa95a5e4f4132942cdb54d835d81a04a9a930d656561"
+      },
+      {
+        "process": "CLOUD_PREPARE_TRUTH",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "CLOUD_RTG_REFERENCE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:b53115f1646258c5bd7af1e884fd06f1eab70ebb4ebc1161fff1e5529e200790"
+      },
+      {
+        "process": "CLOUD_BWA_ALIGN",
+        "status": "COMPLETED",
+        "image_digest": "sha256:c3a708bea7947a44288e675fd9791c7aaf0c97dba0710addba336ed193821f8a"
+      },
+      {
+        "process": "CLOUD_AUTHENTICATE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "QUALIFICATION_MANIFEST",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      },
+      {
+        "process": "QUALIFICATION_VCFS",
+        "status": "COMPLETED",
+        "image_digest": "sha256:a3e0d3007ffe325c409b398f660840a3e7574d076219c6e82fc994ced87d47c3"
+      },
+      {
+        "process": "QUALIFICATION_INDEX",
+        "status": "COMPLETED",
+        "image_digest": "sha256:c3a708bea7947a44288e675fd9791c7aaf0c97dba0710addba336ed193821f8a"
+      },
+      {
+        "process": "QUALIFICATION_FIXTURE",
+        "status": "COMPLETED",
+        "image_digest": "sha256:19dd29350bfdae152a580e3a838d3123c60a0e2c36b8bb1769aebbba1a87dac7"
+      }
+    ]
+  },
+  "recovery": {
+    "cause": "Unsupported script task.id emitted null identities; a subsequent native inventory exposed the absence of stat in the BWA image.",
+    "correction": "Use process-local index and process/index/attempt uniqueness, preserve separate provider binding, and measure file bytes with wc while propagating command failures.",
+    "source_commits": [
+      "b6e204f7b1cb1564d4ddc2f715f7c45354032292",
+      "38f30ed40cd58877a874a8136cbb79a6cb006557"
+    ],
+    "historical_attempt_preserved": true,
+    "missing_historical_ids_invented": false
+  },
+  "canonical_hg001_comparison": {
+    "executed": false,
+    "accepted": false,
+    "metrics_available": false
+  },
+  "limitations": [
+    "The managed execution used an invented nonhuman fixture; it is not an HG001 accuracy measurement.",
+    "No managed reuse or cache-invalidation claim is established by this run.",
+    "Selected metadata does not replace the complete private provider and scientific receipts.",
+    "Provider account and run identifiers, private locations and genomic payloads are excluded."
+  ]
+}

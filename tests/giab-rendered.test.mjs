@@ -16,6 +16,14 @@ test('showcase route exposes canonical unavailability and scoped synthetic obser
   assert.match(html, /Release candidate: unavailable/);
   assert.match(html, /No published v1.0 release/);
   assert.match(html, /1,905,809/);
+  assert.match(html, /Managed nonhuman graph accepted/);
+  assert.match(html, /2026-09-15/);
+  assert.match(html, /Original-quality records verified/);
+  assert.match(html, /managed-qualification.json/);
+  assert.match(html, /Nextflow schedules the scientific process graph/);
+  assert.match(html, /Terraform provisions the infrastructure/);
+  assert.match(html, /this accepted run does not establish managed cache qualification/);
+  assert.doesNotMatch(html, /managed scientific qualification remain incomplete/);
   assert.match(html, /scope="col"/); assert.match(html, /<caption>/);
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
   for (const id of ['scope', 'architecture', 'methods', 'results', 'reproducibility', 'limitations']) {

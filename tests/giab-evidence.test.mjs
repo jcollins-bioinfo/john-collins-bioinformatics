@@ -3,7 +3,7 @@ import test from 'node:test';
 import { mkdtempSync, cpSync, rmSync, readFileSync, writeFileSync, symlinkSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { binding, check, evidenceDir, verifySource } from '../scripts/giab-evidence.mjs';
+import { binding, check, evidenceDir, verifySource, validateManaged } from '../scripts/giab-evidence.mjs';
 
 function altered(fn) {
   const dir = mkdtempSync(join(tmpdir(), 'giab-web-'));
@@ -37,4 +37,39 @@ test('public inventory rejects extra files and symlinks', () => altered((dir) =>
 test('unapproved source names and changed trust pin are rejected', () => {
   assert.throws(() => verifySource('human.vcf', Buffer.from('x')), /Unapproved/);
   altered((dir) => { writeFileSync(join(dir, 'manifest.json'), '{}'); assert.throws(() => check(dir)); });
+});
+
+test('managed qualification retains its own source and nonhuman scope', () => {
+  const d = check();
+  const run = d.managed.full_dag_qualification;
+  assert.equal(d.managed.observed_date, '2026-09-15');
+  assert.equal(run.completed_tasks, 28);
+  assert.equal(run.distinct_processes, 21);
+  assert.equal(run.managed_cache_qualified, false);
+  assert.notEqual(run.repository_sha, d.pipeline.sha);
+  assert.equal(d.managed.canonical_hg001_comparison.accepted, false);
+  assert.equal(d.canonical.metrics, null);
+});
+
+test('managed source corruption is rejected before rendering', () => altered((dir) => {
+  writeFileSync(join(dir, 'managed-qualification.json'), '{}\n');
+  assert.throws(() => check(dir), /mismatch/);
+}));
+
+test('managed validation rejects scientific relabeling and broken lineage', () => {
+  const mutations = [
+    (d) => { d.full_dag_qualification.canonical = true; },
+    (d) => { d.canonical_hg001_comparison.accepted = true; },
+    (d) => { d.full_dag_qualification.managed_cache_qualified = true; },
+    (d) => { d.full_dag_qualification.tasks.pop(); },
+    (d) => { d.full_dag_qualification.tasks[0].image_digest = 'latest'; },
+    (d) => { d.reference_index.completion_marker_written_last = false; },
+    (d) => { d.known_sites.reference_id = 'a'.repeat(64); },
+    (d) => { d.known_sites.benchmark_truth_used = true; },
+  ];
+  for (const mutate of mutations) {
+    const record = structuredClone(check().managed);
+    mutate(record);
+    assert.throws(() => validateManaged(record));
+  }
 });
